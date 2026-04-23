@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Series PM Internship — Noah Proctor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .doc-wrap {
+      max-width: 740px;
+      margin: 0 auto;
+      padding: 120px 24px 100px;
+    }
+    .doc-meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 48px;
+    }
+    .doc-meta span {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: var(--off-white);
+      padding: 4px 10px;
+      border-radius: 2px;
+    }
+    .doc-title {
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 400;
+      line-height: 1.1;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+    .doc-subtitle {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--muted);
+      margin-bottom: 48px;
+    }
+    .doc-divider {
+      border: none;
+      border-top: 1px solid rgba(10,22,40,0.1);
+      margin: 48px 0;
+    }
+    .doc-section-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .doc-h2 {
+      font-family: var(--font-serif);
+      font-size: 1.55rem;
+      font-weight: 400;
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+    .doc-p {
+      font-size: 0.97rem;
+      line-height: 1.8;
+      color: #2a3a55;
+      margin-bottom: 20px;
+    }
+    .doc-callout {
+      background: var(--off-white);
+      border-left: 3px solid var(--accent);
+      padding: 20px 24px;
+      margin: 32px 0;
+      border-radius: 0 4px 4px 0;
+    }
+    .doc-callout p {
+      font-size: 0.93rem;
+      line-height: 1.75;
+      color: var(--navy);
+      margin: 0;
+    }
+    .doc-callout strong { font-weight: 600; }
+    .doc-list {
+      padding-left: 20px;
+      margin-bottom: 24px;
+    }
+    .doc-list li {
+      font-size: 0.97rem;
+      line-height: 1.75;
+      color: #2a3a55;
+      margin-bottom: 6px;
+    }
+    .doc-list li strong { color: var(--navy); }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 48px;
+      transition: color var(--transition);
+    }
+    .back-link:hover { color: var(--navy); }
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 24px;
+      margin: 32px 0;
+    }
+    .info-cell {
+      border-top: 2px solid var(--navy);
+      padding-top: 12px;
+    }
+    .info-cell-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .info-cell-value {
+      font-size: 0.92rem;
+      color: var(--navy);
+      font-weight: 500;
+    }
+    .finding-card {
+      background: var(--off-white);
+      border-radius: 4px;
+      padding: 24px 28px;
+      margin-bottom: 16px;
+    }
+    .finding-card h4 {
+      font-family: var(--font-serif);
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+    .finding-card p {
+      font-size: 0.91rem;
+      line-height: 1.7;
+      color: #2a3a55;
+      margin: 0;
+    }
+    .rec-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .rec-pill {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    @media (max-width: 600px) {
+      .rec-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">NP</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="work.html" class="active">Work</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+    <div class="nav-socials">
+      <a href="https://www.linkedin.com/in/noah-a-proctor/" aria-label="LinkedIn" target="_blank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+      </a>
+      <a href="https://github.com/noahproc" aria-label="GitHub" target="_blank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+      </a>
+      <a href="https://x.com/noah_proct" aria-label="X / Twitter" target="_blank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a href="#" aria-label="Email" target="_blank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.54C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="white"/></svg>
+      </a>
+    </div>
+  </nav>
+
+  <!-- gradient accent bar -->
+  <div style="height:5px; background:linear-gradient(90deg,#11154e,#421464,#6e0e20);"></div>
+
+  <div class="doc-wrap">
+
+    <a href="work.html" class="back-link">← Back to Work</a>
+
+    <div class="doc-meta">
+      <span>Product Internship</span>
+      <span>Series</span>
+      <span>Dec 2025 – Present</span>
+    </div>
+
+    <h1 class="doc-title">Series: User Research &amp; Product Strategy</h1>
+    <p class="doc-subtitle">Translating 15+ user interviews into actionable product recommendations for a Generation Z iMessage-native networking platform.</p>
+
+    <div class="info-grid">
+      <div class="info-cell">
+        <p class="info-cell-label">Role</p>
+        <p class="info-cell-value">Product Management Intern</p>
+      </div>
+      <div class="info-cell">
+        <p class="info-cell-label">Timeline</p>
+        <p class="info-cell-value">Dec 2025 – Present</p>
+      </div>
+      <div class="info-cell">
+        <p class="info-cell-label">Interviews Conducted</p>
+        <p class="info-cell-value">15+</p>
+      </div>
+      <div class="info-cell">
+        <p class="info-cell-label">Survey Respondents</p>
+        <p class="info-cell-value">20</p>
+      </div>
+    </div>
+
+    <hr class="doc-divider" />
+
+    <p class="doc-section-label">Context</p>
+    <h2 class="doc-h2">What is Series?</h2>
+    <p class="doc-p">
+      Series raised $3.1M in 14 days to build what its founders call the anti-Facebook: a trust-first social network where an AI companion makes warm introductions between users entirely over iMessage, no separate app required. The platform targets Generation Z users who meet people through proximity and shared obligations, not cold outreach.
+    </p>
+    <p class="doc-p">
+      I joined as a product management intern in December 2025. My primary responsibilities were leading weekly user research sessions, synthesizing findings into deliverable-ready insights, defining feature specifications based on interview data, and recommending strategic initiatives that aligned with business value and competitive positioning.
+    </p>
+
+    <hr class="doc-divider" />
+
+    <p class="doc-section-label">Research Method</p>
+    <h2 class="doc-h2">How I ran the research</h2>
+    <p class="doc-p">
+      Research was conducted in two complementary tracks: in-depth qualitative experience interviews and a 20-person quantitative survey. Interviews were structured around three core questions that followed users through the full onboarding journey, from first landing page impression through receiving their initial batch of iMessage introductions.
+    </p>
+
+    <div class="doc-callout">
+      <p><strong>Interview framework:</strong> Q1 examined landing page first impressions and what drew users in or gave them pause. Q2 probed comprehension of the product's intent before onboarding began. Q3 evaluated the transition from web sign-up to iMessage and the experience of receiving the first messages.</p>
+    </div>
+
+    <p class="doc-p">
+      Interviews were conducted across two cohorts: Columbia University students representing the core Gen Z target and a Berkeley cohort providing a secondary market perspective. The survey quantified preferences around match transparency, AI messaging trust, and ideal share length.
+    </p>
+
+    <hr class="doc-divider" />
+
+    <p class="doc-section-label">Key Findings</p>
+    <h2 class="doc-h2">What users told us</h2>
+
+    <div class="finding-card">
+      <h4>The iMessage format is a genuine differentiator</h4>
+      <p>Both cohorts responded positively to the iMessage-native format, describing it as lower-stakes and more familiar than traditional social platforms. Users appreciated that connections lived in their existing messages app rather than requiring a separate download. This was one of the few points of consistent enthusiasm across all interviews.</p>
+    </div>
+
+    <div class="finding-card">
+      <h4>Critical information gaps are causing pre-signup drop-off</h4>
+      <p>Before committing to sign up, users had unanswered questions about privacy (does Series share their personal phone number?), connection type (is this social, professional, or romantic?), and how matching actually works. One interviewee said she almost did not click the CTA because she was not sure if it would ask for her phone number. This friction is happening before onboarding even begins.</p>
+    </div>
+
+    <div class="finding-card">
+      <h4>Onboarding message volume feels like spam</h4>
+      <p>Both first-batch interviewees independently flagged that the initial iMessage onboarding felt overwhelming. Messages repeated information already available on the landing page and arrived in a volume that felt more like a group chat they had not agreed to than a warm introduction. The bright spot: example profiles and shares were consistently rated as the clearest, most effective part of the experience.</p>
+    </div>
+
+    <div class="finding-card">
+      <h4>Users do not know when their first real connection will happen</h4>
+      <p>Neither interviewee knew when or how their first actual introduction would occur after onboarding. This uncertainty created anxiety rather than anticipation. The AI responses to follow-up questions were perceived as evasive, and users were confused by batching delays with no explanation of the system's timing logic.</p>
+    </div>
+
+    <div class="finding-card">
+      <h4>Low trust in AI-generated messages</h4>
+      <p>Survey data showed 60% of respondents were uncomfortable with AI sending a connection message on their behalf without review. 70% said they would be less likely to respond to a match if they found out the opening message was AI-generated. Users preferred to heavily edit or rewrite any AI drafts, and some expressed concern about auto-reply triggering before they had even read the incoming message.</p>
+    </div>
+
+    <hr class="doc-divider" />
+
+    <p class="doc-section-label">Recommendations</p>
+    <h2 class="doc-h2">What I recommended</h2>
+    <p class="doc-p">
+      Findings were synthesized into five product recommendations, each grounded in specific interview quotes and survey data. These were presented to the Series team as a structured feedback deck with problem statements, evidence, and prioritized action items.
+    </p>
+
+    <div style="margin-bottom: 32px;">
+      <p class="rec-pill">Recommendation 01</p>
+      <h4 style="font-family:var(--font-serif); font-size:1.1rem; color:var(--navy); margin-bottom:8px;">Fix Interaction Clarity</h4>
+      <p class="doc-p" style="margin-bottom:8px;">Users were confused about how to interact with shares (e.g., holding down to reply) and instructions were redundant across multiple messages. Recommendation: standardize to one clear visual instruction system, remove duplicate text instructions, and add subtle visual cues such as short animations or icons.</p>
+    </div>
+
+    <div style="margin-bottom: 32px;">
+      <p class="rec-pill">Recommendation 02</p>
+      <h4 style="font-family:var(--font-serif); font-size:1.1rem; color:var(--navy); margin-bottom:8px;">Improve Share System Transparency</h4>
+      <p class="doc-p" style="margin-bottom:8px;">Users did not understand why they were not receiving more shares or when new ones would arrive. Recommendation: add clear status indicators ("Next batch in X time," "You have reached today's limit") and provide explicit feedback whenever users request more shares so the AI does not feel evasive.</p>
+    </div>
+
+    <div style="margin-bottom: 32px;">
+      <p class="rec-pill">Recommendation 03</p>
+      <h4 style="font-family:var(--font-serif); font-size:1.1rem; color:var(--navy); margin-bottom:8px;">Increase Match Transparency</h4>
+      <p class="doc-p" style="margin-bottom:8px;">65% of survey respondents rated match explanation as a 4 or 5 out of 5 in importance, and 55% said they wanted to view a match's full profile before deciding whether to respond. Recommendation: add a concise match explanation layer (shared interests, goals, context overlap, kept to 1-2 lines) alongside each new introduction.</p>
+    </div>
+
+    <div style="margin-bottom: 32px;">
+      <p class="rec-pill">Recommendation 04</p>
+      <h4 style="font-family:var(--font-serif); font-size:1.1rem; color:var(--navy); margin-bottom:8px;">Redesign the AI Messaging Role</h4>
+      <p class="doc-p" style="margin-bottom:8px;">Given low trust in AI-generated messages, the AI should shift from auto-send to draft-suggestion only, with no message sent without explicit user approval. Additional changes: allow tone and style customization, start the auto-reply timer only after the message is opened, and add a confirmation step before any message is sent.</p>
+    </div>
+
+    <div style="margin-bottom: 32px;">
+      <p class="rec-pill">Recommendation 05</p>
+      <h4 style="font-family:var(--font-serif); font-size:1.1rem; color:var(--navy); margin-bottom:8px;">Optimize Share Quality via Light Structure</h4>
+      <p class="doc-p" style="margin-bottom:8px;">45% of users ignored vague or low-context shares entirely. 65% said their ideal share length was 2-3 sentences. Recommendation: introduce light structure prompts ("What are you looking for?" / "Why now?") to guide users toward action-oriented, specific shares rather than abstract statements of intent.</p>
+    </div>
+
+    <hr class="doc-divider" />
+
+    <p class="doc-section-label">Berkeley Cohort</p>
+    <h2 class="doc-h2">Secondary market insights</h2>
+    <p class="doc-p">
+      A separate testing cohort at UC Berkeley surfaced consistent patterns around onboarding clarity. The iMessage-native setup added a layer of trust that traditional app-download onboarding does not, and the instant profile carousel was a positive differentiator. However, day-to-day app flow was unclear to first-time users, and the profile creation process felt unguided. Users wanted both example day-to-day flows and successful profile examples with description guidance.
+    </p>
+
+    <div class="doc-callout">
+      <p><strong>Validated across both cohorts:</strong> The iMessage-native format works. The signal worth betting on is not the channel itself but the trust and familiarity it creates. The strategic opportunity is to make that trust legible before users sign up, and to preserve it through every AI-mediated touchpoint after they do.</p>
+    </div>
+
+    <hr class="doc-divider" />
+
+    <p class="doc-section-label">Takeaway</p>
+    <h2 class="doc-h2">What I learned</h2>
+    <p class="doc-p">
+      This was my first experience running end-to-end user research at a live consumer startup. The most important thing I learned is that users will tolerate friction if you give them a reason to stay, but they will not tolerate ambiguity. Every point where Series lost a user, from the landing page CTA to the first batch of messages, was a point where the product asked for trust without offering enough information in return.
+    </p>
+    <p class="doc-p">
+      The second lesson was about synthesis. Running 15+ interviews generates a lot of signal, and the PM job is not to summarize each conversation but to find the patterns across them and translate those patterns into decisions the team can act on. The five recommendations above each came from at least two independent data points, which made them defensible in team discussions and easier to prioritize against the existing roadmap.
+    </p>
+
+    <div style="margin-top:56px; display:flex; gap:16px; flex-wrap:wrap;">
+      <a href="work.html" class="btn btn-navy">Back to Work →</a>
+      <a href="https://www.series.so/" target="_blank" class="btn" style="border:1px solid rgba(10,22,40,0.2); color:var(--navy);">Visit Series →</a>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>Built by Noah Proctor · <a href="mailto:nap2180@columbia.edu">nap2180@columbia.edu</a></p>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hive Onboarding PRD — Noah Proctor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .doc-wrap {
+      max-width: 740px;
+      margin: 0 auto;
+      padding: 120px 24px 100px;
+    }
+    .doc-meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 48px;
+    }
+    .doc-meta span {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: var(--off-white);
+      padding: 4px 10px;
+      border-radius: 2px;
+    }
+    .doc-title {
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 400;
+      line-height: 1.1;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+    .doc-subtitle {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--muted);
+      margin-bottom: 48px;
+    }
+    .doc-divider {
+      border: none;
+      border-top: 1px solid rgba(10,22,40,0.1);
+      margin: 48px 0;
+    }
+    .doc-section-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .doc-h2 {
+      font-family: var(--font-serif);
+      font-size: 1.55rem;
+      font-weight: 400;
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+    .doc-p {
+      font-size: 0.97rem;
+      line-height: 1.8;
+      color: #2a3a55;
+      margin-bottom: 20px;
+    }
+    .doc-callout {
+      background: var(--off-white);
+      border-left: 3px solid var(--accent);
+      padding: 20px 24px;
+      margin: 32px 0;
+      border-radius: 0 4px 4px 0;
+    }
+    .doc-callout p {
+      font-size: 0.93rem;
+      line-height: 1.75;
+      color: var(--navy);
+      margin: 0;
+    }
+    .doc-callout strong {
+      font-weight: 600;
+    }
+    .doc-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0 32px;
+      font-size: 0.88rem;
+    }
+    .doc-table th {
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 8px 12px;
+      border-bottom: 1px solid rgba(10,22,40,0.1);
+    }
+    .doc-table td {
+      padding: 12px 12px;
+      border-bottom: 1px solid rgba(10,22,40,0.06);
+      color: #2a3a55;
+      line-height: 1.55;
+      vertical-align: top;
+    }
+    .doc-table tr:last-child td { border-bottom: none; }
+    .doc-list {
+      padding-left: 20px;
+      margin-bottom: 24px;
+    }
+    .doc-list li {
+      font-size: 0.97rem;
+      line-height: 1.75;
+      color: #2a3a55;
+      margin-bottom: 6px;
+    }
+    .doc-list li strong { color: var(--navy); }
+    .priority-p0 { color: #c0392b; font-weight: 600; font-size: 0.8rem; letter-spacing: 0.05em; }
+    .priority-p1 { color: #e67e22; font-weight: 600; font-size: 0.8rem; letter-spacing: 0.05em; }
+    .priority-p2 { color: #27ae60; font-weight: 600; font-size: 0.8rem; letter-spacing: 0.05em; }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 48px;
+      transition: color var(--transition);
+    }
+    .back-link:hover { color: var(--navy); }
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 24px;
+      margin: 32px 0;
+    }
+    .info-cell {
+      border-top: 2px solid var(--navy);
+      padding-top: 12px;
+    }
+    .info-cell-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .info-cell-value {
+      font-size: 0.92rem;
+      color: var(--navy);
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">NP</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="work.html" class="active">Work</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+    <div class="nav-socials">
+      <a href="https://www.linkedin.com/in/noah-a-proctor/" aria-label="LinkedIn" target="_blank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+      </a>
+      <a href="https://github.com/noahproc" aria-label="GitHub" target="_blank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+      </a>
+      <a href="https://x.com/noah_proct" aria-label="X / Twitter" target="_blank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+    </div>
+  </nav>
+
+  <!-- gradient accent bar -->
+  <div style="height:5px; background:linear-gradient(90deg,#11154e,#421464,#6e0e20);"></div>
+
+  <div class="doc-wrap">
+
+    <a href="work.html" class="back-link">← Back to Work</a>
+
+    <div class="doc-meta">
+      <span>PRD</span>
+      <span>Aden Hive</span>
+      <span>March 2026</span>
+    </div>
+
+    <h1 class="doc-title">Hive Onboarding 2.0</h1>
+    <p class="doc-subtitle">From goal to first agent shipped in under five minutes.</p>
+
+    <div class="info-grid">
+      <div class="info-cell">
+        <p class="info-cell-label">Author</p>
+        <p class="info-cell-value">Noah Proctor</p>
+      </div>
+      <div class="info-cell">
+        <p class="info-cell-label">Product</p>
+        <p class="info-cell-value">Aden Hive (YC W25)</p>
+      </div>
+      <div class="info-cell">
+        <p class="info-cell-label">Status</p>
+        <p class="info-cell-value">Proposed</p>
+      </div>
+      <div class="info-cell">
+        <p class="info-cell-label">Type</p>
+        <p class="info-cell-value">Feature PRD</p>
+      </div>
+    </div>
+
+    <hr class="doc-divider">
+
+    <!-- OVERVIEW -->
+    <p class="doc-section-label">Context</p>
+    <h2 class="doc-h2">What Hive Is</h2>
+    <p class="doc-p">
+      Aden's Hive is an open-source, YC-backed framework for building autonomous AI agent swarms. Instead of manually coding workflows, developers describe a goal in natural language. Hive generates the entire agent graph, including connection logic, using a "queen" coding agent that oversees specialized worker agents. Self-healing, real-time observability via WebSocket streaming, and model-agnostic LLM support (OpenAI, Anthropic, Gemini) make it genuinely production-grade.
+    </p>
+    <p class="doc-p">
+      The technical differentiation is real. Goal-driven generation means no more hardcoded DAGs. The adaptive loop where the queen captures failures and evolves the agent graph automatically is a meaningful step beyond static orchestration frameworks like LangGraph or CrewAI.
+    </p>
+
+    <div class="doc-callout">
+      <p><strong>The problem:</strong> Hive's strengths are invisible until you've already committed significant setup time. The current onboarding asks developers to understand queen-worker architecture, configure their LLM, and define a goal---all before seeing a single agent run. That's too much friction for a product whose core magic is "just describe what you want."</p>
+    </div>
+
+    <hr class="doc-divider">
+
+    <!-- PROBLEM -->
+    <p class="doc-section-label">Problem Statement</p>
+    <h2 class="doc-h2">The Onboarding Gap</h2>
+    <p class="doc-p">
+      New users land in one of two buckets: curious developers who found Hive on GitHub or Twitter, and technical buyers evaluating it for production use. Both share a common failure mode, meaning they churn before reaching the "aha" moment.
+    </p>
+    <p class="doc-p">
+      The "aha" moment for Hive is watching your natural-language goal turn into a running multi-agent system in real time. That moment is powerful, but the time-to-value today is too long: users must clone the repo, configure environment variables, understand the architecture, and write their first goal entirely cold, without guidance or templates.
+    </p>
+
+    <table class="doc-table">
+      <thead>
+        <tr>
+          <th>User Type</th>
+          <th>What They Need</th>
+          <th>What They Get Today</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Curious dev</strong><br><span style="color:var(--muted); font-size:0.82rem;">Found via GitHub/X, exploring</span></td>
+          <td>Immediate proof the magic works. A 90-second "wow" before any commitment.</td>
+          <td>A README with architecture diagrams, setup instructions, and no live demo.</td>
+        </tr>
+        <tr>
+          <td><strong>Technical buyer</strong><br><span style="color:var(--muted); font-size:0.82rem;">Evaluating for production</span></td>
+          <td>Trust signals: security, reliability, team credibility, enterprise use cases.</td>
+          <td>Open-source codebase with no case studies, no SOC 2 mention, no testimonials.</td>
+        </tr>
+        <tr>
+          <td><strong>Builder</strong><br><span style="color:var(--muted); font-size:0.82rem;">Ready to ship something real</span></td>
+          <td>Scaffolding for common patterns: data pipelines, research agents, browser automations.</td>
+          <td>Blank slate. Must invent their goal from scratch with no reference implementations.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <hr class="doc-divider">
+
+    <!-- GOALS -->
+    <p class="doc-section-label">Goals &amp; Success Metrics</p>
+    <h2 class="doc-h2">What Success Looks Like</h2>
+    <p class="doc-p">
+      This PRD targets a single North Star: get users to their first agent run faster, and make that run memorable enough that they return.
+    </p>
+
+    <table class="doc-table">
+      <thead>
+        <tr>
+          <th>Metric</th>
+          <th>Baseline (Est.)</th>
+          <th>Target (90 days)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Time-to-first-agent-run (new users)</td>
+          <td>&gt; 30 min</td>
+          <td>&lt; 5 min</td>
+        </tr>
+        <tr>
+          <td>D7 retention (users who ran ≥1 agent)</td>
+          <td>Est. &lt; 20%</td>
+          <td>&gt; 40%</td>
+        </tr>
+        <tr>
+          <td>GitHub stars / Discord joins from sandbox</td>
+          <td>–</td>
+          <td>Trackable attribution via UTM</td>
+        </tr>
+        <tr>
+          <td>Template gallery usage rate</td>
+          <td>N/A</td>
+          <td>&gt; 60% of new users start from a template</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="doc-p" style="font-size:0.85rem; color:var(--muted);">
+      Note: Baseline metrics are estimates based on open-source project benchmarks and direct product observation. Instrumentation should be implemented alongside these features.
+    </p>
+
+    <hr class="doc-divider">
+
+    <!-- PROPOSED FEATURES -->
+    <p class="doc-section-label">Proposed Solution</p>
+    <h2 class="doc-h2">Three Features, One Funnel</h2>
+
+    <!-- Feature 1 -->
+    <p style="font-family: var(--font-serif); font-size: 1.15rem; margin-bottom: 8px; color: var(--navy);">1. Live Sandbox — No Setup Required</p>
+    <p class="doc-p">
+      A browser-based playground where visitors describe a goal and watch Hive generate and execute an agent swarm in real time, without installing anything. Pre-warmed execution environments, capped compute (3-minute timeout), and read-only tool access (no credential requirements) de-risk this for the team.
+    </p>
+    <div class="doc-callout">
+      <p>The sandbox is the pitch deck. Investors, developers, and enterprise evaluators should all be able to see the product work before reading a single line of docs.</p>
+    </div>
+
+    <ul class="doc-list">
+      <li><strong>Interaction:</strong> Text field pre-filled with a sample goal ("Research competitors of [company] and summarize their pricing"). User edits or submits. Live WebSocket stream shows agents spawning, communicating, and completing.</li>
+      <li><strong>Output panel:</strong> Final result + collapsible view of the agent graph that was generated.</li>
+      <li><strong>CTA on completion:</strong> "Run this on your own data → Clone Hive" with one-click copy of the exact goal they just ran.</li>
+    </ul>
+
+    <!-- Feature 2 -->
+    <p style="font-family: var(--font-serif); font-size: 1.15rem; margin-bottom: 8px; color: var(--navy); margin-top: 32px;">2. Goal-First Setup Wizard</p>
+    <p class="doc-p">
+      Replace the current cold-start with a 3-step conversational wizard. Rather than asking users to configure infrastructure before they know if Hive will solve their problem, lead with the goal.
+    </p>
+
+    <table class="doc-table">
+      <thead>
+        <tr>
+          <th>Step</th>
+          <th>Prompt</th>
+          <th>Output</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>"What do you want to automate?"</td>
+          <td>Hive queen previews the agent architecture it will generate, in plain English.</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>"Which tools does your agent need access to?" (checkboxes: CRM, web browsing, database, email, etc.)</td>
+          <td>Auto-generates the MCP tool configuration. User only adds credentials for selected tools.</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>"Which model should power your queen?" (dropdown with recommendations per use case)</td>
+          <td>Final config file ready. One-command launch.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Feature 3 -->
+    <p style="font-family: var(--font-serif); font-size: 1.15rem; margin-bottom: 8px; color: var(--navy); margin-top: 32px;">3. Template Gallery</p>
+    <p class="doc-p">
+      A curated library of 10–15 production-ready agent templates organized by vertical: Sales (lead research + CRM update), Ops (invoice processing), Engineering (codebase Q&A agent), Research (competitive intelligence), and Growth (content pipeline). Each template ships with a goal description, sample tool config, and a short video of it running.
+    </p>
+    <p class="doc-p">
+      Templates lower the creative burden for new users and serve as implicit proof-of-concept for enterprise buyers evaluating specific use cases. They should be community-extensible (GitHub PRs) to scale the library without internal maintenance cost.
+    </p>
+
+    <hr class="doc-divider">
+
+    <!-- USER STORIES -->
+    <p class="doc-section-label">User Stories</p>
+    <h2 class="doc-h2">Jobs to Be Done</h2>
+
+    <ul class="doc-list">
+      <li>As a <strong>curious developer</strong>, I want to see Hive produce a real output from my goal without setting up an environment, so that I can decide if it's worth my time to install it.</li>
+      <li>As a <strong>technical buyer</strong>, I want to watch a realistic business workflow (e.g., "enrich 50 leads and update our CRM") run end-to-end, so that I can scope what it would take to deploy Hive internally.</li>
+      <li>As a <strong>builder</strong>, I want to start from a template that's close to my use case and modify it, rather than inventing my agent design from scratch.</li>
+      <li>As a <strong>returning user</strong>, I want to see saved goals and previous runs in a history view, so that I can pick up where I left off without reconstructing context.</li>
+    </ul>
+
+    <hr class="doc-divider">
+
+    <!-- EDGE CASES -->
+    <p class="doc-section-label">Edge Cases &amp; Open Questions</p>
+    <h2 class="doc-h2">Things Worth Arguing About</h2>
+
+    <table class="doc-table">
+      <thead>
+        <tr>
+          <th>Question</th>
+          <th>Current Lean</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Should the sandbox require signup to run?</td>
+          <td>No. Friction kills the demo, so capture email post-run with a "save your result" hook.</td>
+        </tr>
+        <tr>
+          <td>How do we prevent sandbox abuse (infinite loops, prompt injection)?</td>
+          <td>Hard timeout at 3 minutes, no external HTTP calls in sandbox mode, and the output sanitized.</td>
+        </tr>
+        <tr>
+          <td>Should templates be opinionated (single LLM) or model-agnostic?</td>
+          <td>Offer a default (GPT-4o or Claude Sonnet) with a "change model" override, which educes decision fatigue.</td>
+        </tr>
+        <tr>
+          <td>Does a wizard conflict with the "describe your goal naturally" promise?</td>
+          <td>The wizard is scaffolding for configuration, not for the goal itself. The goal field remains freeform.</td>
+        </tr>
+        <tr>
+          <td>How do we handle a goal the queen can't confidently architect?</td>
+          <td>Queen responds with a clarifying question (same UX as goal refinement loop). Never silently fails.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <hr class="doc-divider">
+
+    <!-- PRIORITIZATION -->
+    <p class="doc-section-label">Prioritization</p>
+    <h2 class="doc-h2">What Ships First</h2>
+
+    <table class="doc-table">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Priority</th>
+          <th>Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Template Gallery</td>
+          <td><span class="priority-p0">P0</span></td>
+          <td>Lowest engineering lift. Immediate impact on builder retention. Ships in one sprint.</td>
+        </tr>
+        <tr>
+          <td>Goal-First Setup Wizard</td>
+          <td><span class="priority-p0">P0</span></td>
+          <td>Directly removes the highest-friction moment in the current funnel. No new infrastructure required.</td>
+        </tr>
+        <tr>
+          <td>Live Sandbox (no-signup)</td>
+          <td><span class="priority-p1">P1</span></td>
+          <td>High impact on top-of-funnel conversion. Requires sandboxed execution environment; this is non-trivial infra work.</td>
+        </tr>
+        <tr>
+          <td>Trust signals page (SOC 2 roadmap, case studies, testimonials)</td>
+          <td><span class="priority-p1">P1</span></td>
+          <td>Unblocks enterprise sales conversations. Content-heavy, low eng cost. Needs 2–3 design hours.</td>
+        </tr>
+        <tr>
+          <td>Run history &amp; saved goals UI</td>
+          <td><span class="priority-p2">P2</span></td>
+          <td>Useful for retention but depends on auth system. Lower urgency than acquisition improvements.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <hr class="doc-divider">
+
+    <!-- OUT OF SCOPE -->
+    <p class="doc-section-label">Out of Scope</p>
+    <h2 class="doc-h2">What This PRD Doesn't Cover</h2>
+    <ul class="doc-list">
+      <li>Agent graph visual editor / drag-and-drop node UI (separate initiative)</li>
+      <li>Billing, usage limits, or commercial licensing model</li>
+      <li>Multi-tenant cloud hosting of Hive (self-hosted remains the primary deployment path)</li>
+      <li>Hive's core agent architecture, queen-worker protocol, or LLM integration layer</li>
+    </ul>
+
+    <hr class="doc-divider">
+
+    <p style="font-size: 0.82rem; color: var(--muted); line-height: 1.7;">
+      This PRD was written by Noah Proctor as part of an independent product review of Aden Hive. It is not an official Aden document. Observations are based on public product research, the open-source repository, and direct use of the framework. Originally published as a thread on X — <a href="https://x.com/noah_proct" style="color: var(--navy); text-decoration: underline; text-decoration-color: rgba(10,22,40,0.3);">@noah_proct</a>.
+    </p>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>Built by Noah Proctor · <a href="mailto:nap2180@columbia.edu">nap2180@columbia.edu</a></p>
+  </footer>
+
+</body>
+</html>

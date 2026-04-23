@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Phia Product Teardown — Noah Proctor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .doc-wrap {
+      max-width: 740px;
+      margin: 0 auto;
+      padding: 120px 24px 100px;
+    }
+    .doc-meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 48px;
+    }
+    .doc-meta span {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: var(--off-white);
+      padding: 4px 10px;
+      border-radius: 2px;
+    }
+    .doc-title {
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 400;
+      line-height: 1.1;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+    .doc-subtitle {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--muted);
+      margin-bottom: 48px;
+    }
+    .doc-divider {
+      border: none;
+      border-top: 1px solid rgba(10,22,40,0.1);
+      margin: 48px 0;
+    }
+    .doc-section-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .doc-h2 {
+      font-family: var(--font-serif);
+      font-size: 1.55rem;
+      font-weight: 400;
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+    .doc-p {
+      font-size: 0.97rem;
+      line-height: 1.8;
+      color: #2a3a55;
+      margin-bottom: 20px;
+    }
+    .doc-callout {
+      background: var(--off-white);
+      border-left: 3px solid var(--accent);
+      padding: 20px 24px;
+      margin: 32px 0;
+      border-radius: 0 4px 4px 0;
+    }
+    .doc-callout p {
+      font-size: 0.93rem;
+      line-height: 1.75;
+      color: var(--navy);
+      margin: 0;
+    }
+    .doc-callout strong { font-weight: 600; }
+    .doc-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0 32px;
+      font-size: 0.88rem;
+    }
+    .doc-table th {
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 8px 12px;
+      border-bottom: 1px solid rgba(10,22,40,0.1);
+    }
+    .doc-table td {
+      padding: 12px 12px;
+      border-bottom: 1px solid rgba(10,22,40,0.06);
+      color: #2a3a55;
+      line-height: 1.55;
+      vertical-align: top;
+    }
+    .doc-table tr:last-child td { border-bottom: none; }
+    .doc-list {
+      padding-left: 20px;
+      margin-bottom: 24px;
+    }
+    .doc-list li {
+      font-size: 0.97rem;
+      line-height: 1.75;
+      color: #2a3a55;
+      margin-bottom: 8px;
+    }
+    .doc-list li strong { color: var(--navy); }
+    .signal-good { color: #27ae60; font-weight: 600; }
+    .signal-meh  { color: #e67e22; font-weight: 600; }
+    .signal-bad  { color: #c0392b; font-weight: 600; }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 48px;
+      transition: color var(--transition);
+    }
+    .back-link:hover { color: var(--navy); }
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 24px;
+      margin: 32px 0;
+    }
+    .info-cell {
+      border-top: 2px solid var(--navy);
+      padding-top: 12px;
+    }
+    .info-cell-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .info-cell-value {
+      font-size: 0.92rem;
+      color: var(--navy);
+      font-weight: 500;
+    }
+    .score-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+    .score-label {
+      font-size: 0.88rem;
+      color: #2a3a55;
+      min-width: 180px;
+    }
+    .score-bar-track {
+      flex: 1;
+      height: 4px;
+      background: var(--off-white);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .score-bar-fill {
+      height: 100%;
+      background: var(--navy);
+      border-radius: 2px;
+    }
+    .score-num {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--navy);
+      min-width: 32px;
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">NP</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="work.html" class="active">Work</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+    <div class="nav-socials">
+      <a href="https://www.linkedin.com/in/noah-a-proctor/" aria-label="LinkedIn" target="_blank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+      </a>
+      <a href="https://github.com/noahproc" aria-label="GitHub" target="_blank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+      </a>
+      <a href="https://x.com/noah_proct" aria-label="X / Twitter" target="_blank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+    </div>
+  </nav>
+
+  <!-- gradient accent bar -->
+  <div style="height:5px; background:linear-gradient(90deg,#11154e,#421464,#6e0e20);"></div>
+
+  <div class="doc-wrap">
+
+    <a href="work.html" class="back-link">← Back to Work</a>
+
+    <div class="doc-meta">
+      <span>Teardown</span>
+      <span>Phia</span>
+      <span>March 2026</span>
+    </div>
+
+    <h1 class="doc-title">Product Teardown: Phia</h1>
+    <p class="doc-subtitle">The AI shopping app that made sustainability invisible, and why that's both genius and a liability.</p>
+
+    <div class="info-grid">
+      <div class="info-cell">
+        <p class="info-cell-label">Author</p>
+        <p class="info-cell-value">Noah Proctor</p>
+      </div>
+      <div class="info-cell">
+        <p class="info-cell-label">Company</p>
+        <p class="info-cell-value">Phia (phia.com)</p>
+      </div>
+      <div class="info-cell">
+        <p class="info-cell-label">Stage</p>
+        <p class="info-cell-value">Series A · $185M val.</p>
+      </div>
+      <div class="info-cell">
+        <p class="info-cell-label">Category</p>
+        <p class="info-cell-value">AI Commerce</p>
+      </div>
+    </div>
+
+    <hr class="doc-divider">
+
+    <!-- WHAT IT IS -->
+    <p class="doc-section-label">The Product</p>
+    <h2 class="doc-h2">What Phia Does</h2>
+    <p class="doc-p">
+      Phia is an AI shopping agent, available as an iOS app and Chrome extension, that scans 250M+ secondhand items and real-time data from 40,000+ retail and resale partners to instantly surface the best price for any fashion item. Snap a photo, paste a link, or describe what you want; Phia shows you where to buy it new, where to find it used, and what it's likely worth if you want to resell it later.
+    </p>
+    <p class="doc-p">
+      Founded by Phoebe Gates and Sophia Kianni (a UN climate advisor), Phia launched in April 2025, hit 1M users in 10 months, and raised a $35M Series A at a $185M valuation in January 2026. TIME named it one of the Best Inventions of 2025. By any metric, it's a product that works.
+    </p>
+
+    <div class="doc-callout">
+      <p><strong>The key tension:</strong> Their headline is savings, not planet. That's a deliberate product decision, and it's the most interesting thing about this company.</p>
+    </div>
+
+    <hr class="doc-divider">
+
+    <!-- WHAT THEY NAILED -->
+    <p class="doc-section-label">What They Got Right</p>
+    <h2 class="doc-h2">Three Things Phia Does Really Well</h2>
+
+    <p style="font-family: var(--font-serif); font-size: 1.15rem; margin-bottom: 8px; color: var(--navy);">1. Savings-first positioning is the right call</p>
+    <p class="doc-p">
+      Most sustainability-focused apps lead with values. Phia leads with money. "Shop Smarter, Save Money" is the App Store tagline, not "Shop More Sustainably." This is a calculated product decision, not an oversight. Gen Z cares about sustainability but is also chronically broke. When you frame secondhand shopping as smart, not virtuous, you remove friction and guilt from the category; the secondhand market doubles when you stop making it feel like a sacrifice.
+    </p>
+    <p class="doc-p">
+      The implication for virality is real: you share Phia with your friends because you found a jacket for $40 less, not because you're a sustainability advocate. Word-of-mouth is utility-driven, which is far more durable than mission-driven sharing. Propelled by their podcast "The Burnouts" and an impactful social media presence, word-of-mouth skyrockets each time they click the post button.
+    <p class="doc-p">
+      Price comparison is a solved category (Google Shopping, CamelCamelCamel, etc.). What Phia adds that competitors don't is resale value intelligence, telling you not just what something costs, but what it'll be worth when you're done with it. This reframes fashion purchases as assets, not expenditures. It's a small UX addition with a significant psychological effect: you're no longer spending $300 on a bag, you're acquiring a $300 asset with a 70% resale floor.
+    </p>
+    <p class="doc-p">
+      This is where the sustainability and financial value propositions converge organically. You buy used because it's cheaper. You sell it later because Phia told you it holds value. More items circulate rather than ending up in landfill. The system reinforces itself.
+    </p>
+
+    <p style="font-family: var(--font-serif); font-size: 1.15rem; margin-bottom: 8px; color: var(--navy); margin-top: 32px;">3. The B2B side of a consumer story</p>
+    <p class="doc-p">
+      Phia drives 13% higher conversion, 30% stronger new customer acquisition, and cuts return rates by over 50% for partner brands. That's not a consumer metric; that's an enterprise sales pitch. Phia is quietly a SaaS company built inside a consumer app. The 6,200 brand partnerships aren't just a distribution network; they're a monetization engine that doesn't require subscription revenue from shoppers. That two-sided model is elegant and gives Phia a credible path to profitability without charging users.
+    </p>
+
+    <!-- SCORE CARD -->
+    <hr class="doc-divider">
+    <p class="doc-section-label">Scorecard</p>
+    <h2 class="doc-h2">Dimension Ratings</h2>
+
+    <div style="margin: 24px 0;">
+      <div class="score-row">
+        <span class="score-label">Core value proposition</span>
+        <div class="score-bar-track"><div class="score-bar-fill" style="width:92%"></div></div>
+        <span class="score-num">9.2</span>
+      </div>
+      <div class="score-row">
+        <span class="score-label">UX &amp; onboarding</span>
+        <div class="score-bar-track"><div class="score-bar-fill" style="width:80%"></div></div>
+        <span class="score-num">8.0</span>
+      </div>
+      <div class="score-row">
+        <span class="score-label">Retention &amp; stickiness</span>
+        <div class="score-bar-track"><div class="score-bar-fill" style="width:58%"></div></div>
+        <span class="score-num">5.8</span>
+      </div>
+      <div class="score-row">
+        <span class="score-label">Business model clarity</span>
+        <div class="score-bar-track"><div class="score-bar-fill" style="width:75%"></div></div>
+        <span class="score-num">7.5</span>
+      </div>
+      <div class="score-row">
+        <span class="score-label">Moat &amp; defensibility</span>
+        <div class="score-bar-track"><div class="score-bar-fill" style="width:65%"></div></div>
+        <span class="score-num">6.5</span>
+      </div>
+      <div class="score-row">
+        <span class="score-label">Sustainability alignment</span>
+        <div class="score-bar-track"><div class="score-bar-fill" style="width:70%"></div></div>
+        <span class="score-num">7.0</span>
+      </div>
+    </div>
+
+    <hr class="doc-divider">
+
+    <!-- WHAT I'D RETHINK -->
+    <p class="doc-section-label">The Gaps</p>
+    <h2 class="doc-h2">What I'd Rethink</h2>
+
+    <p style="font-family: var(--font-serif); font-size: 1.15rem; margin-bottom: 8px; color: var(--navy);">Retention is a real problem</p>
+    <p class="doc-p">
+      Phia's core loop is transactional: you open it when you want to buy something. That's a low-frequency trigger. The average person makes a considered fashion purchase maybe 2–3 times a month, and most of those don't involve researching secondhand options. Unless Phia can insert itself into habitual browsing behavior (saved wishlists, price drop alerts, wardrobe tracking), the app risks being opened a few times, used once well, and forgotten.
+    </p>
+    <p class="doc-p">
+      The 1M user number is impressive. The more interesting question is what their D30 and D90 retention looks like, and whether those users are transacting repeatedly or just sitting in the install base.
+    </p>
+
+    <p style="font-family: var(--font-serif); font-size: 1.15rem; margin-bottom: 8px; color: var(--navy); margin-top: 32px;">Personalization is underdeveloped</p>
+    <p class="doc-p">
+      Phia knows what you've searched, what you've saved, and what you've bought. But the current product doesn't visibly use that data to surface personalized finds proactively. There's no "because you saved this Reformation jacket, here are five alternatives at 60% of retail" push moment. The app is reactive, not anticipatory. That's a missed opportunity given how much behavioral signal they have.
+    </p>
+
+    <p style="font-family: var(--font-serif); font-size: 1.15rem; margin-bottom: 8px; color: var(--navy); margin-top: 32px;">The sustainability story needs a surface</p>
+    <p class="doc-p">
+      I argued above that leading with savings was the right call. But there's a difference between de-emphasizing sustainability in the hero moment and burying it entirely. Phia's founders have real sustainability credentials and users who discover that story are more loyal, more likely to share, and more likely to tolerate premium features or subscriptions later. A light "impact tracker" (kg CO₂ offset, items kept out of landfill) would add emotional resonance without changing the savings-first positioning.
+    </p>
+
+    <hr class="doc-divider">
+
+    <!-- WHAT I'D BUILD NEXT -->
+    <p class="doc-section-label">Prioritization</p>
+    <h2 class="doc-h2">What I'd Ship Next</h2>
+
+    <table class="doc-table">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Signal</th>
+          <th>Impact</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Price drop alerts</strong><br><span style="color:var(--muted); font-size:0.82rem;">Watch saved items; notify when price drops or a used alternative appears</span></td>
+          <td><span class="signal-good">Strong</span></td>
+          <td>Inserts Phia into daily habit. The single best retention mechanism for a price-comparison app.</td>
+        </tr>
+        <tr>
+          <td><strong>My Wardrobe tab</strong><br><span style="color:var(--muted); font-size:0.82rem;">Log owned items; Phia tracks resale value over time and surfaces "good time to sell" signals</span></td>
+          <td><span class="signal-good">Strong</span></td>
+          <td>Transforms app from a search tool into a financial dashboard for your closet. High engagement ceiling.</td>
+        </tr>
+        <tr>
+          <td><strong>Proactive discovery feed</strong><br><span style="color:var(--muted); font-size:0.82rem;">Curated secondhand finds based on past searches and saved items</span></td>
+          <td><span class="signal-meh">Medium</span></td>
+          <td>Increases session frequency. Risk: competes with editorial fashion apps (Depop, The RealReal) on ground they know better.</td>
+        </tr>
+        <tr>
+          <td><strong>Impact tracker</strong><br><span style="color:var(--muted); font-size:0.82rem;">Show estimated CO₂ offset and items diverted from landfill via secondhand purchases</span></td>
+          <td><span class="signal-meh">Medium</span></td>
+          <td>Adds emotional resonance and shareability. Reinforces brand story for premium/subscription conversion.</td>
+        </tr>
+        <tr>
+          <td><strong>Social sharing / gifting</strong><br><span style="color:var(--muted); font-size:0.82rem;">Share deals, wishlists, or found items to Instagram, iMessage</span></td>
+          <td><span class="signal-meh">Medium</span></td>
+          <td>Top-of-funnel amplification. Depends on whether Phia's brand is "personal tool" or "social shopping" — a brand positioning question.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <hr class="doc-divider">
+
+    <!-- WHAT THIS SIGNALS -->
+    <p class="doc-section-label">Bigger Picture</p>
+    <h2 class="doc-h2">What Phia Signals About AI Commerce</h2>
+    <p class="doc-p">
+      Phia is the clearest example I've seen of what happens when you apply AI to a consumer behavior that already exists (price-checking before purchase) and just make it dramatically easier. The insight isn't novel; the execution is. You didn't need to convince anyone that finding a lower price was good, you just had to reduce the friction of doing it to near zero.
+    </p>
+    <p class="doc-p">
+      The broader pattern: the AI consumer apps that win in the next two years won't be the ones that teach users new behaviors. They'll be the ones that take something people already do (research before buying, track their finances, review before booking) and collapse the effort from 20 minutes to 20 seconds.
+    </p>
+    <p class="doc-p">
+      Phia's moat is ultimately data. The longer they run, the better their resale value predictions, the better their personalization, and the harder they are to replicate. The risk is that Google Shopping, eBay, or The RealReal builds a comparable feature inside a platform with more distribution. The window to build the habit and the dataset before that happens is narrow, and Phia is spending it well.
+    </p>
+
+    <hr class="doc-divider">
+
+    <p style="font-size: 0.82rem; color: var(--muted); line-height: 1.7;">
+      This teardown is an independent product analysis by Noah Proctor, based on public reporting, App Store research, and direct use of the Phia app. It reflects personal views, not investment advice or any affiliation with Phia.
+    </p>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>Built by Noah Proctor · <a href="mailto:nap2180@columbia.edu">nap2180@columbia.edu</a></p>
+  </footer>
+
+</body>
+</html>

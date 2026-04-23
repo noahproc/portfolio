@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI &amp; Sustainability — Strategic Memo — Noah Proctor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .doc-wrap {
+      max-width: 740px;
+      margin: 0 auto;
+      padding: 120px 24px 100px;
+    }
+    .doc-meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 48px;
+    }
+    .doc-meta span {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: var(--off-white);
+      padding: 4px 10px;
+      border-radius: 2px;
+    }
+    .doc-title {
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 400;
+      line-height: 1.1;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+    .doc-subtitle {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--muted);
+      margin-bottom: 48px;
+    }
+    .doc-divider {
+      border: none;
+      border-top: 1px solid rgba(10,22,40,0.1);
+      margin: 48px 0;
+    }
+    .doc-section-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .doc-h2 {
+      font-family: var(--font-serif);
+      font-size: 1.55rem;
+      font-weight: 400;
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+    .doc-p {
+      font-size: 0.97rem;
+      line-height: 1.8;
+      color: #2a3a55;
+      margin-bottom: 20px;
+    }
+    .doc-callout {
+      background: var(--off-white);
+      border-left: 3px solid var(--accent);
+      padding: 20px 24px;
+      margin: 32px 0;
+      border-radius: 0 4px 4px 0;
+    }
+    .doc-callout p {
+      font-size: 0.93rem;
+      line-height: 1.75;
+      color: var(--navy);
+      margin: 0;
+    }
+    .doc-callout strong { font-weight: 600; }
+    .doc-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0 32px;
+      font-size: 0.88rem;
+    }
+    .doc-table th {
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 8px 12px;
+      border-bottom: 1px solid rgba(10,22,40,0.1);
+    }
+    .doc-table td {
+      padding: 12px 12px;
+      border-bottom: 1px solid rgba(10,22,40,0.06);
+      color: #2a3a55;
+      line-height: 1.55;
+      vertical-align: top;
+    }
+    .doc-table tr:last-child td { border-bottom: none; }
+    .doc-list {
+      padding-left: 20px;
+      margin-bottom: 24px;
+    }
+    .doc-list li {
+      font-size: 0.97rem;
+      line-height: 1.75;
+      color: #2a3a55;
+      margin-bottom: 8px;
+    }
+    .doc-list li strong { color: var(--navy); }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 48px;
+      transition: color var(--transition);
+    }
+    .back-link:hover { color: var(--navy); }
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 24px;
+      margin: 32px 0;
+    }
+    .info-cell {
+      border-top: 2px solid var(--navy);
+      padding-top: 12px;
+    }
+    .info-cell-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .info-cell-value {
+      font-size: 0.92rem;
+      color: var(--navy);
+      font-weight: 500;
+    }
+    .pull-quote {
+      font-family: var(--font-serif);
+      font-size: 1.35rem;
+      font-style: italic;
+      line-height: 1.5;
+      color: var(--navy);
+      border-top: 2px solid var(--navy);
+      border-bottom: 1px solid rgba(10,22,40,0.15);
+      padding: 28px 0;
+      margin: 40px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">NP</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="work.html" class="active">Work</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+    <div class="nav-socials">
+      <a href="https://www.linkedin.com/in/noah-a-proctor/" aria-label="LinkedIn" target="_blank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+      </a>
+      <a href="https://github.com/noahproc" aria-label="GitHub" target="_blank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+      </a>
+      <a href="https://x.com/noah_proct" aria-label="X / Twitter" target="_blank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+    </div>
+  </nav>
+
+  <!-- gradient accent bar -->
+  <div style="height:5px; background:linear-gradient(90deg,#11154e,#421464,#6e0e20);"></div>
+
+  <div class="doc-wrap">
+
+    <a href="work.html" class="back-link">← Back to Work</a>
+
+    <div class="doc-meta">
+      <span>Strategic Memo</span>
+      <span>AI &amp; Sustainability</span>
+      <span>March 2026</span>
+    </div>
+
+    <h1 class="doc-title">The Reconciliation Problem</h1>
+    <p class="doc-subtitle">AI and sustainability aren't naturally complementary. Here's how to make them actually compatible.</p>
+
+    <div class="info-grid">
+      <div class="info-cell">
+        <p class="info-cell-label">Author</p>
+        <p class="info-cell-value">Noah Proctor</p>
+      </div>
+      <div class="info-cell">
+        <p class="info-cell-label">Audience</p>
+        <p class="info-cell-value">Product &amp; Strategy Teams</p>
+      </div>
+      <div class="info-cell">
+        <p class="info-cell-label">Type</p>
+        <p class="info-cell-value">Strategic Memo</p>
+      </div>
+      <div class="info-cell">
+        <p class="info-cell-label">Length</p>
+        <p class="info-cell-value">~1,500 words</p>
+      </div>
+    </div>
+
+    <hr class="doc-divider">
+
+    <!-- EXECUTIVE SUMMARY -->
+    <p class="doc-section-label">Executive Summary</p>
+    <h2 class="doc-h2">The Short Version</h2>
+    <p class="doc-p">
+      The AI industry has a framing problem. Companies simultaneously claim that AI will solve climate change and build data centers that consume more electricity than mid-sized countries. Both statements can be true, but pretending they don't conflict is a product and reputational liability.
+    </p>
+    <p class="doc-p">
+      The companies that navigate this well won't do it through offset programs or sustainability reports. They'll do it by building AI that is <em>instrumentally efficient</em>: designed to accomplish targeted, high-value tasks with minimum compute, rather than maximally capable models deployed on trivial problems. That's the genuine reconciliation. This memo argues for what it looks like in practice.
+    </p>
+
+    <hr class="doc-divider">
+
+    <!-- THE TENSION -->
+    <p class="doc-section-label">Part I</p>
+    <h2 class="doc-h2">The Actual Tension</h2>
+
+    <p class="doc-p">
+      Training a single large language model emits roughly 300 tonnes of CO₂, which is comparable to 125 round-trip flights between New York and London. That's before inference: every query to a frontier model consumes water for cooling and electricity from grids that are still majority fossil-fueled in most regions. Microsoft's water consumption grew 34% in 2023, driven almost entirely by AI. Google's carbon emissions rose 48% over five years, partly attributed to data center expansion for AI infrastructure.
+    </p>
+    <p class="doc-p">
+      At the same time, AI has genuine potential as a sustainability tool. It's already being used to optimize energy grid routing, predict renewable output, accelerate materials discovery for better batteries, and reduce food waste in supply chains. DeepMind's AlphaFold didn't just win a Nobel Prize; it's collapsing the cost of protein engineering that could enable more sustainable agriculture and drug development.
+    </p>
+
+    <div class="pull-quote">
+      "The question isn't whether AI can help sustainability. It's whether the industry's AI consumption outpaces its sustainability contribution; right now, for most companies, it does."
+    </div>
+
+    <p class="doc-p">
+      The tension isn't theoretical. It's a deployment question. A model that routes electricity grids more efficiently is a net sustainability positive. A model that generates marketing copy slightly faster than a human copywriter is a net negative. The difference isn't in the technology, but the application. Most corporate AI investment sits in the second category.
+    </p>
+
+    <hr class="doc-divider">
+
+    <!-- HOW COMPANIES RESPOND -->
+    <p class="doc-section-label">Part II</p>
+    <h2 class="doc-h2">How Companies Are Responding and Why It's Insufficient</h2>
+
+    <p class="doc-p">
+      The dominant corporate response to AI's environmental cost falls into three buckets, none of which constitute genuine reconciliation:
+    </p>
+
+    <table class="doc-table">
+      <thead>
+        <tr>
+          <th>Response Type</th>
+          <th>What It Looks Like</th>
+          <th>Why It Fails</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Carbon offsets</strong></td>
+          <td>Buy credits to "neutralize" data center emissions. Claim net-zero status.</td>
+          <td>Offsets don't reduce emissions; they defer accountability. Most offset markets are poorly verified and net-zero claims based on offsets are increasingly subject to regulatory scrutiny and consumer backlash.</td>
+        </tr>
+        <tr>
+          <td><strong>Renewable energy commitments</strong></td>
+          <td>Sign PPAs for wind/solar. Announce "100% renewable" operations by 2030.</td>
+          <td>Energy accounting loopholes mean "renewable" often means "purchased renewable credits" rather than matching consumption with actual clean generation hour-by-hour. The grid is still coal when your data center runs at night.</td>
+        </tr>
+        <tr>
+          <td><strong>AI-for-good narratives</strong></td>
+          <td>Point to high-profile sustainability applications (climate modeling, grid optimization) as evidence that AI's net impact is positive.</td>
+          <td>These applications represent a tiny fraction of deployed AI compute. They don't offset the environmental cost of models being used for image generation, chatbots, and content summarization at scale.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="doc-callout">
+      <p><strong>The structural problem:</strong> All three responses treat sustainability as a PR problem rather than a product design problem. The environmental cost of AI is baked into the product decisions made years before launch in its model size, training frequency, inference architecture, deployment geography. Sustainability teams can't fix in communications what product teams built in.</p>
+    </div>
+
+    <hr class="doc-divider">
+
+    <!-- THE RECONCILIATION -->
+    <p class="doc-section-label">Part III</p>
+    <h2 class="doc-h2">A Path to Genuine Reconciliation</h2>
+
+    <p class="doc-p">
+      Genuine reconciliation requires treating compute efficiency as a first-class product constraint, not a post-hoc optimization. Here's what that looks like in practice:
+    </p>
+
+    <p style="font-family: var(--font-serif); font-size: 1.15rem; margin-bottom: 8px; color: var(--navy);">1. Right-size the model to the task</p>
+    <p class="doc-p">
+      The most impactful efficiency decision a product team makes is model selection. A GPT-4-class model for document summarization is like driving a semi-truck to pick up a grocery bag. Smaller, fine-tuned models often outperform frontier models on narrow tasks while consuming a fraction of the compute. Companies like Mistral and Anthropic (with Haiku) are making this easier — but the product culture has to reward choosing the right-sized tool over using the most impressive one.
+    </p>
+
+    <p style="font-family: var(--font-serif); font-size: 1.15rem; margin-bottom: 8px; color: var(--navy); margin-top: 32px;">2. Measure and report compute-per-output</p>
+    <p class="doc-p">
+      Carbon emissions from AI are hard to measure from the outside. Compute isn't. Teams should track tokens consumed per user action, per workflow, per product feature and treat regression in this metric the same way they treat regression in latency or cost. "AI efficiency" should be a dashboard metric, not a compliance afterthought. This doesn't require a sustainability hire; it requires an engineering culture that counts tokens the way it counts milliseconds.
+    </p>
+
+    <p style="font-family: var(--font-serif); font-size: 1.15rem; margin-bottom: 8px; color: var(--navy); margin-top: 32px;">3. Apply AI where the sustainability ROI is real</p>
+    <p class="doc-p">
+      Not every use case deserves AI. A decision framework built on job-to-be-done clarity and compute ROI would identify: (a) tasks where AI creates irreplaceable value (protein folding, grid routing, personalized medicine), (b) tasks where AI adds meaningful but moderate value (customer support deflection, code completion), and (c) tasks where AI adds marginal value at disproportionate cost (AI-generated brand copy, AI chatbots for FAQ navigation). Sustainable AI deployment means investing category (a) heavily and being honest about category (c).
+    </p>
+
+    <p style="font-family: var(--font-serif); font-size: 1.15rem; margin-bottom: 8px; color: var(--navy); margin-top: 32px;">4. Build for longevity, not retraining cycles</p>
+    <p class="doc-p">
+      Training is the most expensive part of AI's lifecycle. Products that require frequent model retraining because they were built around a model rather than around a problem compound their environmental cost with every update cycle. The more durable path is to design products that separate the model layer from the product layer: use models as infrastructure, not identity. A product built around "GPT-4o" is tied to a retraining cycle it doesn't control. A product built around a capability that any sufficiently capable model can provide is more sustainable in every sense.
+    </p>
+
+    <hr class="doc-divider">
+
+    <!-- IMPLICATIONS FOR PRODUCT TEAMS -->
+    <p class="doc-section-label">Part IV</p>
+    <h2 class="doc-h2">What This Means for Product Teams</h2>
+
+    <p class="doc-p">
+      Sustainability used to be a "policy team" problem. It's becoming a product team problem faster than most organizations are ready for. The EU AI Act, emerging US state-level AI disclosure requirements, and institutional investor pressure are combining to make compute efficiency a compliance and commercial concern, not just an ethical one.
+    </p>
+
+    <p class="doc-p">The product teams that get ahead of this will:</p>
+
+    <ul class="doc-list">
+      <li><strong>Add compute efficiency as a PRD criterion.</strong> Every feature PRD should include an estimate of inference cost per user action and a rationale for model selection. This doesn't slow down shipping — it prevents shipping the wrong thing.</li>
+      <li><strong>Define what "AI-appropriate" means for their product.</strong> Not every user interaction benefits from AI. Identify the moments where AI creates genuine value and protect those compute budgets. De-prioritize AI for interactions that are just "AI-washing" existing functionality.</li>
+      <li><strong>Treat model-agnosticism as a product virtue.</strong> Products that work regardless of which frontier model powers them are more resilient, cheaper to operate, and implicitly more efficient. Avoid building features that only work with the largest available model.</li>
+      <li><strong>Audit the full stack, not just the headline model.</strong> RAG pipelines, embedding generation, re-ranking, and agentic loops all consume compute. A "simple" AI feature can have a surprising environmental footprint once the full inference chain is counted.</li>
+    </ul>
+
+    <hr class="doc-divider">
+
+    <!-- CONCLUSION -->
+    <p class="doc-section-label">Conclusion</p>
+    <h2 class="doc-h2">The Memo's Actual Ask</h2>
+    <p class="doc-p">
+      The reconciliation between AI and sustainability isn't a communications exercise or a carbon credit strategy. It's a product discipline. It requires building teams that ask "should this be AI?" before "how should this AI work?" It requires measuring compute efficiency with the same rigor as conversion rates. And it requires being honest when an AI application's resource cost outweighs its value, even when that's an uncomfortable product decision.
+    </p>
+    <p class="doc-p">
+      The companies that figure this out early will have a structural advantage as compute costs rise, regulation tightens, and institutional buyers increasingly demand AI transparency in procurement decisions. The ones that don't will find themselves defending a "net-zero by 2040" pledge while their GPU clusters draw megawatts for tasks a regex could handle.
+    </p>
+
+    <div class="doc-callout">
+      <p><strong>The short version, one more time:</strong> The reconciliation isn't about whether AI helps sustainability. It's about whether your specific AI, for your specific use case, is worth what it costs to run. If the answer is yes, keep building. If it's no, that's a product decision, not a PR problem.</p>
+    </div>
+
+    <hr class="doc-divider">
+
+    <p style="font-size: 0.82rem; color: var(--muted); line-height: 1.7;">
+      Strategic memo by Noah Proctor. Draws on public reporting, academic research, and product strategy frameworks developed during work at Series and independent research into AI infrastructure. Not affiliated with any company mentioned herein.
+    </p>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>Built by Noah Proctor · <a href="mailto:nap2180@columbia.edu">nap2180@columbia.edu</a></p>
+  </footer>
+
+</body>
+</html>

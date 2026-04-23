@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects — Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">NP</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="work.html">Work</a></li>
+      <li><a href="projects.html" class="active">Projects</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+    <div class="nav-socials">
+      <a href="https://www.linkedin.com/in/noah-a-proctor/" aria-label="LinkedIn" target="_blank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+      </a>
+      <a href="https://github.com/noahproc" aria-label="GitHub" target="_blank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+      </a>
+      <a href="https://x.com/noah_proct" aria-label="X / Twitter" target="_blank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a href="#" aria-label="Email" target="_blank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.54C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="white"/></svg>
+      </a>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <header class="page-header">
+    <h1>Projects</h1>
+    <p><em>Code, design, and everything in between.</em></p>
+  </header>
+
+  <!-- =============================================
+       CODING PROJECTS
+       ============================================= -->
+  <section class="projects-section" id="coding">
+    <div class="container">
+      <p class="section-label">Engineering</p>
+      <h2 class="section-title">Coding Projects</h2>
+
+      <div class="repo-grid">
+
+        <!-- Project 1 -->
+        <div class="repo-card">
+          <h4>Lake Erie Algal Blooms</h4>
+          <p>Developed an end-to-end ML pipeline to predict harmful algal bloom severity in Western Lake Erie, using XGBoost with SHAP interpretability and Gaussian Process spatial interpolation across 8 NOAA monitoring stations</p>
+          <div class="repo-tags">
+            <span class="repo-tag">Scikit</span>
+            <span class="repo-tag">JS</span>
+            <span class="repo-tag">Pandas</span>
+          </div>
+          <div class="repo-links">
+            <a href="https://github.com/noahproc/lakeeriealgaeml" target="_blank">GitHub →</a>
+          </div>
+        </div>
+
+        <!-- Project 2 -->
+        <div class="repo-card">
+          <h4>Perkins Township Water Quality</h4>
+          <p>Developed a weighted composite scoring algorithm in Python to quantify municipal drinking water safety across 10 contaminants (E. coli, lead, nitrate, TTHM, etc.), outputting a 1-5 star rating and identifying the limiting contaminant factor for Erie County water districts.</p>
+          <div class="repo-tags">
+            <span class="repo-tag">Python</span>
+            <span class="repo-tag">HTML/CSS/JS</span>
+            <span class="repo-tag">Data Viz</span>
+          </div>
+          <div class="repo-links">
+            <a href="https://noahproc.github.io/waterqualityassessment.github.io" target="_blank">Live Site →</a>
+          </div>
+        </div>
+
+        <!-- Project 3 -->
+        <div class="repo-card">
+          <h4>Brand Financials Dashboard</h4>
+          <p>A data transformation pipeline that anonymizes and scales a brand portfolio intelligence report for external presentation. Built during my private equity work at Alka Oaks Partners to prepare deal materials for founder calls.</p>
+          <div class="repo-tags">
+            <span class="repo-tag">HTML</span>
+            <span class="repo-tag">Python</span>
+            <span class="repo-tag">Data Pipeline</span>
+          </div>
+          <div class="repo-links">
+            <a href="https://github.com/noahproc/brand-financials-dashboard" target="_blank">GitHub →</a>
+          </div>
+        </div>
+
+        <!-- Project 4 -->
+        <div class="repo-card">
+          <h4>Python Projects</h4>
+          <p>A collection of micro Python projects from coursework and personal exploration, covering data analysis, scripting, and algorithm work using Pandas, NumPy, and Jupyter.</p>
+          <div class="repo-tags">
+            <span class="repo-tag">Python</span>
+            <span class="repo-tag">Jupyter</span>
+            <span class="repo-tag">Pandas</span>
+          </div>
+          <div class="repo-links">
+            <a href="https://github.com/noahproc/pythonprojects" target="_blank">GitHub →</a>
+          </div>
+        </div>
+
+        <!-- Project 5 -->
+        <div class="repo-card">
+          <h4>Video Poker</h4>
+          <p>Built a fully playable video poker game for my Programming in Java course at Columbia. Implements standard poker hand evaluation logic with an OOP architecture and a lightweight HTML/CSS front-end.</p>
+          <div class="repo-tags">
+            <span class="repo-tag">Java</span>
+            <span class="repo-tag">OOP</span>
+            <span class="repo-tag">HTML/CSS</span>
+          </div>
+          <div class="repo-links">
+            <a href="https://github.com/noahproc/videopoker" target="_blank">GitHub →</a>
+          </div>
+        </div>
+
+        <!-- Add more repos here -->
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       RESEARCH & EXTRACURRICULARS
+       ============================================= -->
+  <section class="projects-section" id="research">
+    <div class="container">
+      <p class="section-label">Beyond the PM</p>
+      <h2 class="section-title">Research &amp; Extracurriculars</h2>
+
+      <div class="research-list">
+
+        <div class="research-item">
+          <div class="research-year">2026</div>
+          <div class="research-body">
+            <div class="preview-tag">Research</div>
+            <h4>Columbia Economics Department <em>— Undergraduate Researcher</em></h4>
+            <p>
+              Collecting and analyzing Scope 2 emissions data using Python (Matplotlib, NumPy, Pandas) and a London Stock Exchange Group API, studying corporate behavior in the context of differing regulatory and energy environments.
+            </p>
+          </div>
+        </div>
+
+        <div class="research-item">
+          <div class="research-year">2025</div>
+          <div class="research-body">
+            <div class="preview-tag">Research</div>
+            <h4>Kelly Laboratory <em>— Undergraduate Researcher</em></h4>
+            <p>
+              Led a research initiative and literature review in multiphase reactive transport in sandstone to support carbon mineralization via imbibition technology and pycnometers. Created MATLAB scripts to interpret imbibition data sets with varied boundary conditions.
+            </p>
+          </div>
+        </div>
+
+        <div class="research-item">
+          <div class="research-year">2025</div>
+          <div class="research-body">
+            <div class="preview-tag">Club / Org</div>
+            <h4>Ascend Consulting Group <em>— Vice President</em></h4>
+            <p>
+              Managed end-to-end project deliverables including data analysis, slide decks, and client communication across multi-university teams. Led university-wide recruiting and managed a 1000+ follower Instagram platform. Worked on case studies for mobile and social media apps including Series.
+            </p>
+          </div>
+        </div>
+
+        <div class="research-item">
+          <div class="research-year">2024</div>
+          <div class="research-body">
+            <div class="preview-tag">Publication</div>
+            <h4>Columbia Science Review <em>— Deputy Editor</em></h4>
+            <p>
+              Serve as Deputy Editor for a 150-member interdisciplinary science publication, overseeing final content decisions, managing the editorial workflow, organizing meeting agendas, and maintaining the club website.
+            </p>
+          </div>
+        </div>
+
+        <div class="research-item">
+          <div class="research-year">2023</div>
+          <div class="research-body">
+            <div class="preview-tag">Founding Member</div>
+            <h4>Inspirate Earth <em>— Founding Board Member</em></h4>
+            <p>
+              Designed and published informational graphics with Canva, driving 2x follower growth on Instagram and TikTok. Organized educational webinars on climate change impacts and authored articles translating scientific research on sustainability, increasing website engagement by two-fold.
+            </p>
+          </div>
+        </div>
+
+        <div class="research-item">
+          <div class="research-year">2025</div>
+          <div class="research-body">
+            <div class="preview-tag">Volunteering</div>
+            <h4>Dublin Jerome High School <em>— Volunteer Speech Coach</em></h4>
+            <p>
+              Mentor a 20-member speech team as Assistant Coach, directing rehearsals that combine academic rigor with creative performance. Guided students to state finalist appearances and top 25 national finishes across speech categories.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>Built by Noah Proctor · <a href="mailto:nap2180@columbia.edu">nap2180@columbia.edu</a></p>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
