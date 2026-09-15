@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Transplant — Noah Proctor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .doc-wrap {
+      max-width: 740px;
+      margin: 0 auto;
+      padding: 120px 24px 100px;
+    }
+    .doc-meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 48px;
+    }
+    .doc-meta span {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: var(--off-white);
+      padding: 4px 10px;
+      border-radius: 2px;
+    }
+    .doc-title {
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 400;
+      line-height: 1.1;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+    .doc-subtitle {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--muted);
+      margin-bottom: 48px;
+    }
+    .doc-divider {
+      border: none;
+      border-top: 1px solid rgba(10,22,40,0.1);
+      margin: 48px 0;
+    }
+    .doc-section-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .doc-h2 {
+      font-family: var(--font-serif);
+      font-size: 1.55rem;
+      font-weight: 400;
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+    .doc-p {
+      font-size: 0.97rem;
+      line-height: 1.8;
+      color: #2a3a55;
+      margin-bottom: 20px;
+    }
+    .doc-callout {
+      background: var(--off-white);
+      border-left: 3px solid var(--accent);
+      padding: 20px 24px;
+      margin: 32px 0;
+      border-radius: 0 4px 4px 0;
+    }
+    .doc-callout p {
+      font-size: 0.93rem;
+      line-height: 1.75;
+      color: var(--navy);
+      margin: 0;
+    }
+    .doc-callout strong { font-weight: 600; }
+    .doc-list {
+      padding-left: 20px;
+      margin-bottom: 24px;
+    }
+    .doc-list li {
+      font-size: 0.97rem;
+      line-height: 1.75;
+      color: #2a3a55;
+      margin-bottom: 8px;
+    }
+    .doc-list li strong { color: var(--navy); }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 48px;
+      transition: color var(--transition);
+    }
+    .back-link:hover { color: var(--navy); }
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 24px;
+      margin: 32px 0;
+    }
+    .info-cell {
+      border-top: 2px solid var(--navy);
+      padding-top: 12px;
+    }
+    .info-cell-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .info-cell-value {
+      font-size: 0.92rem;
+      color: var(--navy);
+      font-weight: 500;
+    }
+    .doc-resource-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin: 20px 0 32px;
+    }
+    .doc-resource-link {
+      display: block;
+      padding: 14px 16px;
+      background: var(--off-white);
+      border-radius: 4px;
+      font-size: 0.87rem;
+      font-weight: 500;
+      color: var(--navy);
+      border: 1px solid rgba(10,22,40,0.08);
+      transition: border-color var(--transition);
+    }
+    .doc-resource-link:hover { border-color: var(--navy); }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">NP</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="work.html" class="active">Product</a></li>
+      <li><a href="projects.html">Engineering</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+    <div class="nav-socials">
+      <a href="https://www.linkedin.com/in/noah-a-proctor/" aria-label="LinkedIn" target="_blank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+      </a>
+      <a href="https://github.com/noahproc" aria-label="GitHub" target="_blank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+      </a>
+      <a href="https://x.com/noah_proct" aria-label="X / Twitter" target="_blank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+    </div>
+  </nav>
+
+  <!-- gradient accent bar -->
+  <div style="height:5px; background:linear-gradient(90deg,#11154e,#421464,#6e0e20);"></div>
+
+  <div class="doc-wrap">
+
+    <a href="work.html" class="back-link">← Back to Work</a>
+
+    <div class="doc-meta">
+      <span>0 → 1 Product</span>
+      <span>Transplant</span>
+      <span>2026</span>
+    </div>
+
+    <h1 class="doc-title">Transplant</h1>
+    <p class="doc-subtitle">Budget tracking and dependency-aware logistics roadmapping for interstate movers.</p>
+
+    <div class="info-grid">
+      <div class="info-cell">
+        <p class="info-cell-label">Role</p>
+        <p class="info-cell-value">Founder / Sole Builder</p>
+      </div>
+      <div class="info-cell">
+        <p class="info-cell-label">Target Ship Date</p>
+        <p class="info-cell-value">September 15, 2026</p>
+      </div>
+      <div class="info-cell">
+        <p class="info-cell-label">Stack</p>
+        <p class="info-cell-value">Claude, Lovable, Xcode</p>
+      </div>
+      <div class="info-cell">
+        <p class="info-cell-label">Status</p>
+        <p class="info-cell-value">Live prototype, iOS in progress</p>
+      </div>
+    </div>
+
+    <p class="doc-p">
+      Spearheading an app from 0 → 1, shipping with the help of Claude Code and a dream. I'm dropping all of my documentation and planning here as I go.
+    </p>
+    <a href="https://trnsplant.lovable.app/" target="_blank" class="btn btn-navy" style="display:inline-block; margin-bottom:16px;">Access the Prototype →</a>
+
+    <hr class="doc-divider">
+
+    <p class="doc-section-label">Tools</p>
+    <h2 class="doc-h2">My AI Stack</h2>
+    <p class="doc-p">
+      I leaned on Claude for research and drafting work throughout research, scrutiny, prioritization, the PRD, and turning all of it into a live Jira board. Notion is where this case study lives; I used the agent to help clean up the format and sharpen up my word choices. Lovable is where the roadmap generator and budget engine are actually getting built, using Claude's context to write a prompt for me that made sure I was getting exactly what I wanted. I'm currently using Claude Code and the chatbot on Xcode to help me launch this in the App Store.
+    </p>
+
+    <hr class="doc-divider">
+
+    <p class="doc-section-label">Ideation</p>
+    <h2 class="doc-h2">Finding the Real Problem</h2>
+    <p class="doc-p">
+      I started here wanting to build something in the moving space, but the first version of this was broad: an AI agent that handled budgeting, house-hunting, and moving logistics all at once, with house-swiping built in for good measure. I called it Transplant and built out a full one-pager for it.
+    </p>
+    <p class="doc-p">
+      Before I touched a single mockup, I forced myself to pick the app apart and scrutinize it. It had real problems: four different pain points crammed into one pitch, a success metric I'd literally labeled "unpredictable outcomes" in my own doc, and a "solution" that involved scraping MLS data, which is a real legal exposure, not a clever workaround. I also hadn't named a single real competitor, just generic "AI agents like Claude and ChatGPT," which told me I hadn't actually done the research yet.
+    </p>
+    <p class="doc-p">
+      I rewrote it with a sharper beachhead, real competitor names (Updater, MoveEasy, Zillow), and metrics that could actually be measured. Also rebuilt the whole thing visually to match a brand system I put together (Ocean Blue and Sea-foam Green, DM Serif Display headers, the whole kit).
+    </p>
+    <p class="doc-p">
+      Then I found something better: real pain-point research showing people saying moving logistics (updating your bank, insurance, government records, subscriptions) feels weirdly outdated and things still get missed even when you're careful. That's a sharper, more specific problem than "moving is stressful," so I pivoted the whole product around it: budget tracking and logistics roadmapping, not house-hunting.
+    </p>
+    <a href="case-assets/transplant-one-pager.pdf" target="_blank" class="doc-resource-link" style="max-width:280px;">📄 Transplant One-Pager (PDF)</a>
+
+    <hr class="doc-divider">
+
+    <p class="doc-section-label">Day 1</p>
+    <h2 class="doc-h2">Research &amp; Foundation</h2>
+    <p class="doc-p">
+      I built a persona (Priya, an interstate mover with a job relocation and a kid) and a proper JTBD statement, then did a real competitive teardown instead of assuming I knew the landscape. That's where I found something that actually changed my strategy: Zillow shipped a dependency-aware, budget-linked "moving hub" in June 2026 that does a version of this mechanic already, but it hard-stops at closing day.
+    </p>
+    <div class="doc-callout">
+      <p>That's not bad news, it's validation that the mechanic works, and it sharpened exactly why I should stay focused on the post-move logistics gap instead of home search, since none of the big players are touching it.</p>
+    </div>
+
+    <div class="doc-resource-grid">
+      <a href="case-assets/transplant-user-persona.pdf" target="_blank" class="doc-resource-link">📄 User Persona (PDF)</a>
+      <a href="case-assets/transplant-competitor-teardown.pdf" target="_blank" class="doc-resource-link">📄 Competitor Teardown (PDF)</a>
+    </div>
+
+    <hr class="doc-divider">
+
+    <p class="doc-section-label">Prioritization</p>
+    <h2 class="doc-h2">MVP Prioritization</h2>
+    <p class="doc-p">
+      I built a RICE table to score every candidate feature, and it told me something uncomfortable: my actual core feature, the dependency-aware roadmap generator, ranked fifth. It's expensive and moderately uncertain, so it scores low, while things like push notifications score high because they're cheap and safe. But push notifications have nothing to notify anyone about without the roadmap already existing. So I overrode the score where the dependency demanded it and used RICE properly everywhere else. That tension, and being honest about it, is the whole point of this exercise.
+    </p>
+    <a href="case-assets/transplant-feature-prioritization.pdf" target="_blank" class="doc-resource-link" style="max-width:280px;">📄 Feature Prioritization / RICE (PDF)</a>
+
+    <hr class="doc-divider">
+
+    <p class="doc-section-label">Spec</p>
+    <h2 class="doc-h2">PRD</h2>
+    <p class="doc-p">
+      Wrote the actual PRD for the MVP slice: user stories, the dependency-sequencing rules in plain if/then logic (grounded in a real finding: most states require proof of new-state insurance before they'll register your car), the budget-tracking logic, and an explicit out-of-scope list. I also fully specified the readiness-score and milestone-badge logic even though it's not being built yet, since the RICE work flagged gamification as an unvalidated hypothesis. Documented, not built, until it's actually tested.
+    </p>
+    <a href="case-assets/transplant-prd.pdf" target="_blank" class="doc-resource-link" style="max-width:220px; margin-bottom:24px;">📄 Full PRD (PDF)</a>
+    <p class="doc-p">
+      Took the PRD and actually built it out as a live Scrum board instead of leaving it as a document: epics for the roadmap generator, budget tracking, monetization validation, and the "no account linking" trust boundary, plus backlog epics for the deferred gamification and long-term expansion work. The validation gate (don't build badges until they're tested) is modeled as a real issue link on the board, not just a note, so the sequencing decision is enforced structurally, not just written down.
+    </p>
+
+    <hr class="doc-divider">
+
+    <p class="doc-section-label">Build</p>
+    <h2 class="doc-h2">The Budget Engine</h2>
+    <p class="doc-p">
+      Wanted the budget piece to be more than a manual number entry, so I researched what actually drives moving costs (distance, home size, DIY vs. professional, packing, deposits, registration fees) and built a real formula out of it, mapped directly onto the existing benchmark categories from the PRD. Wrote it up as a full feature spec and prompt, ready to hand to Lovable to build.
+    </p>
+
+    <hr class="doc-divider">
+
+    <p class="doc-section-label">Design</p>
+    <h2 class="doc-h2">Figma Mockups</h2>
+    <p class="doc-p">
+      This summer, I launched a functional web version of Transplant via Lovable, but I know I want to see Transplant on the App Store, so I got to work making a wireframe for the MVP. I repackaged a lot of the same style that Claude and Lovable helped me workshop, but I knew I had to make adjustments.
+    </p>
+    <p class="doc-p">
+      Firstly, I can't drop everything I made onto the dashboard, I needed to use the dashboard as a preview with the most urgent incomplete tasks and route users to a separate page with all of their work. Secondly, I can't let users click through the entire onboarding process again if they want to change something. I decided to open a separate profile editing page that places all of the fields from onboarding onto one page that users can scroll through. Thirdly, I needed to change the progress bar to a progress circle. The phone is much narrower, meaning a long progress bar would make for clunky UI.
+    </p>
+    <p class="doc-p">
+      Although I'm always iterating on this Figma file, I'm proud of the current state. I truly admire the work of designers; this is a super detail-oriented task.
+    </p>
+    <a href="https://www.figma.com/design/Us7ni6AQgd9WPmmhR4WD4x/transplant?node-id=0-1&p=f&t=hTkklSOLdz5KLwcp-0" target="_blank" class="btn" style="border:1px solid rgba(10,22,40,0.2); color:var(--navy); display:inline-block;">View Figma File →</a>
+
+    <div style="margin-top:56px; display:flex; gap:16px; flex-wrap:wrap;">
+      <a href="work.html" class="btn btn-navy">Back to Work →</a>
+      <a href="https://trnsplant.lovable.app/" target="_blank" class="btn" style="border:1px solid rgba(10,22,40,0.2); color:var(--navy);">Access the Prototype →</a>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>Built by Noah Proctor · <a href="mailto:nap2180@columbia.edu">nap2180@columbia.edu</a></p>
+  </footer>
+
+</body>
+</html>

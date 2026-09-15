@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product Case: Airline Booking — Noah Proctor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .doc-wrap {
+      max-width: 740px;
+      margin: 0 auto;
+      padding: 120px 24px 100px;
+    }
+    .doc-meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 48px;
+    }
+    .doc-meta span {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: var(--off-white);
+      padding: 4px 10px;
+      border-radius: 2px;
+    }
+    .doc-title {
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 400;
+      line-height: 1.1;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+    .doc-subtitle {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--muted);
+      margin-bottom: 48px;
+    }
+    .doc-divider {
+      border: none;
+      border-top: 1px solid rgba(10,22,40,0.1);
+      margin: 48px 0;
+    }
+    .doc-section-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .doc-h2 {
+      font-family: var(--font-serif);
+      font-size: 1.55rem;
+      font-weight: 400;
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+    .doc-p {
+      font-size: 0.97rem;
+      line-height: 1.8;
+      color: #2a3a55;
+      margin-bottom: 20px;
+    }
+    .doc-callout {
+      background: var(--off-white);
+      border-left: 3px solid var(--accent);
+      padding: 20px 24px;
+      margin: 32px 0;
+      border-radius: 0 4px 4px 0;
+    }
+    .doc-callout p {
+      font-size: 0.93rem;
+      line-height: 1.75;
+      color: var(--navy);
+      margin: 0;
+    }
+    .doc-callout strong { font-weight: 600; }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 48px;
+      transition: color var(--transition);
+    }
+    .back-link:hover { color: var(--navy); }
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 24px;
+      margin: 32px 0;
+    }
+    .info-cell {
+      border-top: 2px solid var(--navy);
+      padding-top: 12px;
+    }
+    .info-cell-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .info-cell-value {
+      font-size: 0.92rem;
+      color: var(--navy);
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">NP</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="work.html" class="active">Product</a></li>
+      <li><a href="projects.html">Engineering</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+    <div class="nav-socials">
+      <a href="https://www.linkedin.com/in/noah-a-proctor/" aria-label="LinkedIn" target="_blank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+      </a>
+      <a href="https://github.com/noahproc" aria-label="GitHub" target="_blank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+      </a>
+      <a href="https://x.com/noah_proct" aria-label="X / Twitter" target="_blank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+    </div>
+  </nav>
+
+  <!-- gradient accent bar -->
+  <div style="height:5px; background:linear-gradient(90deg,#11154e,#421464,#6e0e20);"></div>
+
+  <div class="doc-wrap">
+
+    <a href="work.html" class="back-link">← Back to Work</a>
+
+    <div class="doc-meta">
+      <span>Product Case</span>
+      <span>Airline Booking</span>
+      <span>2026</span>
+    </div>
+
+    <h1 class="doc-title">Product Case: Airline Booking</h1>
+    <p class="doc-subtitle">Using predictive AI to tell travelers when a flight's price is about to move.</p>
+
+    <div class="info-grid">
+      <div class="info-cell">
+        <p class="info-cell-label">Author</p>
+        <p class="info-cell-value">Noah Proctor</p>
+      </div>
+      <div class="info-cell">
+        <p class="info-cell-label">Format</p>
+        <p class="info-cell-value">Browser extension</p>
+      </div>
+      <div class="info-cell">
+        <p class="info-cell-label">Core Tech</p>
+        <p class="info-cell-value">Predictive AI (not generative)</p>
+      </div>
+      <div class="info-cell">
+        <p class="info-cell-label">Data Sources</p>
+        <p class="info-cell-value">Reddit sentiment, YouGov</p>
+      </div>
+    </div>
+
+    <p class="doc-p">
+      I built this case around a problem I've lived through; it took me two weeks to hit "purchase" on a flight home, mostly because I had no idea if the price I was looking at was a good deal or about to change. Turns out that hesitation is common, so I used Reddit sentiment and YouGov data to dig into why, and landed on a solution using predictive AI (not generative or agentic) to tell users when and how a flight's price is likely to move.
+    </p>
+    <p class="doc-p">
+      The full case walks through the problem, why a browser extension beats a standalone app, how it stacks up against Hopper and Google Flights, and the business model tradeoffs worth wrestling with.
+    </p>
+
+    <div class="doc-callout">
+      <p><strong>Known weakness:</strong> the primary weakness of this study is in the proposed business model, why would airlines want to implement an extension that prevents them from profiting on increased fares? However, price transparency leads to increased user trust, or this service could function as a premium insight only members use.</p>
+    </div>
+
+    <a href="case-assets/airline-booking-case.pdf" target="_blank" class="btn btn-navy" style="display:inline-block; margin-top:8px;">Read the Full Case (PDF) →</a>
+
+    <div style="margin-top:56px; display:flex; gap:16px; flex-wrap:wrap;">
+      <a href="work.html" class="btn" style="border:1px solid rgba(10,22,40,0.2); color:var(--navy);">Back to Work →</a>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>Built by Noah Proctor · <a href="mailto:nap2180@columbia.edu">nap2180@columbia.edu</a></p>
+  </footer>
+
+</body>
+</html>

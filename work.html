@@ -16,8 +16,8 @@
     <a href="index.html" class="nav-logo">NP</a>
     <ul class="nav-links">
       <li><a href="index.html">Home</a></li>
-      <li><a href="work.html" class="active">Work</a></li>
-      <li><a href="projects.html">Projects</a></li>
+      <li><a href="work.html" class="active">Product</a></li>
+      <li><a href="projects.html">Engineering</a></li>
       <li><a href="about.html">About</a></li>
     </ul>
     <div class="nav-socials">
@@ -52,40 +52,65 @@
 
       <!-- FEATURED CARD — full-width -->
       <div class="case-featured">
-        <div class="case-card-img" style="background:#fff;">
-          <span><img src="https://pbs.twimg.com/profile_images/2035133128143155200/SpxOdvDn_400x400.jpg" alt="Aden Logo" style="width:120px; height:120px; object-fit:contain; border-radius:12px;"></span>
+        <div class="case-card-img" style="background:linear-gradient(135deg,#11154e,#1c2a6e);">
+          <svg width="100%" height="100%" viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" style="position:absolute; inset:0; z-index:2;" xmlns="http://www.w3.org/2000/svg">
+            <!-- scattered tool sources, converging into one signal -->
+            <path d="M70 90 Q170 150 246 200" stroke="#fff" stroke-width="1.4" opacity="0.28" fill="none"/>
+            <path d="M150 56 Q210 130 248 194" stroke="#fff" stroke-width="1.4" opacity="0.28" fill="none"/>
+            <path d="M64 210 Q170 210 246 204" stroke="#fff" stroke-width="1.4" opacity="0.28" fill="none"/>
+            <path d="M120 300 Q190 260 248 212" stroke="#fff" stroke-width="1.4" opacity="0.28" fill="none"/>
+            <path d="M260 110 Q262 160 254 194" stroke="#fff" stroke-width="1.4" opacity="0.28" fill="none"/>
+            <path d="M96 320 Q190 270 250 216" stroke="#fff" stroke-width="1.4" opacity="0.28" fill="none"/>
+
+            <circle cx="70" cy="90" r="6" stroke="#fff" stroke-width="1.5" opacity="0.55" fill="none"/>
+            <circle cx="150" cy="56" r="6" stroke="#fff" stroke-width="1.5" opacity="0.55" fill="none"/>
+            <circle cx="64" cy="210" r="6" stroke="#fff" stroke-width="1.5" opacity="0.55" fill="none"/>
+            <circle cx="120" cy="300" r="6" stroke="#fff" stroke-width="1.5" opacity="0.55" fill="none"/>
+            <circle cx="260" cy="110" r="6" stroke="#fff" stroke-width="1.5" opacity="0.55" fill="none"/>
+            <circle cx="96" cy="320" r="6" stroke="#fff" stroke-width="1.5" opacity="0.55" fill="none"/>
+
+            <!-- convergence pulse, centered -->
+            <circle cx="256" cy="204" r="40" stroke="#fff" stroke-width="1" opacity="0.18" fill="none"/>
+            <circle cx="256" cy="204" r="24" stroke="#fff" stroke-width="1.2" opacity="0.3" fill="none"/>
+            <circle cx="256" cy="204" r="8" fill="#c8a96e"/>
+
+            <!-- mini prioritized digest bars -->
+            <rect x="284" y="176" width="34" height="6" rx="3" fill="#fff" opacity="0.55"/>
+            <rect x="284" y="196" width="24" height="6" rx="3" fill="#fff" opacity="0.4"/>
+            <rect x="284" y="216" width="16" height="6" rx="3" fill="#fff" opacity="0.28"/>
+          </svg>
         </div>
         <div class="case-card-body">
-          <div class="preview-tag">Product Review + PRD</div>
-          <h3>Aden Hive: <em>The AI agent swarm framework for autonomous business workflows.</em></h3>
+          <div class="preview-tag">Claude Skill + Dashboard</div>
+          <h3>Threshold: <em>A daily briefing tool that turns scattered tools into clear signal.</em></h3>
           <p>
-            Hive is YC-backed and technically differentiated: goal-driven agent generation, adaptive self-healing, and real-time observability via WebSocket streaming. The bones are strong. I reviewed the product publicly and wrote a PRD targeting the highest-friction gap—getting new users to their first agent run in under five minutes.
+            Built for my summer internship at Series, Threshold synthesizes activity across Slack, Drive, Jira, Asana, Granola, and Calendar into a prioritized, source-linked daily digest, plus a separate weekly client-status recap. Sole builder, end to end: skill design, dashboard implementation, and live integration testing against real data.
           </p>
 
           <div class="case-meta">
-            <span class="meta-pill">Product Review</span>
-            <span class="meta-pill">PRD Writing</span>
-            <span class="meta-pill">Onboarding Strategy</span>
-            <span class="meta-pill">AI Agents</span>
+            <span class="meta-pill">Product Definition</span>
+            <span class="meta-pill">Claude Skill</span>
+            <span class="meta-pill">Dashboard Build</span>
+            <span class="meta-pill">Scoping</span>
           </div>
 
           <!-- Key callouts -->
           <div style="display:flex; gap:32px; margin-bottom:24px; flex-wrap:wrap;">
             <div>
-              <p style="font-size:1.8rem; font-family:var(--font-serif); font-weight:400; color:var(--navy);">&lt; 5 min</p>
-              <p style="font-size:0.75rem; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase;">Target time-to-first-agent</p>
+              <p style="font-size:1.8rem; font-family:var(--font-serif); font-weight:400; color:var(--navy);">Solo</p>
+              <p style="font-size:0.75rem; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase;">Built end to end</p>
             </div>
             <div>
-              <p style="font-size:1.8rem; font-family:var(--font-serif); font-weight:400; color:var(--navy);">3</p>
-              <p style="font-size:0.75rem; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase;">Feature proposals</p>
+              <p style="font-size:1.8rem; font-family:var(--font-serif); font-weight:400; color:var(--navy);">6</p>
+              <p style="font-size:0.75rem; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase;">Tools synthesized</p>
             </div>
             <div>
-              <p style="font-size:1.8rem; font-family:var(--font-serif); font-weight:400; color:var(--navy);">YC W25</p>
-              <p style="font-size:0.75rem; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase;">Company stage</p>
+              <p style="font-size:1.8rem; font-family:var(--font-serif); font-weight:400; color:var(--navy);">Validated</p>
+              <p style="font-size:0.75rem; color:var(--muted); letter-spacing:0.08em; text-transform:uppercase;">Personal-scope status</p>
             </div>
           </div>
 
-          <a href="aden-prd.html" class="case-link">Read the PRD →</a>
+          <a href="threshold-case-study.html" class="case-link">Read the case study →</a>
         </div>
       </div>
 
@@ -94,8 +119,19 @@
 
         <!-- Card 1: Series -->
         <div class="case-card">
-          <div class="case-card-img" style="background:#fff;">
-            <span style="display:flex; align-items:baseline; gap:0; font-family:'Inter',sans-serif; font-weight:800; font-size:2.8rem; color:#000; letter-spacing:-0.02em; line-height:1;">S<span style="font-size:0.45em; font-weight:800; margin-left:0.08em; margin-bottom:0.1em;">._</span></span>
+          <div class="case-card-img" style="background:linear-gradient(135deg,#11154e,#421464);">
+            <svg width="100%" height="100%" viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice" style="position:absolute; inset:0; z-index:2;" xmlns="http://www.w3.org/2000/svg">
+              <!-- overlapping chat bubbles -->
+              <path d="M40 50 h130 a14 14 0 0 1 14 14 v46 a14 14 0 0 1 -14 14 h-90 l-24 20 v-20 h-16 a14 14 0 0 1 -14 -14 v-46 a14 14 0 0 1 14 -14 Z" stroke="#fff" stroke-width="1.4" opacity="0.22" fill="none"/>
+              <path d="M230 26 h132 a14 14 0 0 1 14 14 v40 a14 14 0 0 1 -14 14 h-16 v20 l-24 -20 h-92 a14 14 0 0 1 -14 -14 v-40 a14 14 0 0 1 14 -14 Z" stroke="#fff" stroke-width="1.4" opacity="0.22" fill="none"/>
+              <path d="M120 118 h150 a14 14 0 0 1 14 14 v30 a14 14 0 0 1 -14 14 h-104 l-22 18 v-18 h-24 a14 14 0 0 1 -14 -14 v-30 a14 14 0 0 1 14 -14 Z" stroke="#fff" stroke-width="1.4" opacity="0.16" fill="none"/>
+              <!-- warm-introduction connector -->
+              <path d="M108 88 Q170 60 244 66" stroke="#c8a96e" stroke-width="1.6" stroke-dasharray="2 5" fill="none" opacity="0.8"/>
+              <circle cx="108" cy="88" r="3.5" fill="#c8a96e"/>
+              <circle cx="244" cy="66" r="3.5" fill="#c8a96e"/>
+              <!-- wordmark -->
+              <text x="200" y="112" text-anchor="middle" font-family="Inter, sans-serif" font-weight="800" font-size="46" fill="#fff" letter-spacing="-1">S<tspan font-size="20" dy="6">._</tspan></text>
+            </svg>
           </div>
           <div class="case-card-body">
             <div class="preview-tag">Product Internship</div>
@@ -113,31 +149,65 @@
 
         <!-- Card 2: Transplant -->
         <div class="case-card">
-          <div class="case-card-img" style="background:#f7f5f0;">
-            <span style="display:flex; align-items:center; justify-content:center;">
-              <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <!-- House outline -->
-                <path d="M36 10 L62 34 L56 34 L56 62 L16 62 L16 34 L10 34 Z" stroke="#0a1628" stroke-width="2.5" stroke-linejoin="round" fill="none"/>
-                <!-- Door -->
-                <rect x="28" y="44" width="16" height="18" rx="1" stroke="#0a1628" stroke-width="2" fill="none"/>
-                <!-- Sprout in window -->
-                <line x1="36" y1="32" x2="36" y2="24" stroke="#0a1628" stroke-width="2" stroke-linecap="round"/>
-                <path d="M36 30 Q42 26 41 20 Q35 22 35 28" fill="#0a1628" opacity="0.75"/>
-                <path d="M36 30 Q30 26 31 20 Q37 22 37 28" fill="#0a1628" opacity="0.45"/>
-              </svg>
-            </span>
+          <div class="case-card-img" style="background:linear-gradient(135deg,#11154e,#6e0e20);">
+            <svg width="100%" height="100%" viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice" style="position:absolute; inset:0; z-index:2;" xmlns="http://www.w3.org/2000/svg">
+              <!-- dependency-aware route -->
+              <path d="M20 168 Q110 190 170 140 T300 92 Q330 78 356 56" stroke="#fff" stroke-width="1.6" stroke-dasharray="1 7" stroke-linecap="round" opacity="0.55" fill="none"/>
+              <!-- waypoints -->
+              <circle cx="20" cy="168" r="5" fill="#fff" opacity="0.5"/>
+              <circle cx="170" cy="140" r="5" stroke="#fff" stroke-width="1.5" fill="#11154e" opacity="0.9"/>
+              <circle cx="272" cy="100" r="6" fill="#c8a96e"/>
+              <!-- moving box near start -->
+              <g opacity="0.55" stroke="#fff" stroke-width="1.4" fill="none">
+                <rect x="34" y="140" width="24" height="20" rx="1.5"/>
+                <path d="M34 148 h24 M46 140 v20"/>
+              </g>
+              <!-- house at destination -->
+              <g stroke="#fff" stroke-width="1.8" stroke-linejoin="round" fill="none">
+                <path d="M356 56 L384 78 L378 78 L378 104 L334 104 L334 78 L328 78 Z"/>
+                <rect x="348" y="88" width="16" height="16" rx="1" stroke-width="1.4"/>
+              </g>
+            </svg>
           </div>
           <div class="case-card-body">
-            <div class="preview-tag">App Concept / Figma</div>
+            <div class="preview-tag">0 → 1 Product</div>
             <h3>Transplant: <em>Moving made easy.</em></h3>
-            <p>An AI-powered moving companion that hunts for homes, builds your budget, and sources movers all from a few prompts. 53% of Americans overspend on moves; Transplant is designed to be the agent that fixes that. (IN PROGRESS) Designing end-to-end in Figma, covering the budgeting flow, house-swiping UI, and onboarding experience.</p>
+            <p>Budget tracking and dependency-aware logistics roadmapping for interstate movers, built solo from persona through PRD, RICE prioritization, a live Scrum board, and a working Lovable prototype. Shipping to the App Store by September 15, 2026.</p>
             <div class="case-meta">
-              <span class="meta-pill">UX Design</span>
-              <span class="meta-pill">Product Strategy</span>
-              <span class="meta-pill">AI Agent</span>
+              <span class="meta-pill">0 → 1</span>
+              <span class="meta-pill">PRD</span>
+              <span class="meta-pill">RICE Prioritization</span>
               <span class="meta-pill">Figma</span>
             </div>
-            <a href="https://www.figma.com/design/CBfmNkDGOedB0HRmXuoCHb/transplant-website?node-id=0-1&p=f&t=AejE6ZJOcJL9qT3B-0" target="_blank" class="case-link">View Figma →</a>
+            <a href="transplant-case-study.html" class="case-link">Read the case study →</a>
+          </div>
+        </div>
+
+        <!-- Card 3: Airline Booking -->
+        <div class="case-card">
+          <div class="case-card-img" style="background:linear-gradient(135deg,#11154e,#421464);">
+            <svg width="100%" height="100%" viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice" style="position:absolute; inset:0; z-index:2;" xmlns="http://www.w3.org/2000/svg">
+              <!-- flight arc -->
+              <path d="M40 70 Q160 10 320 54" stroke="#fff" stroke-width="1.3" opacity="0.3" stroke-dasharray="1 6" fill="none"/>
+              <path d="M310 46 L328 52 L316 58 Z M316 58 L320 66" stroke="#fff" stroke-width="1.6" stroke-linejoin="round" opacity="0.75" fill="none"/>
+              <!-- price line graph -->
+              <polyline points="30,150 80,132 130,158 180,120 230,138 268,110" stroke="#fff" stroke-width="1.8" opacity="0.7" fill="none"/>
+              <!-- predicted drop -->
+              <path d="M268 110 Q300 96 340 160" stroke="#c8a96e" stroke-width="1.8" stroke-dasharray="2 5" fill="none"/>
+              <circle cx="268" cy="110" r="5" fill="#c8a96e"/>
+              <path d="M332 148 L340 160 L350 150" stroke="#c8a96e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </svg>
+          </div>
+          <div class="case-card-body">
+            <div class="preview-tag">Product Case</div>
+            <h3>Airline Booking: <em>Predictive pricing for hesitant flyers.</em></h3>
+            <p>A browser extension that uses predictive AI, Reddit sentiment, and YouGov data to tell travelers when a flight's price is likely to move. Covers the problem, the extension-vs-app bet, competitive positioning against Hopper and Google Flights, and the business model's biggest weakness.</p>
+            <div class="case-meta">
+              <span class="meta-pill">Predictive AI</span>
+              <span class="meta-pill">Market Research</span>
+              <span class="meta-pill">Business Model</span>
+            </div>
+            <a href="airline-booking-case.html" class="case-link">Read the case study →</a>
           </div>
         </div>
 
@@ -172,26 +242,12 @@
 
         <div class="case-card">
           <div class="case-card-body" style="padding-top:32px;">
-            <div class="preview-tag">Strategic Memo</div>
-            <h3>The Reconciliation Problem: <em>AI &amp; Sustainability</em></h3>
-            <p>A strategic memo on why AI and sustainability aren't naturally complementary, and what product teams can actually do about it. Argues for compute efficiency as a first-class product constraint, not a PR problem.</p>
-            <div class="case-meta">
-              <span class="meta-pill">Strategy</span>
-              <span class="meta-pill">AI Infrastructure</span>
-              <span class="meta-pill">Climate Tech</span>
-            </div>
-            <a href="sustainability-memo.html" class="case-link">Read memo →</a>
-          </div>
-        </div>
-
-        <div class="case-card">
-          <div class="case-card-body" style="padding-top:32px;">
             <div class="preview-tag">Product Teardown</div>
             <h3>Product Teardown — <em>Phia</em></h3>
-            <p>Deep-dive on the AI shopping app that made sustainability invisible and why that's both genius and a liability. Covers what they nailed, what's missing, and what to ship next. Phia hit 1M users in 10 months and raised a $35M Series A.</p>
+            <p>Deep-dive on an AI shopping agent evolving from "best price" into a full platform. Covers what they nailed, a scorecard across six dimensions, the affiliate-trust bottleneck they're navigating, and what to ship next.</p>
             <div class="case-meta">
               <span class="meta-pill">Competitive Analysis</span>
-              <span class="meta-pill">UX Critique</span>
+              <span class="meta-pill">Trust &amp; Incentives</span>
               <span class="meta-pill">Retention Strategy</span>
             </div>
             <a href="phia-teardown.html" class="case-link">Read teardown →</a>
@@ -212,12 +268,12 @@
 
       <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:48px;">
         <div>
-          <p style="font-family:var(--font-serif); font-size:3.5rem; color:var(--white);">3</p>
+          <p style="font-family:var(--font-serif); font-size:3.5rem; color:var(--white);">2</p>
           <p style="font-size:0.8rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted);">Products Reviewed</p>
         </div>
         <div>
-          <p style="font-family:var(--font-serif); font-size:3.5rem; color:var(--white);">3</p>
-          <p style="font-size:0.8rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted);">Docs Written</p>
+          <p style="font-family:var(--font-serif); font-size:3.5rem; color:var(--white);">6</p>
+          <p style="font-size:0.8rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted);">Case Studies &amp; Docs</p>
         </div>
         <div>
           <p style="font-family:var(--font-serif); font-size:3.5rem; color:var(--white);">1</p>

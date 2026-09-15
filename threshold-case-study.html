@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Threshold — Noah Proctor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .doc-wrap {
+      max-width: 740px;
+      margin: 0 auto;
+      padding: 120px 24px 100px;
+    }
+    .doc-meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 48px;
+    }
+    .doc-meta span {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: var(--off-white);
+      padding: 4px 10px;
+      border-radius: 2px;
+    }
+    .doc-title {
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 400;
+      line-height: 1.1;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+    .doc-subtitle {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--muted);
+      margin-bottom: 48px;
+    }
+    .doc-divider {
+      border: none;
+      border-top: 1px solid rgba(10,22,40,0.1);
+      margin: 48px 0;
+    }
+    .doc-section-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .doc-h2 {
+      font-family: var(--font-serif);
+      font-size: 1.55rem;
+      font-weight: 400;
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+    .doc-p {
+      font-size: 0.97rem;
+      line-height: 1.8;
+      color: #2a3a55;
+      margin-bottom: 20px;
+    }
+    .doc-callout {
+      background: var(--off-white);
+      border-left: 3px solid var(--accent);
+      padding: 20px 24px;
+      margin: 32px 0;
+      border-radius: 0 4px 4px 0;
+    }
+    .doc-callout p {
+      font-size: 0.93rem;
+      line-height: 1.75;
+      color: var(--navy);
+      margin: 0;
+    }
+    .doc-callout strong { font-weight: 600; }
+    .doc-list {
+      padding-left: 20px;
+      margin-bottom: 24px;
+    }
+    .doc-list li {
+      font-size: 0.97rem;
+      line-height: 1.75;
+      color: #2a3a55;
+      margin-bottom: 8px;
+    }
+    .doc-list li strong { color: var(--navy); }
+    .doc-list.numbered { list-style: decimal; }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 48px;
+      transition: color var(--transition);
+    }
+    .back-link:hover { color: var(--navy); }
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 24px;
+      margin: 32px 0;
+    }
+    .info-cell {
+      border-top: 2px solid var(--navy);
+      padding-top: 12px;
+    }
+    .info-cell-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .info-cell-value {
+      font-size: 0.92rem;
+      color: var(--navy);
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">NP</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="work.html" class="active">Product</a></li>
+      <li><a href="projects.html">Engineering</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+    <div class="nav-socials">
+      <a href="https://www.linkedin.com/in/noah-a-proctor/" aria-label="LinkedIn" target="_blank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+      </a>
+      <a href="https://github.com/noahproc" aria-label="GitHub" target="_blank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+      </a>
+      <a href="https://x.com/noah_proct" aria-label="X / Twitter" target="_blank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+    </div>
+  </nav>
+
+  <!-- gradient accent bar -->
+  <div style="height:5px; background:linear-gradient(90deg,#11154e,#421464,#6e0e20);"></div>
+
+  <div class="doc-wrap">
+
+    <a href="work.html" class="back-link">← Back to Work</a>
+
+    <div class="doc-meta">
+      <span>Claude Skill + Dashboard</span>
+      <span>Series</span>
+      <span>2026</span>
+    </div>
+
+    <h1 class="doc-title">Threshold</h1>
+    <p class="doc-subtitle">A daily briefing tool that turns scattered tools and channels into a prioritized, source-linked digest.</p>
+
+    <div class="info-grid">
+      <div class="info-cell">
+        <p class="info-cell-label">Author</p>
+        <p class="info-cell-value">Noah Proctor</p>
+      </div>
+      <div class="info-cell">
+        <p class="info-cell-label">Built For</p>
+        <p class="info-cell-value">Series (Summer Internship)</p>
+      </div>
+      <div class="info-cell">
+        <p class="info-cell-label">Status</p>
+        <p class="info-cell-value">Validated, personal-scope</p>
+      </div>
+      <div class="info-cell">
+        <p class="info-cell-label">Type</p>
+        <p class="info-cell-value">Claude Skill + Dashboard</p>
+      </div>
+    </div>
+
+    <p class="doc-p">
+      A daily task management tool I made for my summer internship. PMs were overwhelmed by endless channels of communication and information, so I made a tool that weeds out all of the noise to create clear signal.
+    </p>
+    <a href="https://claude.ai/public/artifacts/e24b2de0-de50-4dad-8314-3cea16c71031" target="_blank" class="btn btn-navy" style="display:inline-block; margin-bottom:16px;">Access the Project →</a>
+
+    <hr class="doc-divider">
+
+    <!-- OVERVIEW -->
+    <p class="doc-section-label">Overview</p>
+    <h2 class="doc-h2">Problem, Solution, Role, Status</h2>
+    <p class="doc-p">
+      <strong>Problem:</strong> Employees lose time every day manually reassembling scattered decisions and tasks across Slack, Drive, meeting notes, project trackers, and more. For consulting firms, this is made worse by a firm's internal tool stack differing from each client's own systems.
+    </p>
+    <p class="doc-p">
+      <strong>Solution:</strong> Threshold, a personal daily briefing tool built as a Claude Skill and companion dashboard that synthesizes activity across an individual's connected tools into a prioritized, source-linked digest, plus a Friday client-status recap PMs can send directly to stakeholders.
+    </p>
+    <p class="doc-p">
+      <strong>My role:</strong> Sole builder, end to end, product definition through shipped prototype, internal pitch, and cross-functional technical execution (skill design, dashboard implementation, live integration testing).
+    </p>
+    <p class="doc-p">
+      <strong>Status:</strong> Working, validated tool living in Claude's ecosystem. Personal-scope tool proven end to end against real data; company-wide rollout explicitly scoped as a future decision requiring leadership sign-off, not something to quietly build without it.
+    </p>
+
+    <hr class="doc-divider">
+
+    <!-- 1. PROBLEM FRAMING -->
+    <p class="doc-section-label">1</p>
+    <h2 class="doc-h2">Problem Framing</h2>
+    <p class="doc-p">
+      The starting brief was open-ended: build something AI (skill, artifact, app, etc.), either embedded into delivery work or improving how the internal team operates. Rather than start from a feature idea, I wanted to collect insights from Thresh employees as I learned about what their role looks like on the day-to-day. A clear pattern emerged: too many platforms to juggle between internal and client sources, all with rivaling information.
+    </p>
+    <div class="doc-callout">
+      <p><strong>Problem statement:</strong> Balancing client data with internal information is genuinely hard for consultants, and the cost isn't a lack of information, it's the cost of manually reassembling scattered information into a decision every single day. Product managers feel this most acutely, since they're the ones synthesizing cross-functional and cross-client context into a daily plan.</p>
+    </div>
+    <p class="doc-p">
+      As per some Claude-supported research, the average consulting firm runs close to four tools to manage delivery. Workers lose close to an hour a day just switching between them, plus another half hour deciding which tool to use for a given task. That gave me a real, cited cost to design against.
+    </p>
+
+    <hr class="doc-divider">
+
+    <!-- 2. COMPETITIVE RESEARCH -->
+    <p class="doc-section-label">2</p>
+    <h2 class="doc-h2">Competitive and Market Research</h2>
+    <p class="doc-p">
+      Before writing a line of the synthesis logic, I conducted a few rounds of real competitive research:
+    </p>
+    <ul class="doc-list">
+      <li>Consulting-specific status reporting conventions: what PMs actually need daily (triaged priorities, filtered noise) versus what they send clients weekly (a one-page, RAG-status, bullet-driven update, not an internal breakdown). This directly shaped the decision to build two distinct outputs, a daily digest and a separate weekly client recap, rather than one document trying to serve both audiences.</li>
+      <li>Native competitors: ClickUp Brain, Asana Intelligence, Monday AI. All three have shipped serious workspace-level AI in the same period I was building this. I didn't treat that as a reason to stop, I used it to find the gap: every one of these tools only reasons over its own workspace. None of them synthesize across a firm's internal stack and a client's separate tools in one pass. That gap, not "AI-generated summaries" generically, became the actual differentiator and the answer to the hardest question I anticipated: why not just buy ClickUp Brain?</li>
+    </ul>
+
+    <hr class="doc-divider">
+
+    <!-- 3. SCOPING -->
+    <p class="doc-section-label">3</p>
+    <h2 class="doc-h2">Scoping and Prioritization Decisions</h2>
+    <p class="doc-p">
+      This is the part of the project I'd point to first in an interview, because it involved real, sometimes uncomfortable, tradeoffs.
+    </p>
+    <p style="font-family: var(--font-serif); font-size: 1.1rem; margin-bottom: 8px; color: var(--navy);">Personal tool vs. company-wide tool</p>
+    <p class="doc-p">
+      Early on, it would have been easy to default to building a company-wide dashboard because it sounds more impressive. Instead, I explicitly laid out the tradeoff (data access, governance, confidentiality, realistic build time) and brought it to leadership to collect feedback for next steps. Their insight was clear: build and validate the personal-tool version fully, treating company-wide as a future path requiring its own access and governance decisions. That kept the project honest about what could actually be finished and trusted in the available time.
+    </p>
+    <p style="font-family: var(--font-serif); font-size: 1.1rem; margin-bottom: 8px; color: var(--navy); margin-top: 24px;">Killing scope creep, deliberately</p>
+    <p class="doc-p">
+      At one point, I was simultaneously mid-rebuild on a new backend, mid-switch on a core integration (Linear to Jira), and mid-pivot on the frontend source of truth, three changes in flight with no working baseline. I forced myself to step back and view the project from a higher level. I chose to commit to two of the three in-flight changes, and picked the one surface (the Claude Artifact dashboard) that had ever actually been validated end to end with real data. Shipping something real beat continuing to chase a "better" architecture, especially given the time constraints.
+    </p>
+    <p style="font-family: var(--font-serif); font-size: 1.1rem; margin-bottom: 8px; color: var(--navy); margin-top: 24px;">Cutting for signal, not completeness</p>
+    <p class="doc-p">
+      Every output in the final tool has a cap (max 5 priority items, max 3 dependencies, and so on) with an explicit instruction that the tool ought to return real, important items. This was a direct response to early testing feedback that the tool felt "text heavy" and was creating noise instead of removing it. Of course, this defeats the entire purpose of the product, so I knew I needed to narrow the scope.
+    </p>
+
+    <hr class="doc-divider">
+
+    <!-- 4. EXECUTION -->
+    <p class="doc-section-label">4</p>
+    <h2 class="doc-h2">Execution + Iteration</h2>
+    <p class="doc-p">
+      The build itself went through several real, evidence-driven pivots, not a single linear plan:
+    </p>
+    <ol class="doc-list numbered">
+      <li>Validated the core synthesis logic first against synthetic edge cases designed specifically to break it (fabricated deadlines, invented owners, vague file references). I created a skill in Claude that perfected the architecture and built the dashboard off of it, then tested that skill against my real data to make sure it knew exactly how to handle edge cases and provide insights that were accurate reflections of what needed to be prioritized.</li>
+      <li>Responded to a stakeholder-driven pivot mid-build. My supervisor suggested shifting focus toward an end-of-week recap. I researched what that document actually needs to be (a client-facing status update, not an internal analytical dump) and rebuilt it as a genuinely separate artifact with its own rules, output format, and audience. Luckily, I was able to repackage existing methodology for daily insights into a client-facing end-of-week recap.</li>
+      <li>Iterated the interface based on direct, sometimes blunt, user feedback, moving from a dense list view to collapsible sections to a final tile-based, click-to-expand layout, with each change grounded in an actual usability complaint, not aesthetic preference. Utilized Claude Design to help create an artifact that is accessible and clear.</li>
+    </ol>
+
+    <hr class="doc-divider">
+
+    <!-- 5. CROSS-FUNCTIONAL -->
+    <p class="doc-section-label">5</p>
+    <h2 class="doc-h2">Cross-Functional and Technical Collaboration</h2>
+    <p class="doc-p">
+      Although I built this solo, the project required working across several real technical surfaces the way a PM would coordinate a small team building the same thing: a synthesis skill (the "backend logic"), a live dashboard (the "frontend"), and multiple third-party integrations (Slack, Drive, Jira, Asana, Granola, Calendar, Gmail), each with its own real constraints (rate limits, permission models, data shapes) that had to be discovered empirically, not assumed.
+    </p>
+    <p class="doc-p">
+      I also had to manage a genuine platform limitation directly: native browser features like clipboard access and confirmation dialogs don't work reliably inside a sandboxed environment. Rather than treat that as a blocker, I diagnosed the actual cause and replaced each with an in-app equivalent.
+    </p>
+
+    <hr class="doc-divider">
+
+    <!-- 6. DEFINITION OF DONE -->
+    <p class="doc-section-label">6</p>
+    <h2 class="doc-h2">Definition of Done</h2>
+    <p class="doc-p">Concrete, verifiable outcomes I held the project to, not vague completeness:</p>
+    <ul class="doc-list">
+      <li>Generates a real digest pulling live data from every connected source in one run, with no fabricated owners or due dates.</li>
+      <li>Detects and correctly surfaces at least one real cross-tool dependency without it being manually pointed out.</li>
+      <li>Never writes a change to an external system (Jira, Gmail) without explicit human approval.</li>
+      <li>Correctly excludes content a user has explicitly marked as not their work, verified as a hard filter, not a soft preference.</li>
+    </ul>
+
+    <hr class="doc-divider">
+
+    <!-- 7. OUTCOME -->
+    <p class="doc-section-label">7</p>
+    <h2 class="doc-h2">Outcome</h2>
+    <p class="doc-p">
+      A working, personally-scoped prototype, tested against real Slack, Drive, Jira, Asana, Granola, and Calendar data, with:
+    </p>
+    <ul class="doc-list">
+      <li>A validated synthesis pipeline enforcing strict non-fabrication rules</li>
+      <li>A per-person connector configuration, so the same tool adapts to different individual tool stacks without rebuilding logic</li>
+      <li>A separate, correctly-scoped weekly client status recap with a direct-to-Gmail-draft handoff</li>
+      <li>A defensible, research-backed answer to "why build this instead of buying an existing AI feature"</li>
+    </ul>
+
+    <hr class="doc-divider">
+
+    <!-- 8. REFLECTION -->
+    <p class="doc-section-label">8</p>
+    <h2 class="doc-h2">Reflection</h2>
+    <p class="doc-p">
+      The most valuable moment in this project wasn't a feature spec or getting it to work, it was catching myself mid-scope-creep and being told directly that five half-finished directions is worse than one finished one. I believe that's a decision PMs have to face often! I had to be willing to cut work already done, including work I was personally attached to, in favor of shipping something provably real.
+    </p>
+    <p class="doc-p">
+      The second lesson was distinguishing what was my call to make versus what needed to be escalated as a real decision. Personal vs. company-wide scope and tooling standardization wasn't something to decide without collecting feedback.
+    </p>
+    <p class="doc-p">
+      I'm incredibly grateful that I was able to create this tool for Thresh. I hope you are able to check it out and use it yourself!
+    </p>
+
+    <div style="margin-top:56px; display:flex; gap:16px; flex-wrap:wrap;">
+      <a href="work.html" class="btn btn-navy">Back to Work →</a>
+      <a href="https://claude.ai/public/artifacts/e24b2de0-de50-4dad-8314-3cea16c71031" target="_blank" class="btn" style="border:1px solid rgba(10,22,40,0.2); color:var(--navy);">Access the Project →</a>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>Built by Noah Proctor · <a href="mailto:nap2180@columbia.edu">nap2180@columbia.edu</a></p>
+  </footer>
+
+</body>
+</html>
