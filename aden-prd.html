@@ -201,10 +201,10 @@
     </div>
 
     <h1 class="doc-title">Hive Onboarding 2.0</h1>
-    <p class="doc-subtitle">From goal to first agent shipped in under five minutes.</p>
+    <p class="doc-subtitle">From broad goals to the first agent shipped in five minutes.</p>
 
     <div class="doc-callout">
-      <p>My first PRD! (It certainly shows.) I wrote this in the winter of 2026, and the landscape of agentic AI has changed dramatically since.</p>
+      <p>My first PRD! I wrote this in the winter of 2026, and the landscape of agentic AI has changed dramatically since, but it was a fantastic first exposure to the product space.</p>
     </div>
 
     <div class="info-grid">
@@ -215,10 +215,6 @@
       <div class="info-cell">
         <p class="info-cell-label">Product</p>
         <p class="info-cell-value">Aden Hive (YC W25)</p>
-      </div>
-      <div class="info-cell">
-        <p class="info-cell-label">Status</p>
-        <p class="info-cell-value">Proposed</p>
       </div>
       <div class="info-cell">
         <p class="info-cell-label">Type</p>
@@ -232,14 +228,14 @@
     <p class="doc-section-label">Context</p>
     <h2 class="doc-h2">What Hive Is</h2>
     <p class="doc-p">
-      Aden's Hive is an open-source, YC-backed framework for building autonomous AI agent swarms. Instead of manually coding workflows, developers describe a goal in natural language. Hive generates the entire agent graph, including connection logic, using a "queen" coding agent that oversees specialized worker agents. Self-healing, real-time observability via WebSocket streaming, and model-agnostic LLM support (OpenAI, Anthropic, Gemini) make it genuinely production-grade.
+      Aden's Hive is an open-source, YC-backed framework for building autonomous AI agent "swarms", one example of a bee motif we see throughout the product. Instead of manually coding workflows, developers describe a goal in natural language. Hive generates the entire agent graph, including connection logic, using a "queen" coding agent that oversees specialized worker agents. Self-healing, real-time observability via WebSocket streaming, and model-agnostic LLM support (OpenAI, Anthropic, Gemini) support it's position as an efficient, effective, and customized means of developing an agent.
     </p>
     <p class="doc-p">
-      The technical differentiation is real. Goal-driven generation means no more hardcoded DAGs. The adaptive loop where the queen captures failures and evolves the agent graph automatically is a meaningful step beyond static orchestration frameworks like LangGraph or CrewAI.
+      Technical differentiation is tangible. Goal-driven generation means no more hardcoded DAGs (directed acyclic graph). The adaptive loop, where the queen captures failures and evolves the agent graph automatically, is a step beyond static orchestration frameworks like LangGraph or CrewAI.
     </p>
 
     <div class="doc-callout">
-      <p><strong>The problem:</strong> Hive's strengths are invisible until you've already committed significant setup time. The current onboarding asks developers to understand queen-worker architecture, configure their LLM, and define a goal---all before seeing a single agent run. That's too much friction for a product whose core magic is "just describe what you want."</p>
+      <p><strong>The problem:</strong> Hive's strengths are invisible until you've already committed significant setup time. The current onboarding asks developers to understand queen-worker architecture, configure their LLM, and define a goal---all before seeing a single agent run. This process feels intuitive for developers, but not for a segment of users without technical experience, which generates mountains of friction in their company.</p>
     </div>
 
     <hr class="doc-divider">
@@ -248,10 +244,10 @@
     <p class="doc-section-label">Problem Statement</p>
     <h2 class="doc-h2">The Onboarding Gap</h2>
     <p class="doc-p">
-      New users land in one of two buckets: curious developers who found Hive on GitHub or Twitter, and technical buyers evaluating it for production use. Both share a common failure mode, meaning they churn before reaching the "aha" moment.
+      New users land in one of two buckets: curious developers who found Hive on GitHub or Twitter and technical buyers evaluating it for production use. Both share a common inflection point; they churn before reaching the "aha" moment.
     </p>
     <p class="doc-p">
-      The "aha" moment for Hive is watching your natural-language goal turn into a running multi-agent system in real time. That moment is powerful, but the time-to-value today is too long: users must clone the repo, configure environment variables, understand the architecture, and write their first goal entirely cold, without guidance or templates.
+      The "aha" moment for Hive is watching your natural-language goal turn into a running multi-agent system in real time. Although this moment is super valuable, the time-to-value today is too long: users must clone the repo, configure environment variables, understand the architecture, and write their first goal entirely cold, without guidance or templates.
     </p>
 
     <table class="doc-table">
@@ -265,7 +261,7 @@
       <tbody>
         <tr>
           <td><strong>Curious dev</strong><br><span style="color:var(--muted); font-size:0.82rem;">Found via GitHub/X, exploring</span></td>
-          <td>Immediate proof the magic works. A 90-second "wow" before any commitment.</td>
+          <td>Immediate proof the <i>magic</i> works. A 90-second "wow" before any commitment.</td>
           <td>A README with architecture diagrams, setup instructions, and no live demo.</td>
         </tr>
         <tr>
