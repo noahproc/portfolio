@@ -94,6 +94,7 @@ html{scroll-behavior:smooth}
 .tile:not(.as-pol) > .tile-media:not(.media-ph){position:relative;overflow:visible;margin:10px 6px 4px;padding:7px;background:#fff;box-shadow:0 6px 12px rgba(0,0,0,.24);rotate:var(--pr,-1.2deg)}
 .tile:not(.as-pol) > .tile-media:not(.media-ph)::before{content:'';position:absolute;left:50%;top:-8px;z-index:2;width:18px;height:18px;margin-left:-9px;border-radius:50%;background:radial-gradient(circle at 34% 30%,#fff 0 14%,#9a9a9a 38%,#2a2a2a 100%);box-shadow:0 3px 5px rgba(0,0,0,.45)}
 #t-columbia{--pr:1deg}#t-transplant{--pr:-1.6deg}#t-lake{--pr:1.3deg}#t-emissions{--pr:-1.4deg}#t-water{--pr:-.9deg}
+#t-columbia .tile-media img{object-position:50% 58%}   /* Butler Library sits low in the photo */
 .logo-media img{background:none}
 .media-ph{display:grid;place-items:center;height:90px;border:2px dashed currentColor;opacity:.55;cursor:default;font:600 12px/1 var(--head);letter-spacing:.06em;text-transform:uppercase}
 .logo-media{display:flex;justify-content:center;background:none;cursor:default}
