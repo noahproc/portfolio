@@ -1,0 +1,22 @@
+[
+  {
+    "asset": "emissions-trends.png",
+    "source": "https://github.com/noahproc/scope2-decomposition/blob/main/figures/fig1_overall_trends.png"
+  },
+  {
+    "asset": "lake-stations.png",
+    "source": "https://github.com/noahproc/lakeeriealgaeml/blob/main/assets/lake_erie_stations.png"
+  },
+  {
+    "asset": "water-contaminants.webp",
+    "source": "https://github.com/noahproc/waterqualityassessment.github.io/blob/main/upscaled-image.png"
+  },
+  {
+    "asset": "scope-trends.webp",
+    "source": "https://github.com/noahproc/scope2-decomposition/blob/main/figures/fig2_scope1_vs_scope2.png"
+  },
+  {
+    "asset": "water-bars.webp",
+    "source": "https://github.com/noahproc/waterqualityassessment.github.io/blob/main/upscaled-image%20(1).png"
+  }
+]

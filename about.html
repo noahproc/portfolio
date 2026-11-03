@@ -6,61 +6,36 @@
   <title>About — Portfolio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="portfolio-theme.css">
+<link rel="stylesheet" href="header-effects.css"><link rel="stylesheet" href="photo-tiles.css"><script defer src="photo-tiles.js"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&amp;family=Alfa+Slab+One&amp;family=Archivo+Black&amp;family=Big+Shoulders+Display:wght@700;900&amp;family=Caveat:wght@500;700&amp;family=Crimson+Pro:ital,wght@0,400;0,600;1,400&amp;family=Space+Mono:wght@400;700&amp;family=Special+Elite&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css"><script defer src="stickers.js"></script><script defer src="site.js"></script>
 </head>
-<body>
+<body class="about-photo-page inner ch-life">
 
   <!-- NAV -->
-  <nav class="nav">
-    <a href="index.html" class="nav-logo">NP</a>
-    <ul class="nav-links">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="work.html">Product</a></li>
-      <li><a href="projects.html">Engineering</a></li>
-      <li><a href="about.html" class="active">About</a></li>
-    </ul>
-    <div class="nav-socials">
-      <a href="https://www.linkedin.com/in/noah-a-proctor/" aria-label="LinkedIn" target="_blank">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-      </a>
-      <a href="https://github.com/noahproc" aria-label="GitHub" target="_blank">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-      </a>
-      <a href="https://x.com/noah_proct" aria-label="X / Twitter" target="_blank">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-      </a>
-      <a href="#" aria-label="Email" target="_blank">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.54C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="white"/></svg>
-      </a>
-    </div>
-  </nav>
+  <header class="site-header" id="nav"><a class="wordmark" href="index.html" aria-label="Noah Proctor home">Noah Proctor</a><nav class="site-nav" aria-label="Main navigation"><a href="index.html">Home</a><a href="work.html">Product</a><a href="projects.html">Data science</a><a href="about.html" aria-current="page">About</a><a href="Proctor_Noah_Product_JaneStreet.pdf" target="_blank" rel="noopener">Résumé</a><a class="nav-cta" href="mailto:nap2180@columbia.edu">Contact</a></nav></header>
 
   <!-- PAGE HEADER -->
   <header class="page-header">
-    <h1>About</h1>
+    <h1 data-typewriter data-cut-out>Hey, I’m Noah.</h1><p class="about-photo-hint" hidden>a few things that don’t fit on a résumé</p>
   </header>
 
   <!-- ABOUT BODY -->
-  <section style="padding: 80px 24px;">
-    <div style="max-width:900px; margin:0 auto; display:grid; grid-template-columns:1fr 340px; gap:80px; align-items:start;">
+  <section class="about-layout" style="padding: 50px 24px;">
+    <div style="max-width:1100px; margin:0 auto; display:grid; grid-template-columns:minmax(0,1fr) 340px; gap:70px; align-items:start;">
 
       <!-- Left: text -->
       <div>
         <p class="about-lead">
-          Hey! I'm Noah, a junior at Columbia University  with a background in data science and engineering. Currently a founding product manager at <i>lumelle</i>, a jewelry rental app, and building <i>Transplant</i>, a moving agent, on the side.
+          I study Operations Research at Columbia and largely build consumer products. Currently a founding product manager at <i>lumelle</i>, a jewelry rental app, and building <i>Transplant</i>, a moving agent.
         </p>
 
         <div class="about-body">
-          <p>
-            Why product management? I'm a planner and a doer. Product management requires intense, meticulous preparation and organization, whether running user research, fleshing out a roadmap, or writing a PRD. Most of all, I love to ship.
-          </p>
-          <p>
-            One of my high school teachers described me as a Renaissance Man, an apt characterization. From literature and art to technology and mathematics, I always find myself succumbing to endless Google rabbit holes and hours worth of laptop time. I love to flex different intellectual muscles, and I see product management operating at the intersection of strategy, technology, and creativity.
-          </p>
-          <p>
-            I'm currently a junior at Columbia University studying Operations Research with minors in Computer Science and Economics. I'm most interested in working with consumer-centered products with a focus on AI, though I'm always open to any opportunity.
-          </p>
+          <p>I like turning messy problems into useful products: talking to users, working through the data, and making the decisions that get an idea shipped. I’m especially interested in consumer products and AI.</p>
+          <p>Outside work, you’ll find me chasing roller coasters, walking around New York, finding a good dinner, catching a show, or taking reality TV a little too seriously.</p>
         </div>
 
         <!-- Timeline -->
@@ -119,8 +94,8 @@
 
         <!-- CTA -->
         <div style="margin-top:56px; display:flex; gap:16px; flex-wrap:wrap;">
-          <a href="mailto:nap2180@columbia.edu" class="btn btn-navy">Get in touch →</a>
-          <a href="Proctor_Noah_Product_General.pdf" class="btn" style="border:1px solid rgba(10,22,40,0.2); color:var(--navy);" target="_blank">Download Resume</a>
+          <a href="mailto:nap2180@columbia.edu" class="btn btn-navy">Get in touch </a>
+          <a href="Proctor_Noah_Product_JaneStreet.pdf" class="btn" style="border:1px solid rgba(10,22,40,0.2); color:var(--navy);" target="_blank">Download Resume</a>
         </div>
       </div>
 
@@ -143,6 +118,7 @@
         ">
           <img src="updated_headshot.jpg" alt="Headshot" style="width:100%;height:100%;object-fit:cover;border-radius:6px;">
         </div>
+
 
         <!-- Skills -->
         <div class="skills-grid" style="grid-template-columns:1fr 1fr 1fr;">
@@ -205,118 +181,16 @@
     </div>
   </section>
 
-  <!-- PHOTOS SECTION -->
-  <section style="padding: 80px 24px; background: radial-gradient(ellipse 70% 80% at 10% 35%, rgba(17,21,78,0.9) 0%, transparent 65%), radial-gradient(ellipse 60% 70% at 80% 20%, rgba(66,20,100,0.85) 0%, transparent 60%), radial-gradient(ellipse 55% 65% at 48% 88%, rgba(110,14,32,0.8) 0%, transparent 60%), radial-gradient(ellipse 45% 50% at 88% 72%, rgba(42,10,80,0.65) 0%, transparent 55%), #07091e;">
-    <div style="max-width: 1100px; margin: 0 auto;">
-      <p class="section-label" style="color: rgba(255,255,255,0.5); margin-bottom: 8px;">Life Outside Work</p>
-      <h2 class="section-title" style="color: var(--white); margin-bottom: 24px;">What do I do in my free time?</h2>
-      <p style="color: rgba(255,255,255,0.65); font-size: 0.97rem; line-height: 1.8; max-width: 680px; margin-bottom: 48px;">
-        I am a serial side-quester; you'll find me in any random park across NYC during the weekends (typically with a latte in hand). I love anything dystopian fiction/sci-fi, roller coasters, reality television, nature, and acting. I'm trying to get into more hobbies as of late, so I'm always super eager to learn more about what makes your gears turn.
-      </p>
-
-      <div style="
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        grid-template-rows: auto auto;
-        gap: 12px;
-      ">
-        <!-- Large feature photo (spans 2 rows on left) -->
-        <div style="
-          grid-row: 1 / 3;
-          background: var(--gradient);
-          border-radius: 6px;
-          overflow: hidden;
-          aspect-ratio: 3/4;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: rgba(255,255,255,0.25);
-          font-family: var(--font-serif);
-          font-style: italic;
-          font-size: 0.9rem;
-        ">
-          <img src="76DEE6B2-9328-4AD4-9BFB-050F4DC168AB_1_105_c.jpeg" alt="Photo 1" style="width:100%;height:100%;object-fit:cover;">
-        </div>
-
-        <!-- Top-right photo -->
-        <div style="
-          background: linear-gradient(135deg, #1c3260, #7b2fa0);
-          border-radius: 6px;
-          overflow: hidden;
-          aspect-ratio: 4/3;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: rgba(255,255,255,0.25);
-          font-family: var(--font-serif);
-          font-style: italic;
-          font-size: 0.9rem;
-        ">
-          <img src="IMG_7116.jpg" alt="Photo 2" style="width:100%;height:100%;object-fit:cover;">
-        </div>
-
-        <!-- Middle-right photo -->
-        <div style="
-          background: linear-gradient(135deg, #7b2fa0, #c41030);
-          border-radius: 6px;
-          overflow: hidden;
-          aspect-ratio: 4/3;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: rgba(255,255,255,0.25);
-          font-family: var(--font-serif);
-          font-style: italic;
-          font-size: 0.9rem;
-        ">
-          <img src="IMG_7244.jpg" alt="Photo 3" style="width:100%;height:100%;object-fit:cover;">
-        </div>
-
-        <!-- Bottom-center photo -->
-        <div style="
-          background: linear-gradient(135deg, #122040, #1a1d8f);
-          border-radius: 6px;
-          overflow: hidden;
-          aspect-ratio: 4/3;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: rgba(255,255,255,0.25);
-          font-family: var(--font-serif);
-          font-style: italic;
-          font-size: 0.9rem;
-        ">
-          <img src="IMG_7493.jpg" alt="Photo 4" style="width:100%;height:100%;object-fit:cover;">
-        </div>
-
-        <!-- Bottom-right photo -->
-        <div style="
-          background: linear-gradient(135deg, #c41030, #7b2fa0);
-          border-radius: 6px;
-          overflow: hidden;
-          aspect-ratio: 4/3;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: rgba(255,255,255,0.25);
-          font-family: var(--font-serif);
-          font-style: italic;
-          font-size: 0.9rem;
-        ">
-          <img src="8768D1F1-A583-442D-9345-713E35E1A062.jpeg" alt="Photo 5" style="width:100%;height:100%;object-fit:cover;">
-        </div>
-      </div>
-
-      <p style="margin-top: 24px; font-size: 0.8rem; color: rgba(255,255,255,0.3); font-style: italic; text-align: center;">
-        Hiking, tennis, roller coasters, and the occasional reality TV marathon.
-      </p>
-    </div>
+  <section class="sidequest-section" aria-labelledby="sidequest-title">
+    <div class="sidequest-intro"><p class="section-label">Life outside the tabs</p><h2 id="sidequest-title">A serial side-quester.</h2><p>long walks, good food, a seat at the theater, and the occasional scenic detour. everything here is pinned up as I go. hover for color, tap for a closer look, and move things around as you like</p></div>
+    <div class="corkboard"><div class="pinboard"><button type="button" class="pinned" style="--r:-3deg" data-photo-src="pictures/portfolio/hello.webp" data-photo-caption="otw to class" data-photo-alt="An outdoor candid portrait with a peace sign" aria-label="Open photo: An outdoor candid portrait with a peace sign"><span class="pin" aria-hidden="true"></span><img src="pictures/portfolio/hello.webp" alt="An outdoor candid portrait with a peace sign" decoding="async"><span class="pol-cap">otw to class</span></button><button type="button" class="pinned" style="--r:2deg" data-photo-src="pictures/portfolio/coaster.webp" data-photo-caption="The view from the top." data-photo-alt="Roller coaster tracks at sunset" aria-label="Open photo: Roller coaster tracks at sunset"><span class="pin" aria-hidden="true"></span><img src="pictures/portfolio/coaster.webp" alt="Roller coaster tracks at sunset" decoding="async"><span class="pol-cap">famous coney island cyclone</span></button><button type="button" class="pinned" style="--r:-2deg" data-photo-src="pictures/portfolio/science-review.webp" data-photo-caption="Science outside the lab." data-photo-alt="A Columbia Science Review table on campus" aria-label="Open photo: A Columbia Science Review table on campus"><span class="pin" aria-hidden="true"></span><img src="pictures/portfolio/science-review.webp" alt="A Columbia Science Review table on campus" decoding="async"><span class="pol-cap">csr @ club fair</span></button><button type="button" class="pinned" style="--r:3deg" data-photo-src="pictures/portfolio/tennis.webp" data-photo-caption="One more set." data-photo-alt="A tennis match viewed from the stands" aria-label="Open photo: A tennis match viewed from the stands"><span class="pin" aria-hidden="true"></span><img src="pictures/portfolio/tennis.webp" alt="A tennis match viewed from the stands" decoding="async"><span class="pol-cap">ben shelton!</span></button><button type="button" class="pinned" style="--r:-1.5deg" data-photo-src="pictures/portfolio/group-photo.webp" data-photo-caption="Good company." data-photo-alt="Noah with a group of classmates in a lecture hall" aria-label="Open photo: Noah with a group of classmates in a lecture hall"><span class="pin" aria-hidden="true"></span><img src="pictures/portfolio/group-photo.webp" alt="Noah with a group of classmates in a lecture hall" decoding="async"><span class="pol-cap">da family</span></button><button type="button" class="pinned" style="--r:2.5deg" data-photo-src="pictures/portfolio/theater.webp" data-photo-caption="A seat at the theater." data-photo-alt="The inside of a theater auditorium" aria-label="Open photo: The inside of a theater auditorium"><span class="pin" aria-hidden="true"></span><img src="pictures/portfolio/theater.webp" alt="The inside of a theater auditorium" decoding="async"><span class="pol-cap">met opera</span></button><button type="button" class="pinned" style="--r:-2.5deg" data-photo-src="pictures/portfolio/dinner-candid.webp" data-photo-caption="Dinner plans, kept." data-photo-alt="A playful portrait in a red-lit restaurant" aria-label="Open photo: A playful portrait in a red-lit restaurant"><span class="pin" aria-hidden="true"></span><img src="pictures/portfolio/dinner-candid.webp" alt="A playful portrait in a red-lit restaurant" decoding="async"><span class="pol-cap">bday antics</span></button><button type="button" class="pinned" style="--r:1.5deg" data-photo-src="pictures/portfolio/campus-blue.webp" data-photo-caption="Campus, after hours." data-photo-alt="Columbia campus illuminated at blue hour" aria-label="Open photo: Columbia campus illuminated at blue hour"><span class="pin" aria-hidden="true"></span><img src="pictures/portfolio/campus-blue.webp" alt="Columbia campus illuminated at blue hour" decoding="async"><span class="pol-cap">lincoln center</span></button><button type="button" class="pinned" style="--r:-3.5deg" data-photo-src="pictures/portfolio/park-walk.webp" data-photo-caption="Taking the long way home." data-photo-alt="A tree-lined walking path in spring" aria-label="Open photo: A tree-lined walking path in spring"><span class="pin" aria-hidden="true"></span><img src="pictures/portfolio/park-walk.webp" alt="A tree-lined walking path in spring" decoding="async"><span class="pol-cap">riverside park</span></button><button type="button" class="pinned" style="--r:2deg" data-photo-src="pictures/portfolio/speech.webp" data-photo-caption="A different kind of storytelling." data-photo-alt="A display about original oratory" aria-label="Open photo: A display about original oratory"><span class="pin" aria-hidden="true"></span><img src="pictures/portfolio/speech.webp" alt="A display about original oratory" decoding="async"><span class="pol-cap">my RA board!</span></button><button type="button" class="pinned" style="--r:-1deg" data-photo-src="pictures/portfolio/ice-cream.webp" data-photo-caption="An excellent side quest." data-photo-alt="A cup of bright blue ice cream" aria-label="Open photo: A cup of bright blue ice cream"><span class="pin" aria-hidden="true"></span><img src="pictures/portfolio/ice-cream.webp" alt="A cup of bright blue ice cream" decoding="async"><span class="pol-cap">chem lab substance</span></button><button type="button" class="pinned" style="--r:3deg" data-photo-src="pictures/portfolio/travel.webp" data-photo-caption="The scenic route." data-photo-alt="Historic buildings along a city street" aria-label="Open photo: Historic buildings along a city street"><span class="pin" aria-hidden="true"></span><img src="pictures/portfolio/travel.webp" alt="Historic buildings along a city street" decoding="async"><span class="pol-cap">lovely uws</span></button><button type="button" class="pinned" style="--r:2.5deg" data-photo-src="pictures/portfolio/campus-sunset.webp" data-photo-caption="Golden hour on campus." data-photo-alt="Columbia campus at sunset" aria-label="Open photo: Columbia campus at sunset"><span class="pin" aria-hidden="true"></span><img src="pictures/portfolio/campus-sunset.webp" alt="Columbia campus at sunset" decoding="async"><span class="pol-cap">golden hour on campus</span></button><button type="button" class="pinned" style="--r:-2deg" data-photo-src="pictures/portfolio/dinner-friends.webp" data-photo-caption="A table outside." data-photo-alt="Noah and a friend at dinner" aria-label="Open photo: Noah and a friend at dinner"><span class="pin" aria-hidden="true"></span><img src="pictures/portfolio/dinner-friends.webp" alt="Noah and a friend at dinner" decoding="async"><span class="pol-cap">brunchhh</span></button><button type="button" class="pinned" style="--r:3deg" data-photo-src="pictures/portfolio/car-selfie.webp" data-photo-caption="Road trip energy." data-photo-alt="Noah and a friend in a car" aria-label="Open photo: Noah and a friend in a car"><span class="pin" aria-hidden="true"></span><img src="pictures/portfolio/car-selfie.webp" alt="Noah and a friend in a car" decoding="async"><span class="pol-cap">home hangouts</span></button><button type="button" class="pinned" style="--r:-3deg" data-photo-src="pictures/portfolio/mirror.webp" data-photo-caption="Caught in the mirror." data-photo-alt="Noah photographing himself in a sticker-covered mirror" aria-label="Open photo: Noah photographing himself in a sticker-covered mirror"><span class="pin" aria-hidden="true"></span><img src="pictures/portfolio/mirror.webp" alt="Noah photographing himself in a sticker-covered mirror" decoding="async"><span class="pol-cap">maximalist mirror</span></button><button type="button" class="pinned" style="--r:1.5deg" data-photo-src="pictures/portfolio/city-skyline.webp" data-photo-caption="The scenic route." data-photo-alt="The New York City skyline" aria-label="Open photo: The New York City skyline"><span class="pin" aria-hidden="true"></span><img src="pictures/portfolio/city-skyline.webp" alt="The New York City skyline" decoding="async"><span class="pol-cap">view from the un</span></button><button type="button" class="pinned" style="--r:-1.5deg" data-photo-src="pictures/portfolio/museum.webp" data-photo-caption="A quiet gallery." data-photo-alt="An empty museum gallery" aria-label="Open photo: An empty museum gallery"><span class="pin" aria-hidden="true"></span><img src="pictures/portfolio/museum.webp" alt="An empty museum gallery" decoding="async"><span class="pol-cap">my fav art gallery</span></button></div></div>
   </section>
 
-  <!-- FOOTER -->
-  <footer class="footer">
-    <p>Built by Noah Proctor · <a href="mailto:nap2180@columbia.edu">nap2180@columbia.edu</a></p>
-  </footer>
+  <footer class="foot-thin" id="exit">
+ <span class="ft-name">Noah Proctor</span>
+ <nav class="ft-links" aria-label="Contact"><a href="mailto:nap2180@columbia.edu">nap2180@columbia.edu</a><a href="https://www.linkedin.com/in/noah-a-proctor/" target="_blank" rel="noopener">LinkedIn</a><a href="https://github.com/noahproc" target="_blank" rel="noopener">GitHub</a><a href="Proctor_Noah_Product_JaneStreet.pdf" target="_blank" rel="noopener">Résumé</a></nav>
+ <span class="ft-built">Built with curiosity in New York</span>
+</footer>
 
   <script src="main.js"></script>
 </body>

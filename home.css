@@ -1,0 +1,295 @@
+/* Home: the ride. Read CLAUDE.md before changing layout or motion.
+   Phones: one dense column with the track on a narrow left rail.
+   From 768px wide (and 560px tall) the ride is a sticky stage: scrolling down
+   moves it sideways, with the track in a lane across the middle and a bento
+   grid above and below. Nothing but the track and cart may enter the lane. */
+:root{--lane:44px;--gut:14px;--row:minmax(108px,auto);--hdr:0px}
+@media (min-width:821px){:root{--hdr:70px}}
+html{scroll-behavior:smooth}
+.ride,.band{scroll-margin-top:118px}
+
+/* --- hero: one big headshot, a ticket, four stickers, the facts underneath --- */
+.hero{position:relative;padding:var(--s7) var(--s6) var(--s7)}
+.hero-in{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s7) var(--s8);max-width:1280px;margin:0 auto}
+.hero-copy{flex:1 1 540px;min-width:0}
+.hero h1.cut-hero{margin:0;font-size:clamp(54px,8.2vw,124px);line-height:1.08}
+.hero h1.cut-hero .rl{text-transform:uppercase}
+.hero-lede{margin-top:var(--s6);font-size:21px;line-height:1.6;max-width:54ch}
+.hero-sub{margin-top:var(--s4);max-width:48ch;color:#3d3d3d}
+.hero-actions{display:flex;flex-wrap:wrap;gap:var(--s4);margin-top:var(--s6)}
+.hero-board{position:relative;flex:0 1 500px;width:100%;max-width:500px;margin:0 auto;padding:var(--s6) 0 0}
+.board-main{position:relative;width:84%;margin:0 auto;rotate:-2.5deg}
+.board-main .stk{height:auto}
+.pol-main{padding:16px 16px 60px}
+.pol-main .pol-cap{font-size:24px;bottom:18px}
+.board-main .admit{position:absolute;right:-64px;bottom:-104px;z-index:5;width:296px;rotate:-4deg}
+.hero-board .hero-specs{margin:150px 0 0;max-width:none}
+/* the hero fills the first screen, so the ride starts below it */
+@media (min-width:1024px) and (min-height:560px){.hero{min-height:calc(100svh - var(--hdr));display:flex;flex-direction:column;justify-content:center}}
+@media (max-width:820px){
+ .hero{padding:var(--s6) var(--s4) var(--s7)}
+ .hero-in{gap:var(--s6)}
+ .hero-lede{margin-top:var(--s5)}
+ .hero h1.cut-hero{font-size:clamp(40px,12.5vw,60px)}
+ .hero-board{max-width:100%;padding:var(--s6) 34px 0}
+ .board-main{width:100%}
+ .board-main .stk.corner{--w:60px!important}
+ .board-main .corner.edge.tl{left:-32px;top:-58px}
+ .board-main .corner.edge.tr{right:-44px;top:-52px}
+ .board-main .corner.edge.bl{left:-46px;bottom:auto;top:62%}
+ .board-main .corner.edge.mr{display:none}
+ .board-main .admit{position:relative;right:auto;bottom:auto;display:flex;width:100%;max-width:280px;margin:var(--s5) auto 0;rotate:-2deg}
+ .admit-title{font-size:21px}
+ .hero-board .hero-specs{margin-top:var(--s6)}
+}
+
+/* --- sticky stops ------------------------------------------------------ */
+.stops{position:sticky;top:0;z-index:50;background:rgba(236,236,236,.94);backdrop-filter:blur(6px);border-top:3px solid #000;border-bottom:1px solid #c9c9c9}
+.stops-in{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;padding:6px var(--s3);max-width:1240px;margin:0 auto}
+.stops-in::-webkit-scrollbar{display:none}
+.stops a{flex:none;display:inline-flex;align-items:center;min-height:36px;padding:0 12px;font:12.5px var(--data);color:#000;text-decoration:none;white-space:nowrap}
+.stops a:hover{background:var(--emerald);color:#fff}
+.stops a[aria-current=true]{background:#000;color:#fff}
+.stops-bar{display:block;height:3px;background:transparent}
+.stops-bar span{display:block;height:100%;width:100%;background:var(--emerald);transform-origin:0 50%;transform:scaleX(0)}
+
+
+/* --- the ride: lane + bento ------------------------------------------- */
+.ride{position:relative}
+.ride-strip{position:relative;max-width:1320px;margin:0 auto;padding:var(--s4) var(--s3) var(--s5)}
+.lane-svg{position:absolute;left:0;top:0;z-index:1;overflow:visible;pointer-events:none}
+.rail{fill:none;stroke:#000;stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
+.rail-stop{fill:var(--emerald);stroke:#000;stroke-width:2}
+.cart{position:absolute;left:0;top:0;z-index:3;width:0;height:0;pointer-events:none}
+.car{position:absolute;left:0;top:0;width:56px;height:56px;margin:-50px 0 0 -28px;transform-origin:28px 50px;will-change:transform}
+.car svg{display:block;width:56px;height:56px;overflow:visible}
+.band{position:relative;z-index:2;display:grid;grid-template-columns:var(--lane) minmax(0,1fr);column-gap:var(--gut);row-gap:var(--s3);padding:var(--s4) 0}
+.lane-slot{grid-column:1;grid-row:1/span 5;min-height:1px}
+.band-head,.bento,.build-l,.build-r{grid-column:2}
+.band-head{margin:0}
+.band-kicker{margin:0 0 2px;font:500 21px/1.2 var(--hand)}
+.band-title{margin:0;font:400 30px/1.05 var(--sign)}
+.band-head-r{max-width:52ch;font-size:16px;line-height:1.45;color:#222}
+.bento{display:grid;grid-template-columns:minmax(0,1fr);grid-auto-rows:var(--row);grid-auto-flow:dense;gap:16px;align-content:start}
+
+/* --- tiles ------------------------------------------------------------- */
+.tile{position:relative;display:flex;flex-direction:column;gap:8px;min-width:0;margin:0;padding:14px 16px;background:#fff url(pictures/collage/paper.webp) 0 0/520px auto;color:#000;box-shadow:4px 5px 0 rgba(0,0,0,.14)}
+.tile.dark{background:#111 url(pictures/collage/paper-k.webp) 0 0/520px auto;color:#fff}
+.tile-title{margin:0;font:900 23px/1.05 var(--head);letter-spacing:.01em}
+.tile-line{margin:0;max-width:none;font-size:15px;line-height:1.42}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin:0;padding:0;list-style:none}
+.chips li{padding:3px 8px 2px;background:#111;color:#fff;font:10.5px/1.3 var(--data);letter-spacing:.06em;text-transform:uppercase}
+.tile.dark .chips li{background:#fff;color:#000}
+.tile-actions{display:flex;flex-wrap:wrap;align-items:center;gap:4px 14px;margin-top:auto}
+.tile-link,.tile-more{display:inline-flex;align-items:center;min-height:32px;padding:0;border:0;background:none;color:inherit;font:12.5px var(--data);text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:2px;cursor:pointer}
+.tile-link:hover,.tile-more:hover{background:var(--emerald);color:#fff;text-decoration:none}
+.tile-media{display:block;padding:0;border:0;background:#fff;cursor:zoom-in;overflow:hidden}
+.tile-media img{display:block;width:100%;height:150px;object-fit:cover;object-position:top}
+.tile-logo{display:block;height:34px;width:auto;max-width:150px;object-fit:contain;filter:grayscale(1) contrast(1.1);transition:filter .3s}
+.tile-logo.sq{height:40px;width:40px;object-fit:cover}
+.tile-logo.wide{height:26px}
+.tile:hover .tile-logo{filter:none}
+.side-media .tile-media img{height:90px;object-fit:contain;background:#fff}
+/* experience images are prints pinned onto the paper slip (same pushpin as the inner pages' pinboard) */
+.tile:not(.as-pol) > .tile-media:not(.media-ph){position:relative;overflow:visible;margin:10px 6px 4px;padding:7px;background:#fff;box-shadow:0 6px 12px rgba(0,0,0,.24);rotate:var(--pr,-1.2deg)}
+.tile:not(.as-pol) > .tile-media:not(.media-ph)::before{content:'';position:absolute;left:50%;top:-8px;z-index:2;width:18px;height:18px;margin-left:-9px;border-radius:50%;background:radial-gradient(circle at 34% 30%,#fff 0 14%,#9a9a9a 38%,#2a2a2a 100%);box-shadow:0 3px 5px rgba(0,0,0,.45)}
+#t-columbia{--pr:1deg}#t-transplant{--pr:-1.6deg}#t-lake{--pr:1.3deg}#t-emissions{--pr:-1.4deg}#t-water{--pr:-.9deg}
+.logo-media img{background:none}
+.media-ph{display:grid;place-items:center;height:90px;border:2px dashed currentColor;opacity:.55;cursor:default;font:600 12px/1 var(--head);letter-spacing:.06em;text-transform:uppercase}
+.logo-media{display:flex;justify-content:center;background:none;cursor:default}
+.logo-media img{width:auto;height:150px;aspect-ratio:1;object-fit:contain;border-radius:18%}
+.photo-strip{padding:10px}
+.strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;height:100%}
+.mini-pol{position:relative;display:flex;flex-direction:column;padding:5px 5px 0;border:0;background:#fff;box-shadow:0 4px 8px rgba(0,0,0,.18);cursor:zoom-in;min-width:0}
+.mini-pol img{display:block;width:100%;aspect-ratio:1;object-fit:cover}
+.mini-pol span{display:block;padding:3px 0 4px;font:500 13px/1 var(--hand);text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* corner accent: a small sticker inside the tile's own padding, never over text */
+.has-accent{padding-right:72px}
+.tile-accent{position:absolute;top:10px;right:10px;width:48px;opacity:.85;rotate:var(--r,8deg);pointer-events:none}
+.band-art{display:none}
+
+/* the station: a flat stretch of track, the line, and a seat to take */
+.station-l{grid-column:2}
+.station-title{margin:0;font:400 clamp(28px,3.4vw,48px)/1.1 var(--sign)}
+.station-sub{margin:var(--s2) 0 var(--s4);font:13px var(--data);color:#444}
+.add-yourself{background:var(--emerald);border-color:#000;color:#fff}
+/* only on the wide ride */
+.doodles,.act-label{display:none}
+.end-panel{display:none}
+/* the end is black, like the old footer, and the track turns white across it */
+.rail-k{stroke:#fff}
+.band-build{z-index:0;background:var(--ink);color:var(--paper);padding:var(--s6) var(--s3) var(--s6) 0}
+.band-build .rl[data-t=k]{background:#fff;color:#000}
+.band-build .build-lede{color:#dcdcdc}
+.end-photo,.end-links{grid-column:2}
+.end-photo{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:var(--s4)}
+.end-photo canvas{display:block;width:120px;height:auto;box-shadow:0 4px 10px rgba(0,0,0,.2)}
+.end-photo-text{display:grid;gap:6px;justify-items:start}
+.lb-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:var(--s4)}
+.lb-link{display:inline-flex;align-items:center;gap:8px;min-height:46px;padding:0 16px;border:2px solid #fff;background:transparent;color:#fff;font:900 19px var(--head);text-decoration:none;transition:background .15s,color .15s,border-color .15s}
+.lb-link svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.lb-link:hover,.lb-link:focus-visible{background:var(--emerald);border-color:var(--emerald);color:#fff}
+
+/* let’s build */
+.band-build{padding:var(--s5) 0}
+.build-title{margin:0;font-size:clamp(36px,6vw,64px);line-height:1.12}
+.build-lede{margin:0;max-width:46ch;font-size:17px}
+.build-links{display:flex;flex-wrap:wrap;gap:var(--s2);margin-top:var(--s3)}
+
+/* reveal starting state only exists once the script says motion is on */
+.motion .tile{opacity:0;transform:translateY(16px)}
+
+/* --- tablet: two columns beside a left rail ---------------------------- */
+@media (min-width:640px){
+ .bento{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .t-2x2,.t-2x1{grid-column:span 2}
+ .t-2x2{grid-row:span 2}
+ .t-1x2{grid-row:span 2}
+}
+
+@media (prefers-reduced-motion:reduce){.motion .tile{opacity:1;transform:none}}
+
+/* --- details modal ------------------------------------------------------ */
+.tile-modal{width:min(560px,calc(100vw - 24px));padding:var(--s5) var(--s5) var(--s4);border:3px solid #000;background:#fff url(pictures/collage/paper.webp) 0 0/560px auto;box-shadow:10px 12px 0 rgba(0,0,0,.3)}
+.tile-modal::backdrop{background:rgba(0,0,0,.6)}
+.tile-modal .tile-title{font-size:30px;margin-bottom:var(--s3)}
+.tile-modal-body p{margin:0 0 var(--s3);font-size:17px;line-height:1.55}
+.tile-modal-close{position:absolute;right:8px;top:6px;width:44px;height:44px;border:0;background:none;font-size:28px;cursor:pointer}
+
+@keyframes flash{0%{opacity:0}8%{opacity:.9}100%{opacity:0}}
+.admit:hover,.admit:focus-visible{transform:rotate(2deg) scale(1.04)}
+.admit-l{display:grid;gap:3px;flex:1;padding:var(--s3) var(--s3) var(--s3) var(--s4);text-align:left}
+.admit-kick{font:11px var(--data);color:var(--grey)}
+.admit-title{font:400 25px/1 var(--sign)}
+.admit-sub{font:13px/1.3 var(--data)}
+.admit-r{display:grid;place-content:center;gap:4px;padding:var(--s3) var(--s4) var(--s3) var(--s3);border-left:2px dashed var(--ink);text-align:center}
+.admit-seat{font:900 30px/1 var(--head)}
+.admit-no{font:10px var(--data);color:var(--grey)}
+.flash{position:absolute;inset:0;z-index:45;background:#fff;opacity:0;pointer-events:none}
+.flash.go{animation:flash .9s ease-out}
+.flash::after{content:'';position:absolute;right:7%;top:12%;width:230px;height:76px;background:url(pictures/stickers/sign-photo.webp) center/contain no-repeat;rotate:-7deg}
+.booth{width:min(540px,calc(100vw - 24px));max-height:calc(100svh - 24px);padding:var(--s6) var(--s5) var(--s5);border:3px solid var(--ink);background:var(--lines),var(--paper);color:var(--ink);box-shadow:10px 12px 0 rgba(0,0,0,.3);overflow:auto;text-align:center}
+.booth::backdrop{background:rgba(0,0,0,.72)}
+.booth h2{margin:0 0 var(--s3);font-size:38px}
+.booth-lede{max-width:42ch;margin:0 auto var(--s5);font-size:17px}
+.booth-close{position:absolute;right:10px;top:8px;width:44px;height:44px;border:0;background:none;font-size:30px;cursor:pointer}
+.booth-frame{position:relative;width:216px;height:216px;margin:0 auto;border:4px solid var(--ink);border-radius:50%;overflow:hidden;background:#141414 radial-gradient(rgba(255,255,255,.14) 20%,transparent 24%) 0 0/9px 9px;box-shadow:0 0 0 8px var(--paper),0 0 0 11px var(--ink)}
+.booth-frame video,.booth-frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.booth-frame video{transform:scaleX(-1);filter:grayscale(1) contrast(1.2);opacity:0}
+.booth-frame.live video{opacity:1}
+.booth-empty{position:absolute;inset:0;display:grid;place-items:center;color:var(--paper);font:500 21px var(--hand)}
+.booth-count{position:absolute;inset:0;display:grid;place-items:center;color:var(--paper);font:900 104px var(--head)}
+.booth-status{min-height:1.5em;margin:var(--s4) 0 0;font:13px var(--data)}
+.booth-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:var(--s3);margin-top:var(--s3)}
+.booth-actions[hidden]{display:none}
+.standin-label{margin-top:var(--s6);color:var(--grey)}
+.standins{display:flex;flex-wrap:wrap;justify-content:center;gap:var(--s2);margin-top:var(--s3)}
+.standins button{width:60px;height:60px;padding:6px;border:2px solid transparent;background:none;cursor:pointer;transition:transform .2s var(--spring)}
+.standins button:hover,.standins button:focus-visible{transform:rotate(-7deg) scale(1.1);border-color:var(--ink)}
+.standins img{width:100%;height:100%;object-fit:contain}
+.booth .privacy{margin:var(--s4) auto 0;font-size:11.5px}
+.admit{display:flex;align-items:stretch;padding:0;border:0;background:var(--paper);color:var(--ink);cursor:pointer;box-shadow:5px 7px 0 rgba(0,0,0,.18);-webkit-mask:radial-gradient(circle 9px at 0 50%,transparent 98%,#000) left/51% 100% no-repeat,radial-gradient(circle 9px at 100% 50%,transparent 98%,#000) right/51% 100% no-repeat;mask:radial-gradient(circle 9px at 0 50%,transparent 98%,#000) left/51% 100% no-repeat,radial-gradient(circle 9px at 100% 50%,transparent 98%,#000) right/51% 100% no-repeat;transition:transform .25s}
+.flash{position:fixed;inset:0;z-index:80}
+
+/* square logos sit in the tile's top-right corner, beside the title */
+.tile:has(> .tile-logo.sq){padding-right:66px}
+.tile > .tile-logo.sq{position:absolute;top:14px;right:14px;height:38px;width:38px}
+
+/* step 4: two decorations, both from Noah's own sticker sheets (CLAUDE.md budget) */
+.tile-accent{top:auto;bottom:12px;right:14px;width:44px;opacity:.8;--r:6deg}
+}
+
+/* reserve the cut-out headline's final height (two lines of letters) so it
+   doesn't push the page down when the script builds it: no layout shift */
+.hero h1.cut-hero{min-height:2.3em;overflow-wrap:normal}
+.hero h1.cut-hero:not(.ransom-type){visibility:hidden}
+
+/* --- desktop: the sideways ride (1024px and up) -------------------------
+   Laid out from Noah's wireframe (Figma, 2026-11-02): the strip is --W
+   screens wide and every piece sits at a fixed spot given in screen widths
+   (--x, --w) and strip heights (--y, --h). The script sets --vw and --sh.
+   The track is drawn through the gaps the layout leaves, so nothing may move
+   without re-running the collision test. */
+@media (min-width:1024px) and (min-height:560px){
+ .ride{height:var(--ride-h,auto)}
+ .stage{position:sticky;top:var(--hdr);display:flex;flex-direction:column;height:calc(100svh - var(--hdr));overflow:clip}
+ .stops{position:relative;top:auto;flex:none}
+ .stops-in{padding:3px var(--s3)}
+ .stops a{min-height:30px}
+ .ride-strip{flex:1;display:block;width:calc(var(--W) * var(--vw,100vw));min-height:0;max-width:none;margin:0;padding:0;will-change:transform}
+ .band,.bento,.photo-strip,.photo-strip .strip,.doodles{display:contents}
+ .lane-slot,.h-hide,.tile-accent,.band-art{display:none}
+ [data-at]{position:absolute;left:calc(var(--x) * var(--vw));top:calc(var(--y) * var(--sh));width:calc(var(--w) * var(--vw));height:calc(var(--h) * var(--sh));margin:0;rotate:var(--r,0deg)}
+ .motion [data-at]{opacity:0;transform:translateY(16px)}
+
+ .station-l{text-align:center}
+ .station-l .station-sub{margin-left:auto;margin-right:auto}
+ .band-head-r{font-size:15px;line-height:1.45}
+ /* section titles and subtitles, sized with the screen (40px and 25px at 1440) */
+ .band-head-row .band-title,.in-loop .band-title{font-size:calc(var(--vw) * .0278)}
+ .band-head-r.band-head-row{font-size:calc(var(--vw) * .0174);line-height:1.3}
+ .band-head-r.in-loop{font-size:calc(var(--vw) * .0158);line-height:1.3}
+ .act-label{display:block;font:400 24px/1 var(--sign);text-align:center}
+
+ /* tiles: fixed boxes, so keep them compact */
+ .tile{overflow:hidden;container-type:size;flex-flow:row wrap;align-content:flex-start;gap:4px 10px;padding:10px 12px}
+ .tile > *{flex:0 0 100%}
+ .tile > .chips,.tile > .tile-actions{flex:0 1 auto}
+ .tile-actions{margin-top:0;gap:0 10px}
+ .tile-title{font-size:19px}
+ .tile-line{font-size:13.5px;line-height:1.35}
+ .chips li{font-size:10px}
+ .tile-link,.tile-more{min-height:22px}
+ .media-tile{flex-flow:column nowrap}
+ .media-tile > *{flex:0 0 auto}
+ .tile > .tile-media{flex:1 1 0;min-height:0}
+ .tile-media img{height:100%}
+ .side-media{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto auto auto;row-gap:4px}
+ .side-media .tile-media{min-height:0;overflow:hidden}
+ .side-media .tile-media img{object-fit:contain}
+ .side-media > .tile-media:not(.media-ph){display:flex;flex-direction:column}
+ .side-media > .tile-media > img{flex:1 1 0;min-height:0;height:auto;width:100%}
+ /* logos tuck into the corner; the smallest cards drop their chips */
+ .tile > .tile-logo:not(.sq){position:absolute;top:10px;right:12px;height:22px;width:auto;max-width:38%}
+ .tile:has(> .tile-logo:not(.sq)) > .tile-title{padding-right:40%}
+ @container (max-height:150px){.chips{display:none}}
+ /* product cards: bigger type so they read full, stepping down on short screens */
+ #b-product .tile{padding:14px 16px;gap:6px 10px}
+ #b-product .tile-title{font-size:calc(var(--vw) * .0185)}
+ #b-product .tile-line{font-size:calc(var(--vw) * .0118);line-height:1.35}
+ #b-product .chips li{font-size:11.5px}
+ @container (max-height:170px){#b-product .tile-line{font-size:calc(var(--vw) * .0104)}}
+ .media-ph{height:auto}
+ .logo-media{display:flex;align-items:center;justify-content:center;background:none;cursor:default}
+ .logo-media img{width:auto;height:100%;max-height:100%;aspect-ratio:1;object-fit:contain;border-radius:18%}
+ .act{padding:8px 12px;gap:2px}
+ .act .tile-title{font-size:16px}
+ .act .tile-line{font-size:clamp(10.5px,calc(var(--vw) * .0087),12.5px);line-height:1.3}
+ .act .chips{display:none}
+
+ /* polaroids */
+ .mini-pol,.as-pol{display:flex;flex-direction:column;padding:8px 8px 0;background:#fff;box-shadow:0 6px 14px rgba(0,0,0,.18);gap:0}
+ .mini-pol img{flex:1;min-height:0;height:0;aspect-ratio:auto}
+ .mini-pol span{padding:6px 0 8px;font-size:15px}
+ .as-pol > *{flex:0 0 auto}
+ .as-pol > .tile-media{flex:1 1 0;width:100%;min-height:0}
+ .as-pol .tile-title{padding:6px 0 8px;font:500 17px/1 var(--hand);text-align:center}
+ .as-pol .tile-line{display:none}
+
+ /* centred on its spot by left/top, not translate: the reveal tween owns the transform */
+ .doodle{--su:min(var(--vw), var(--sh) * 1.83);   /* sized as at 1440×900, never taller on wide screens */
+  left:calc(var(--x) * var(--vw) - var(--w) * var(--su) / 2);top:calc(var(--y) * var(--sh) - var(--w) * var(--su) / 2);width:calc(var(--w) * var(--su));height:calc(var(--w) * var(--su));object-fit:contain;opacity:.9;pointer-events:none;filter:drop-shadow(2px 3px 0 rgba(0,0,0,.15))}
+ .rail{stroke-width:10}
+ .band-build{background:none;margin:0;padding:0}
+ .end-panel{display:block;z-index:0;background:var(--ink)}
+ .motion .end-panel{opacity:1;transform:none}
+ .build-title{font-size:clamp(46px,5vw,88px);line-height:1.1;text-align:center}
+ .end-photo{grid-template-columns:auto minmax(0,1fr);grid-template-rows:minmax(0,1fr);padding:12px 18px 12px 12px;gap:18px;overflow:hidden}
+ .end-photo canvas{width:auto;height:100%;max-height:100%}
+ .end-photo > *{flex:none}
+ .end-photo .tile-title{font-size:24px}
+ .end-photo .tile-line{font-size:14px}
+ .build-lede{margin:0;font-size:16px;max-width:52ch}
+ .lb-links{margin-top:var(--s3)}
+}

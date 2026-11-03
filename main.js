@@ -93,49 +93,11 @@
 })();
 
 
-/* ============================================================
-   FADE-UP — hide elements initially, reveal after slot finishes
-   ============================================================ */
-(function () {
-  document.querySelectorAll('.fade-up').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(16px)';
-    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-  });
-})();
-
-
-/* ============================================================
-   INTERSECTION OBSERVER — fade-up on scroll for cards
-   ============================================================ */
-(function () {
-  const cards = document.querySelectorAll(
-    '.case-card, .repo-card, .figma-card, .research-item, .preview-card'
-  );
-
-  if (!('IntersectionObserver' in window)) {
-    cards.forEach(c => { c.style.opacity = 1; });
-    return;
-  }
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.1 });
-
-  cards.forEach(card => {
-    card.style.opacity = '0';
-    card.style.transform = 'translateY(20px)';
-    card.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
-    observer.observe(card);
-  });
-})();
-
+/* Content stays visible immediately, including when motion is reduced. */
+document.querySelectorAll('.fade-up, .case-card, .repo-card, .figma-card, .research-item, .preview-card').forEach(node => {
+  node.style.opacity = '1';
+  node.style.transform = 'none';
+});
 
 /* ============================================================
    ACTIVE NAV LINK

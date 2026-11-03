@@ -6,7 +6,6 @@
   <title>Hive Onboarding PRD — Noah Proctor</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <style>
     .doc-wrap {
@@ -162,37 +161,22 @@
       font-weight: 500;
     }
   </style>
+  <link rel="stylesheet" href="portfolio-theme.css">
+<link rel="stylesheet" href="header-effects.css"><link rel="stylesheet" href="photo-tiles.css"><script defer src="photo-tiles.js"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&amp;family=Alfa+Slab+One&amp;family=Archivo+Black&amp;family=Big+Shoulders+Display:wght@700;900&amp;family=Caveat:wght@500;700&amp;family=Crimson+Pro:ital,wght@0,400;0,600;1,400&amp;family=Space+Mono:wght@400;700&amp;family=Special+Elite&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css"><script defer src="stickers.js"></script><script defer src="site.js"></script>
 </head>
-<body>
+<body class="inner ch-product">
 
   <!-- NAV -->
-  <nav class="nav">
-    <a href="index.html" class="nav-logo">NP</a>
-    <ul class="nav-links">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="work.html" class="active">Product</a></li>
-      <li><a href="projects.html">Engineering</a></li>
-      <li><a href="about.html">About</a></li>
-    </ul>
-    <div class="nav-socials">
-      <a href="https://www.linkedin.com/in/noah-a-proctor/" aria-label="LinkedIn" target="_blank">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-      </a>
-      <a href="https://github.com/noahproc" aria-label="GitHub" target="_blank">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-      </a>
-      <a href="https://x.com/noah_proct" aria-label="X / Twitter" target="_blank">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-      </a>
-    </div>
-  </nav>
-
-  <!-- gradient accent bar -->
-  <div style="height:5px; background:linear-gradient(90deg,#11154e,#421464,#6e0e20);"></div>
+  <header class="site-header" id="nav"><a class="wordmark" href="index.html" aria-label="Noah Proctor home">Noah Proctor</a><nav class="site-nav" aria-label="Main navigation"><a href="index.html">Home</a><a href="work.html" aria-current="page">Product</a><a href="projects.html">Data science</a><a href="about.html">About</a><a href="Proctor_Noah_Product_JaneStreet.pdf" target="_blank" rel="noopener">Résumé</a><a class="nav-cta" href="mailto:nap2180@columbia.edu">Contact</a></nav></header>
 
   <div class="doc-wrap">
 
     <a href="work.html" class="back-link">← Back to Work</a>
+
+    <img class="doc-logo" src="case-assets/logos/aden.webp" alt="Aden logo" width="280" height="280">
 
     <div class="doc-meta">
       <span>PRD</span>
@@ -340,7 +324,7 @@
     <ul class="doc-list">
       <li><strong>Interaction:</strong> Text field pre-filled with a sample goal ("Research competitors of [company] and summarize their pricing"). User edits or submits. Live WebSocket stream shows agents spawning, communicating, and completing.</li>
       <li><strong>Output panel:</strong> Final result + collapsible view of the agent graph that was generated.</li>
-      <li><strong>CTA on completion:</strong> "Run this on your own data → Clone Hive" with one-click copy of the exact goal they just ran.</li>
+      <li><strong>CTA on completion:</strong> "Run this on your own data  Clone Hive" with one-click copy of the exact goal they just ran.</li>
     </ul>
 
     <!-- Feature 2 -->
@@ -499,9 +483,12 @@
   </div>
 
   <!-- FOOTER -->
-  <footer class="footer">
-    <p>Built by Noah Proctor · <a href="mailto:nap2180@columbia.edu">nap2180@columbia.edu</a></p>
-  </footer>
+  
+<footer class="foot-thin" id="exit">
+ <span class="ft-name">Noah Proctor</span>
+ <nav class="ft-links" aria-label="Contact"><a href="mailto:nap2180@columbia.edu">nap2180@columbia.edu</a><a href="https://www.linkedin.com/in/noah-a-proctor/" target="_blank" rel="noopener">LinkedIn</a><a href="https://github.com/noahproc" target="_blank" rel="noopener">GitHub</a><a href="Proctor_Noah_Product_JaneStreet.pdf" target="_blank" rel="noopener">Résumé</a></nav>
+ <span class="ft-built">Built with curiosity in New York</span>
+</footer>
 
 </body>
 </html>

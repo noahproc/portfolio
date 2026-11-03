@@ -1,0 +1,5 @@
+.DS_Store
+# raw photo originals (the site uses the web copies in pictures/portfolio)
+photos/
+# old local test screenshots
+artifacts/
