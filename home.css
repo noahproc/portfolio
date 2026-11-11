@@ -93,7 +93,7 @@ html{scroll-behavior:smooth}
 /* experience images are prints pinned onto the paper slip (same pushpin as the inner pages' pinboard) */
 .tile:not(.as-pol) > .tile-media:not(.media-ph){position:relative;overflow:visible;margin:10px 6px 4px;padding:7px;background:#fff;box-shadow:0 6px 12px rgba(0,0,0,.24);rotate:var(--pr,-1.2deg)}
 .tile:not(.as-pol) > .tile-media:not(.media-ph)::before{content:'';position:absolute;left:50%;top:-8px;z-index:2;width:18px;height:18px;margin-left:-9px;border-radius:50%;background:radial-gradient(circle at 34% 30%,#fff 0 14%,#9a9a9a 38%,#2a2a2a 100%);box-shadow:0 3px 5px rgba(0,0,0,.45)}
-#t-columbia{--pr:1deg}#t-transplant{--pr:-1.6deg}#t-lake{--pr:1.3deg}#t-emissions{--pr:-1.4deg}#t-water{--pr:-.9deg}
+#t-columbia{--pr:1deg}#t-transplant{--pr:-1.6deg}#t-lake{--pr:1.3deg}#t-emissions{--pr:-1.4deg}#t-water{--pr:-.9deg}#t-gmv{--pr:1deg}
 #t-columbia .tile-media img{object-position:50% 58%}   /* Butler Library sits low in the photo */
 .logo-media img{background:none}
 .media-ph{display:grid;place-items:center;height:90px;border:2px dashed currentColor;opacity:.55;cursor:default;font:600 12px/1 var(--head);letter-spacing:.06em;text-transform:uppercase}
@@ -197,6 +197,16 @@ html{scroll-behavior:smooth}
 .tile:has(> .tile-logo.sq){padding-right:66px}
 .tile > .tile-logo.sq{position:absolute;top:14px;right:14px;height:38px;width:38px}
 
+/* logos as stickers: a white die-cut rim, a soft shadow and a tilt; they peel
+   up a little when you point at the card (rotate/scale only) */
+.tile > .logo-stk{rotate:var(--lr,-6deg);transition:filter .3s,rotate .3s var(--spring),scale .3s var(--spring)}
+.tile:is(:hover,:focus-within) > .logo-stk{rotate:calc(var(--lr,-6deg) * -.5);scale:1.08}
+.logo-stk.stk-round,.logo-stk.stk-square{box-sizing:border-box;background:#fff;object-fit:cover;box-shadow:0 0 0 1px rgba(0,0,0,.08),3px 4px 0 rgba(0,0,0,.16)}
+.logo-stk.stk-round{--lr:7deg;border-radius:50%;padding:2px;aspect-ratio:1}
+.logo-stk.stk-square{--lr:-7deg;border:3px solid #fff;border-radius:22%}
+.logo-stk.stk-cut{--lr:-4deg;--rim:drop-shadow(1.5px 0 0 #fff) drop-shadow(-1.5px 0 0 #fff) drop-shadow(0 1.5px 0 #fff) drop-shadow(0 -1.5px 0 #fff) drop-shadow(0 0 .5px rgba(0,0,0,.35)) drop-shadow(2px 3px 0 rgba(0,0,0,.15));filter:grayscale(1) brightness(.5) contrast(1.2) var(--rim)}
+.tile:hover > .logo-stk.stk-cut{filter:var(--rim)}
+
 /* step 4: two decorations, both from Noah's own sticker sheets (CLAUDE.md budget) */
 .tile-accent{top:auto;bottom:12px;right:14px;width:44px;opacity:.8;--r:6deg}
 }
@@ -261,6 +271,24 @@ html{scroll-behavior:smooth}
  #b-product .tile-line{font-size:calc(var(--vw) * .0118);line-height:1.35}
  #b-product .chips li{font-size:11.5px}
  @container (max-height:170px){#b-product .tile-line{font-size:calc(var(--vw) * .0104)}}
+ /* product logos: bigger, scaled with the screen. A square logo sits beside
+    the title only (the title row is as tall as the logo), so the line below
+    keeps the card's full width; word marks stay in the corner, a step larger */
+ #b-product .tile:has(> .tile-logo.sq){padding-right:16px}
+ #b-product .tile > .tile-logo.sq{--lg:calc(var(--vw) * .04);top:14px;right:16px;width:var(--lg);height:var(--lg);border-radius:12%}
+ #b-product .tile:has(> .tile-logo.sq) > .tile-title{min-height:calc(var(--vw) * .04 - 4px);padding-right:calc(var(--vw) * .04 + 10px)}
+ #b-product .tile > .tile-logo:not(.sq){top:14px;right:16px;height:calc(var(--vw) * .021)}
+ #b-product .tile > .tile-logo.wide{height:calc(var(--vw) * .021);right:18px}
+ #b-product .tile > .tile-logo.stk-round{--lg:calc(var(--vw) * .03);top:10px;width:var(--lg);height:var(--lg)}
+ /* Phia, the biggest product card: a large app-icon sticker on the right,
+    the title, line, chip and link stacked beside it, centred top to bottom */
+ #t-phia{--ps:min(calc(var(--vw) * .092), 56cqh);display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:repeat(4,auto);align-content:center;gap:6px 18px;padding-right:18px}
+ #t-phia > .tile-title{grid-area:1 / 1}
+ #t-phia > .tile-line{grid-area:2 / 1;margin-bottom:6px}
+ #t-phia > .chips{grid-area:3 / 1}
+ #t-phia > .tile-actions{grid-area:4 / 1}
+ #b-product #t-phia > .tile-logo.sq{position:static;grid-area:1 / 2 / 5 / 3;align-self:center;width:var(--ps);height:var(--ps);margin:0 2px 0 0;border-width:calc(var(--ps) * .05);--lr:6deg;box-shadow:0 0 0 1px rgba(0,0,0,.08),4px 6px 0 rgba(0,0,0,.16)}
+ #b-product #t-phia > .tile-title{padding-right:0;min-height:0}
  .media-ph{height:auto}
  .logo-media{display:flex;align-items:center;justify-content:center;background:none;cursor:default}
  .logo-media img{width:auto;height:100%;max-height:100%;aspect-ratio:1;object-fit:contain;border-radius:18%}
