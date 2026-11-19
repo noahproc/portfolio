@@ -5,16 +5,18 @@ Static site (HTML/CSS/vanilla JS) on GitHub Pages (noahproctor.co), served local
 ## Homepage (index.html): portfolio design rules
 - Homepage is a single self-contained HTML file. No frameworks, no build step.
 - Fonts: Fraunces + DM Sans only. Accent: #0f9d6b only. Otherwise black and white.
-- No numbering, no section headers, no ruled lists. Keep it hand-made, not templated.
+- No numbering, no section headers, no ruled lists. Keep it hand-made, not templated. The one exception, at Noah's request (2026-11-19): the tiles split into two groups, "product" and "code & data", each with a small serif label (`.group`), not a big section header.
 - Stickers are draggable, grayscale until hover. Clicking the background leaves a paint splat (not on links/buttons/stickers/tiles).
 - Respect prefers-reduced-motion. Intro plays once per session.
 - Don't edit Proctor_Noah_Resume.pdf. Don't push or deploy without asking.
 - Stickers come from Noah's sheet in `pictures/stickers/` (keep the die-cut outline); the green paint splat is the only drawn sticker. When swapping one, match the old sticker's footprint so it doesn't land on text.
 - Work tiles are previews that link to the existing pages (case studies, PRD, teardown, repos, live sites); they don't replace them.
+- Product tiles show the real logo files from `case-assets/logos/` in their corner badge (Threshold and Airline have no logo, so they keep a drawn badge). Code & data tiles (`.tile.code`) carry a print of that project's own chart from `case-assets/research/` instead of a badge.
+- Each grid ends with a `.filler`: a link to the full page (work.html / projects.html) plus a few stickers, placed by `--fx/--fy` inside the filler. It fills the grid's spare cell at every width, so stickers there never drift onto tiles. Free stickers in the work section are hidden below 1100px, where there's no margin for them.
 - The redesign source from Claude Design is kept locally at `redesign/index.html` (untracked).
 
 ## Inner pages
-work.html, projects.html, about.html and the case-study pages keep their own look (styles.css, site.css, site.js) and a copy-pasted nav whose Home link points at index.html.
+work.html, projects.html, about.html and the case-study pages keep their structure and their scripts (site.js sticker packer, photo-tiles.js lightbox), but wear the home's theme. `theme.css` is loaded last on each page and maps the old CSS (styles.css, portfolio-theme.css, site.css) onto the home's tokens: white page, Fraunces titles, DM Sans text, green #0f9d6b as the only accent, pinned grey tiles, pill chips and buttons, and stickers that are grey until hover. Change the look there, not in site.css. Headlines are plain text (no `data-cut-out`). The nav is copy-pasted per page; theme.css styles it like the home's.
 
 ## Legacy roller-coaster home (coaster.html)
 The previous homepage, kept at the root so its scripts' asset paths still work. Everything below applies to coaster.html only. Its collision test (`tests/collisions.cjs`) targets coaster.html.
