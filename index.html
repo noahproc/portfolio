@@ -175,6 +175,34 @@
   .tile:hover .badge { transform: rotate(0deg) scale(1.08); }
   .badge.dark { background: var(--ink); }
   .badge svg { display: block; width: 100%; height: 100%; }
+  .badge.logo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .badge.logo.wide { width: 96px; height: 44px; border-radius: 12px; padding: 6px 10px; }
+  .badge.logo.wide img { object-fit: contain; }
+
+  /* two groups of tiles: product work, then code & data */
+  .group { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px; margin: 0 0 30px; font-weight: 400; scroll-margin-top: 96px; }
+  .group span { font-family: var(--serif); font-variation-settings: "SOFT" 100, "WONK" 0; font-weight: 600; font-size: clamp(30px, 3.4vw, 46px); line-height: 1; letter-spacing: -.03em;
+    background: linear-gradient(transparent 62%, rgba(15,157,107,.28) 62% 92%, transparent 92%); padding: 0 .08em; }
+  .group em { font-family: var(--serif); font-style: italic; font-size: clamp(17px, 1.5vw, 20px); color: var(--mute); }
+  .tiles + .group { margin-top: clamp(64px, 8vw, 110px); }
+
+  /* code tiles carry a print of the real chart instead of a badge */
+  .shot { margin: 2px 0 6px; padding: 7px; background: #fff; border-radius: 4px; transform: rotate(-1.2deg); box-shadow: 0 1px 0 rgba(0,0,0,.06), 0 10px 16px -10px rgba(0,0,0,.4); transition: transform .3s cubic-bezier(.3,1.5,.5,1); }
+  .tile:nth-child(even) .shot { transform: rotate(1deg); }
+  .tile:hover .shot { transform: rotate(0deg); }
+  .shot img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 7; object-fit: cover; object-position: center top; filter: grayscale(1); transition: filter .35s; }
+  .tile:hover .shot img, .tile:focus-visible .shot img { filter: none; }
+  .tile.code h3 { padding-right: 0; }
+  .tile.code p::before { display: none; }
+
+  /* the empty end of each grid: a link to the full page, and a few stickers */
+  .filler { position: relative; grid-column: span 2; min-height: 212px; display: flex; align-items: flex-start; justify-content: flex-end; padding: 20px 8px 0; }
+  .tiles.code-grid .filler { grid-column: span 1; }
+  .filler .sticker { left: var(--fx); top: var(--fy); width: calc(var(--w) * 1px * var(--m)); }
+  .more { font-family: var(--serif); font-variation-settings: "SOFT" 100, "WONK" 0; font-style: italic; font-weight: 500; font-size: clamp(22px, 2vw, 28px); text-decoration: none; letter-spacing: -.01em; }
+  .more span { background: linear-gradient(var(--green), var(--green)) 0 100% / 100% 2px no-repeat; transition: background-size .25s; }
+  .more i { font-style: normal; display: inline-block; transition: transform .2s; }
+  .more:hover { color: var(--green); } .more:hover i { transform: translateX(5px); }
 
   /* ---------- ABOUT ---------- */
   .about { position: relative; padding: clamp(100px, 12vw, 170px) 0 0; }
@@ -216,7 +244,8 @@
   #splat { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 900; }
 
   /* ---------- RESPONSIVE ---------- */
-  @media (max-width: 1060px) { .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 1060px) { .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } .filler { grid-column: span 1; } .filler .wide-only { display: none; } }
+  @media (max-width: 1100px) { .work .free { display: none; } }
   @media (max-width: 960px) {
     .hero .grid { grid-template-columns: 1fr; }
     .collage { --k: .86; margin: 24px auto 0; left: calc(30px * var(--k)); }
@@ -230,7 +259,7 @@
     .cards { grid-template-columns: 1fr; }
     .nav .wrap { padding-top: 6px; padding-bottom: 8px; }
   }
-  @media (max-width: 600px) { .tiles { grid-template-columns: 1fr; } .tile { min-height: 0; } }
+  @media (max-width: 600px) { .tiles { grid-template-columns: 1fr; } .tile { min-height: 0; } .filler { min-height: 0; padding: 0; justify-content: flex-start; } .filler .sticker { display: none; } }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
@@ -320,10 +349,11 @@
 <!-- WORK -->
 <section class="work" id="work">
   <div class="wrap">
+    <h2 class="group" id="pm"><span>product</span> <em>case studies, specs and teardowns from my pm work</em></h2>
     <div class="tiles">
 
       <a class="tile taped" id="product" href="transplant-case-study.html" style="scroll-margin-top:96px">
-        <div class="badge"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M12 32L32 14l20 18" fill="none" stroke="#111" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 30v22h28V30" fill="none" stroke="#111" stroke-width="3.5" stroke-linejoin="round"/><rect x="28" y="38" width="8" height="14" fill="#0f9d6b"/><path d="M46 20h8v8" fill="none" stroke="#0f9d6b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="badge logo"><img src="case-assets/logos/transplant.webp" alt="" width="300" height="300" loading="lazy" decoding="async"></div>
         <h3>Transplant</h3>
         <p>Moving made easy. Budget tracking and a dependency-aware roadmap for people moving states, built solo from persona to prototype.</p>
         <div class="chips"><span class="chip">PRD</span><span class="chip">RICE</span><span class="chip">Figma</span><span class="chip">Lovable</span></div>
@@ -331,7 +361,7 @@
       </a>
 
       <a class="tile" href="series-case-study.html">
-        <div class="badge dark"><svg viewBox="0 0 64 64" aria-hidden="true"><text x="32" y="44" text-anchor="middle" font-family="Fraunces, serif" font-weight="700" font-size="38" fill="#fff">S.</text></svg></div>
+        <div class="badge logo"><img src="case-assets/logos/series.webp" alt="" width="447" height="447" loading="lazy" decoding="async"></div>
         <h3>Series</h3>
         <p>An iMessage-native AI networking platform. 30+ user interviews and a 20% drop in churn; $3.1M raised in 14 days.</p>
         <div class="chips"><span class="chip">User research</span><span class="chip">Feature specs</span></div>
@@ -347,7 +377,7 @@
       </a>
 
       <a class="tile" href="#" data-todo="Lumelle url or details">
-        <div class="badge"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M14 26l8-12h20l8 12-18 26z" fill="none" stroke="#111" stroke-width="3.5" stroke-linejoin="round"/><path d="M14 26h36M22 14l10 38 10-38" fill="none" stroke="#111" stroke-width="3" stroke-linejoin="round"/><path d="M22 14h20l-10 12z" fill="#0f9d6b"/></svg></div>
+        <div class="badge logo wide"><img src="case-assets/logos/lumelle.webp" alt="" width="900" height="308" loading="lazy" decoding="async"></div>
         <h3>Lumelle</h3>
         <p>Leading the MVP for a jewelry rental and lease-to-own app, with the roadmap set by user and business impact.</p>
         <div class="chips"><span class="chip">Founding PM</span><span class="chip">Roadmap</span></div>
@@ -355,7 +385,7 @@
       </a>
 
       <a class="tile" href="aden-prd.html">
-        <div class="badge"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 8l20 11.500v23L32 54 12 42.500v-23z" fill="none" stroke="#111" stroke-width="3.5" stroke-linejoin="round"/><path d="M32 22l9 5.200v10.400L32 43l-9-5.400V27.200z" fill="#0f9d6b"/></svg></div>
+        <div class="badge logo"><img src="case-assets/logos/aden.webp" alt="" width="280" height="280" loading="lazy" decoding="async"></div>
         <h3>Hive Onboarding 2.0</h3>
         <p>A PRD to cut Aden Hive&rsquo;s time to first agent from 30+ minutes to under five.</p>
         <div class="chips"><span class="chip">PRD</span><span class="chip">Metrics</span></div>
@@ -363,7 +393,7 @@
       </a>
 
       <a class="tile taped" href="phia-teardown.html">
-        <div class="badge dark"><svg viewBox="0 0 64 64" aria-hidden="true"><text x="32" y="38" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-weight="600" font-size="22" fill="#fff">phia</text></svg></div>
+        <div class="badge logo"><img src="case-assets/logos/phia.webp" alt="" width="447" height="447" loading="lazy" decoding="async"></div>
         <h3>Phia teardown</h3>
         <p>Where an AI shopping agent nailed it, where trust gets tricky, and what to ship next.</p>
         <div class="chips"><span class="chip">Teardown</span><span class="chip">Strategy</span></div>
@@ -378,57 +408,67 @@
         <div class="foot"><span class="go"><span>Case study</span> <i>&rarr;</i></span></div>
       </a>
 
-      <a class="tile" id="data-science" href="https://github.com/noahproc/lakeeriealgaeml" target="_blank" rel="noopener" style="scroll-margin-top:96px">
-        <div class="badge"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M8 24q6-6 12 0t12 0 12 0 12 0M8 36q6-6 12 0t12 0 12 0 12 0M8 48q6-6 12 0t12 0 12 0 12 0" fill="none" stroke="#111" stroke-width="3.5" stroke-linecap="round"/><circle cx="40" cy="18" r="5" fill="#0f9d6b"/></svg></div>
+            <div class="filler">
+        <a class="more" href="work.html"><span>all the product work</span> <i>&rarr;</i></a>
+        <div class="sticker" style="--fx:8%; --fy:52%; --w:96; --r:5deg; --i:2" role="img" aria-label="subway sticker"><img src="pictures/stickers/uptown.webp" alt="" width="392" height="392" decoding="async" loading="lazy"></div>
+        <div class="sticker" style="--fx:44%; --fy:56%; --w:108; --r:9deg; --i:3" role="img" aria-label="theater marquee sticker"><img src="pictures/stickers/marquee.webp" alt="" width="392" height="282" decoding="async" loading="lazy"></div>
+        <div class="sticker wide-only" style="--fx:68%; --fy:40%; --w:150; --r:-4deg; --i:4" role="img" aria-label="roller coaster sticker"><img src="pictures/stickers/coaster-car.webp" alt="" width="392" height="254" decoding="async" loading="lazy"></div>
+      </div>
+    </div>
+
+    <h2 class="group" id="code"><span>code &amp; data</span> <em>things i&rsquo;ve built in python, java and notebooks</em></h2>
+    <div class="tiles code-grid">
+      <a class="tile code" id="data-science" href="https://github.com/noahproc/lakeeriealgaeml" target="_blank" rel="noopener" style="scroll-margin-top:96px">
+        <figure class="shot"><img src="case-assets/research/lake-stations.png" alt="Map of the eight NOAA stations on Lake Erie" width="794" height="405" loading="lazy" decoding="async"></figure>
         <h3>Lake Erie Algal Blooms</h3>
         <p>An ML pipeline that predicts bloom severity across 8 NOAA stations, with SHAP to explain it.</p>
         <div class="chips"><span class="chip">XGBoost</span><span class="chip">scikit-learn</span><span class="chip">pandas</span></div>
         <div class="foot"><span class="go"><span>GitHub</span> <i>&nearr;</i></span></div>
       </a>
 
-      <a class="tile" href="https://noahproc.github.io/waterqualityassessment.github.io" target="_blank" rel="noopener">
-        <div class="badge"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 8C32 8 14 28 14 39a18 18 0 0 0 36 0C50 28 32 8 32 8z" fill="#fff" stroke="#111" stroke-width="3.5" stroke-linejoin="round"/><path d="M24 40a8 8 0 0 0 7 8" fill="none" stroke="#0f9d6b" stroke-width="3.5" stroke-linecap="round"/></svg></div>
+      <a class="tile code" href="https://noahproc.github.io/waterqualityassessment.github.io" target="_blank" rel="noopener">
+        <figure class="shot"><img src="case-assets/research/water-bars.webp" alt="Bar chart of contaminant levels in Perkins Township water" width="1400" height="980" loading="lazy" decoding="async"></figure>
         <h3>Perkins Township Water</h3>
         <p>A 1&ndash;5 star score for municipal drinking water across 10 contaminants, naming the limiting factor.</p>
         <div class="chips"><span class="chip">Python</span><span class="chip">Data viz</span></div>
         <div class="foot"><span class="go"><span>Live site</span> <i>&nearr;</i></span></div>
       </a>
 
-      <a class="tile taped" href="https://noahproc.github.io/brand-financials-dashboard/" target="_blank" rel="noopener">
-        <div class="badge"><svg viewBox="0 0 64 64" aria-hidden="true"><rect x="12" y="34" width="8" height="18" fill="#111"/><rect x="25" y="26" width="8" height="26" fill="#111"/><rect x="38" y="18" width="8" height="34" fill="#111"/><rect x="51" y="10" width="6" height="42" fill="#0f9d6b"/></svg></div>
+      <a class="tile code taped" href="https://noahproc.github.io/brand-financials-dashboard/" target="_blank" rel="noopener">
+        <figure class="shot"><img src="case-assets/research/gmv-financials.webp" alt="The anonymized brand financials dashboard" width="1600" height="655" loading="lazy" decoding="async"></figure>
         <h3>Brand Financials</h3>
         <p>A pipeline that anonymizes a brand portfolio report for deal calls. Built at Alka Oaks Partners.</p>
         <div class="chips"><span class="chip">Python</span><span class="chip">HTML</span></div>
         <div class="foot"><span class="go"><span>Live site</span> <i>&nearr;</i></span></div>
       </a>
 
-      <a class="tile" href="https://github.com/noahproc/scope2-decomposition" target="_blank" rel="noopener">
-        <div class="badge"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M10 10v44h46" fill="none" stroke="#111" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 20l12 10 10-6 16 18" fill="none" stroke="#0f9d6b" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 36l12 4 10 6 16-4" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <a class="tile code" href="https://github.com/noahproc/scope2-decomposition" target="_blank" rel="noopener">
+        <figure class="shot"><img src="case-assets/research/scope-trends.webp" alt="Scope 1 versus Scope 2 emissions trend chart" width="1400" height="573" loading="lazy" decoding="async"></figure>
         <h3>Scope 2 Emissions</h3>
         <p>80,633 firm-years across 5,040 U.S. companies, 2010&ndash;2024, matched to EPA data.</p>
         <div class="chips"><span class="chip">pandas</span><span class="chip">Jupyter</span><span class="chip">Research</span></div>
         <div class="foot"><span class="go"><span>GitHub</span> <i>&nearr;</i></span></div>
       </a>
 
-      <a class="tile" href="https://github.com/noahproc/videopoker" target="_blank" rel="noopener">
-        <div class="badge"><svg viewBox="0 0 64 64" aria-hidden="true"><g transform="rotate(-12 32 32)"><rect x="16" y="9" width="32" height="46" rx="5" fill="#fff" stroke="#111" stroke-width="3.5"/><text x="22" y="26" font-family="Fraunces, serif" font-weight="700" font-size="14" fill="#111">A</text><path d="M32 46c-8-5-7-11-2.500-11 1.800 0 2.500 1.500 2.500 2 0-.5.700-2 2.500-2 4.500 0 5.500 6-2.500 11z" fill="#0f9d6b"/></g></svg></div>
+      <a class="tile code" href="https://github.com/noahproc/videopoker" target="_blank" rel="noopener">
+        <figure class="shot"><img src="case-assets/research/video-poker.webp" alt="The video poker game screen" width="1072" height="1050" loading="lazy" decoding="async"></figure>
         <h3>Video Poker</h3>
         <p>A playable Java video poker game with proper hand evaluation, built for my Columbia Java course.</p>
         <div class="chips"><span class="chip">Java</span><span class="chip">OOP</span></div>
         <div class="foot"><span class="go"><span>GitHub</span> <i>&nearr;</i></span></div>
       </a>
+
+      <div class="filler">
+        <a class="more" href="projects.html"><span>all the data science</span> <i>&rarr;</i></a>
+        <div class="sticker" style="--fx:12%; --fy:50%; --w:70; --r:16deg; --i:2" role="img" aria-label="chrome star sticker"><img src="pictures/stickers/star-chrome.webp" alt="" width="392" height="369" decoding="async" loading="lazy"></div>
+        <div class="sticker" style="--fx:52%; --fy:58%; --w:66; --r:-8deg; --i:3" role="img" aria-label="sparkles sticker"><img src="pictures/stickers/sparkles.webp" alt="" width="311" height="392" decoding="async" loading="lazy"></div>
+      </div>
     </div>
   </div>
 
-  <div class="sticker free m-keep" style="--x:0.8%; --y:-3%; --w:150; --r:-4deg; --i:1" role="img" aria-label="roller coaster sticker"><img src="pictures/stickers/coaster-car.webp" alt="" width="392" height="254" decoding="async" loading="lazy"></div>
-  <div class="sticker free" style="--x:55.5%; --y:23.5%; --w:92; --r:5deg; --i:2" role="img" aria-label="subway sticker"><img src="pictures/stickers/uptown.webp" alt="" width="392" height="392" decoding="async" loading="lazy"></div>
-  <div class="sticker free" style="--x:88.5%; --y:17%; --w:100; --r:9deg; --i:3" role="img" aria-label="theater marquee sticker"><img src="pictures/stickers/marquee.webp" alt="" width="392" height="282" decoding="async" loading="lazy"></div>
   <div class="sticker free keep" style="--x:2%; --y:36%; --w:92; --r:-10deg; --i:4" role="img" aria-label="green paint splat sticker"><svg viewBox="0 0 100 100"><use href="#s-splat"/></svg></div>
-  <div class="sticker free" style="--x:80%; --y:44.5%; --w:118; --r:4deg; --i:5" role="img" aria-label="motorcycle sticker"><img src="pictures/stickers/motorcycle.webp" alt="" width="392" height="230" decoding="async" loading="lazy"></div>
   <div class="sticker free opt" style="--x:92%; --y:60%; --w:64; --r:12deg; --i:6" role="img" aria-label="heart sticker"><img src="pictures/stickers/heart.webp" alt="" width="303" height="414" decoding="async" loading="lazy"></div>
-  <div class="sticker free opt" style="--x:28%; --y:71%; --w:64; --r:-8deg; --i:7" role="img" aria-label="sparkles sticker"><img src="pictures/stickers/sparkles.webp" alt="" width="311" height="392" decoding="async" loading="lazy"></div>
   <div class="sticker free" style="--x:1.5%; --y:82%; --w:76; --r:6deg; --i:8" role="img" aria-label="flower sticker"><img src="pictures/stickers/flower.webp" alt="" width="312" height="312" decoding="async" loading="lazy"></div>
-  <div class="sticker free opt" style="--x:59.5%; --y:95.5%; --w:74; --r:16deg; --i:9" role="img" aria-label="chrome star sticker"><img src="pictures/stickers/star-chrome.webp" alt="" width="392" height="369" decoding="async" loading="lazy"></div>
 </section>
 
 <!-- ABOUT -->
