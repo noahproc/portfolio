@@ -16,14 +16,12 @@
     #product / #data-science   one tile grid (the first product tile and first data tile carry the ids)
     #about        lede, experience cards, skill pills, caption slips
     #contact      footer
-  Stickers: every .sticker is draggable. Stand-in artwork lives in the <symbol> sprite at the top of <body>.
-  To use your own PNGs, replace the <svg><use/></svg> inside a .sticker with <img src="assets/x.png" alt="">.
+  Stickers: every .sticker is draggable. Most are <img>s from pictures/stickers/ (Noah's sticker sheet);
+  the green paint splat is the one drawn <symbol> left in the sprite at the top of <body>.
   Default look is grayscale; hover brings color back (add class "keep" to a sticker to leave it colored).
+  Flags at the top of the script: INTRO_ENABLED, PLAY_ONCE_PER_SESSION (on: the intro plays once per tab session).
   TODO:
-    - Portrait: add assets/noah.jpg (the polaroid falls back to a silhouette).
-    - Tile / LinkedIn / GitHub hrefs are "#" placeholders: search for data-todo.
-    - Flags at the top of the script: INTRO_ENABLED, PLAY_ONCE_PER_SESSION.
-    - Delete the .replay button if you don't want it live.
+    - Lumelle tile has no destination yet: search for data-todo.
 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -215,11 +213,6 @@
   .contact-row .email { font-family: var(--serif); font-variation-settings: "SOFT" 100; font-size: clamp(24px, 2.8vw, 38px); letter-spacing: -.02em; text-decoration: none; }
   .contact-row .links { display: flex; gap: 12px; flex-wrap: wrap; }
   .legal { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-top: 64px; font-size: 13px; color: var(--mute); }
-  .legal button { font: inherit; background: none; border: 0; padding: 0; color: inherit; text-decoration: underline; cursor: pointer; }
-  .legal button:hover { color: var(--green); }
-  .replay { position: fixed; left: 16px; bottom: 16px; z-index: 40; font-family: var(--sans); font-size: 13px; font-weight: 600; background: var(--ink); color: #fff; border: 0; border-radius: 999px; padding: 10px 16px; cursor: pointer; transition: background .15s; }
-  .replay:hover { background: var(--green); }
-  html.intro .replay { display: none; }
   #splat { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 900; }
 
   /* ---------- RESPONSIVE ---------- */
@@ -234,7 +227,6 @@
     body { font-size: 16px; }
     .collage { --k: .74; }
     .opt, .work .free:not(.m-keep) { display: none; }
-    .replay { display: none; }
     .cards { grid-template-columns: 1fr; }
     .nav .wrap { padding-top: 6px; padding-bottom: 8px; }
   }
@@ -247,7 +239,7 @@
 </head>
 <body>
 
-<!-- Sticker artwork sprite. Replace any <symbol> (or the <img>) with your own art. -->
+<!-- Drawn sticker art (only the green paint splat now; the rest are images). -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
 
   <symbol id="s-splat" viewBox="0 0 100 100">
@@ -492,20 +484,19 @@
         <a class="btn" href="Proctor_Noah_Resume.pdf" target="_blank" rel="noopener">R&eacute;sum&eacute;</a>
       </div>
     </div>
-    <div class="legal"><span>built with curiosity in new york</span><button type="button" id="replayLink">replay intro</button></div>
+    <div class="legal"><span>built with curiosity in new york</span></div>
   </div>
   <div class="sticker free" style="--x:76%; --y:6%; --w:190; --r:-5deg; --i:1" role="img" aria-label="roller coaster sticker"><img src="pictures/stickers/coaster-loop.webp" alt="" width="392" height="261" decoding="async" loading="lazy"></div>
   <div class="sticker free keep opt" style="--x:36%; --y:9%; --w:84; --r:9deg; --i:2" role="img" aria-label="green paint splat sticker"><svg viewBox="0 0 100 100"><use href="#s-splat"/></svg></div>
   <div class="sticker free opt" style="--x:44%; --y:70%; --w:70; --r:-12deg; --i:3" role="img" aria-label="heart sticker"><img src="pictures/stickers/heart.webp" alt="" width="303" height="414" decoding="async" loading="lazy"></div>
 </footer>
-<button type="button" class="replay" id="replayBtn" aria-label="Replay the intro animation">&circlearrowright; replay intro</button>
 
 <script>
 (function () {
   'use strict';
   /* ================= FLAGS ================= */
   var INTRO_ENABLED = true;            // false: skip the intro entirely
-  var PLAY_ONCE_PER_SESSION = false;   // true: only play on the first visit of each browser session
+  var PLAY_ONCE_PER_SESSION = true;    // true: only play on the first visit of each browser session
   var SPLAT_LIFETIME = 6000;           // ms a click splat stays on the page before fading
 
   var NAME = 'Noah Proctor';
@@ -895,7 +886,6 @@
     function up() { dragging = false; s.classList.remove('drag'); }
     s.addEventListener('pointerup', up); s.addEventListener('pointercancel', up);
   });
-  function resetStickers() { document.querySelectorAll('.sticker').forEach(function (s) { s.style.removeProperty('--dx'); s.style.removeProperty('--dy'); s.style.zIndex = ''; }); }
 
   /* ================= SLIPS: random tilt ================= */
   document.querySelectorAll('.slip').forEach(function (s) { s.style.setProperty('--r', (Math.random() * 6 - 3).toFixed(1) + 'deg'); });
@@ -937,11 +927,6 @@
 
   /* placeholder links should not jump the page to the top */
   document.querySelectorAll('a[href="#"]').forEach(function (a) { a.addEventListener('click', function (e) { e.preventDefault(); }); });
-
-  /* ================= REPLAY ================= */
-  function replay() { if (running) endIntro(); resetStickers(); running = false; runIntro(); }
-  document.getElementById('replayBtn').addEventListener('click', replay);
-  document.getElementById('replayLink').addEventListener('click', replay);
 
   /* ================= GO ================= */
   function start() { runIntro(); }
