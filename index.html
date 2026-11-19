@@ -720,7 +720,7 @@
     var caret = document.createElement('span'); caret.className = 'caret blink'; typed.appendChild(caret);
     var chars = [];
     NAME.split('').forEach(function (ch) {
-      var s = document.createElement('span'); s.className = 'c'; s.textContent = ch === ' ' ? ' ' : ch; typed.appendChild(s); chars.push(s);
+      var s = document.createElement('span'); s.className = 'c'; s.textContent = ch === ' ' ? '\u00a0' : ch; typed.appendChild(s); chars.push(s);
     });
     var times = [], acc = 650;
     NAME.split('').forEach(function (ch) { times.push(acc); acc += 90 + Math.random() * 70 + (ch === ' ' ? 170 : 0); });
