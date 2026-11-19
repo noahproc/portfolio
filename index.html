@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Noah Proctor</title>
+<meta name="description" content="Noah Proctor. Columbia operations research student and product builder.">
+<!--
+  HANDOFF NOTES FOR CLAUDE CODE
+  ------------------------------------------------------------------
+  One self-contained file, no build step. Type: Fraunces (display) + DM Sans (everything else). Nothing else.
+  Top to bottom:
+    #intro        typed name -> shake -> green paint splatter -> brush wipes it away   (script: INTRO)
+    header        sticky nav
+    #home         hero: name, bio, polaroid collage
+    #product / #data-science   one tile grid (the first product tile and first data tile carry the ids)
+    #about        lede, experience cards, skill pills, caption slips
+    #contact      footer
+  Stickers: every .sticker is draggable. Stand-in artwork lives in the <symbol> sprite at the top of <body>.
+  To use your own PNGs, replace the <svg><use/></svg> inside a .sticker with <img src="assets/x.png" alt="">.
+  Default look is grayscale; hover brings color back (add class "keep" to a sticker to leave it colored).
+  TODO:
+    - Portrait: add assets/noah.jpg (the polaroid falls back to a silhouette).
+    - Tile / LinkedIn / GitHub hrefs are "#" placeholders: search for data-todo.
+    - Flags at the top of the script: INTRO_ENABLED, PLAY_ONCE_PER_SESSION.
+    - Delete the .replay button if you don't want it live.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..800,0..100,0..1;1,9..144,300..800,0..100,0..1&display=swap" rel="stylesheet">
+<script>
+  /* Runs before first paint so the page never flashes before the intro. */
+  (function () {
+    var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduce) document.documentElement.className = 'intro pre';
+  })();
+</script>
+<style>
+  /* Layout idea: white page, ink type, a loose collage of stickers and pinned tiles. Green is the only accent. */
+  :root {
+    --paper: #ffffff;
+    --ink: #0b0b0b;
+    --mute: #5d5d5a;
+    --tile: #f1f1ef;
+    --green: #0f9d6b;
+    --serif: "Fraunces", Georgia, "Times New Roman", serif;
+    --sans: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --gutter: clamp(18px, 4vw, 56px);
+    --m: 1;
+    --grain: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    color-scheme: light;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scrollbar-gutter: stable; overflow-x: clip; }
+  html.intro { overflow: hidden; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font-family: var(--sans); font-size: 17px; line-height: 1.5; font-optical-sizing: auto;
+    -webkit-font-smoothing: antialiased; overflow-x: clip;
+  }
+  a { color: inherit; }
+  h1, h2, h3, h4, p { margin: 0; }
+  :focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
+  ::selection { background: var(--green); color: #fff; }
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 0 var(--gutter); position: relative; }
+  .serif { font-family: var(--serif); font-variation-settings: "SOFT" 100, "WONK" 0; }
+
+  /* ---------- INTRO ---------- */
+  #intro { position: fixed; inset: 0; z-index: 1000; display: none; background: #fff; }
+  html.intro #intro { display: block; }
+  #intro canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; z-index: 1; }
+  #typed {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 2; user-select: none;
+    font-family: var(--serif); font-weight: 500; font-variation-settings: "SOFT" 100, "WONK" 0;
+    letter-spacing: -.03em; line-height: 1; white-space: nowrap; font-size: min(11.5vw, 168px); color: var(--ink);
+  }
+  #typed .c { display: inline-block; opacity: 0; will-change: transform; }
+  #typed .c.on { opacity: 1; }
+  #typed .caret { display: inline-block; width: .055em; height: .8em; background: var(--ink); vertical-align: -.04em; margin: 0 .03em 0 .02em; }
+  #typed .caret.blink { animation: blink 1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .skip-hint { position: absolute; left: 50%; bottom: 26px; transform: translateX(-50%); z-index: 3; font-size: 12px; letter-spacing: .06em; color: #a2a2a2; transition: opacity .3s; }
+  #brush { position: absolute; left: 0; top: 0; z-index: 4; display: none; pointer-events: none; will-change: transform; }
+
+  /* ---------- NAV ---------- */
+  header.nav { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,.9); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+  .nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 68px; flex-wrap: wrap; }
+  .brand { font-family: var(--serif); font-variation-settings: "SOFT" 100; font-weight: 600; font-size: 25px; text-decoration: none; letter-spacing: -.02em; line-height: 1; padding: 8px 0; }
+  .nav ul { display: flex; align-items: center; gap: clamp(14px, 2.2vw, 30px); list-style: none; margin: 0; padding: 0; flex-wrap: wrap; }
+  .nav a.lnk { font-size: 15px; font-weight: 500; text-decoration: none; padding: 6px 0; background: linear-gradient(var(--green), var(--green)) 0 100% / 0 2px no-repeat; transition: background-size .25s; }
+  .nav a.lnk:hover, .nav a.lnk[aria-current="true"] { background-size: 100% 2px; }
+  .nav a.cta { font-size: 15px; font-weight: 600; text-decoration: none; background: var(--ink); color: #fff; padding: 10px 20px; border-radius: 999px; transition: background .2s, transform .2s; }
+  .nav a.cta:hover { background: var(--green); transform: translateY(-1px); }
+
+  /* ---------- HERO ---------- */
+  .hero { position: relative; padding: clamp(36px, 6vw, 84px) 0 clamp(80px, 9vw, 140px); }
+  .hero .grid { display: grid; grid-template-columns: minmax(0, 1.5fr) auto; gap: clamp(40px, 7vw, 110px); align-items: center; }
+  .name { font-family: var(--serif); font-weight: 500; font-variation-settings: "SOFT" 100, "WONK" 0; font-size: clamp(76px, 13vw, 196px); line-height: .86; letter-spacing: -.045em; margin-bottom: clamp(26px, 4vw, 48px); }
+  .name .l { display: inline-block; transition: transform .25s cubic-bezier(.3,1.6,.5,1), color .2s; cursor: default; }
+  .name .l:hover { color: var(--green); transform: translateY(-.05em) rotate(-5deg); }
+  .bio { font-size: clamp(20px, 1.9vw, 25px); line-height: 1.45; max-width: 25em; margin-bottom: 18px; text-wrap: pretty; }
+  .fun { font-size: 15px; color: var(--mute); }
+  .fun b { color: var(--ink); font-weight: 700; }
+
+  /* Collage: positioned in a 340 x 565 frame, scaled by --k */
+  .collage { --k: 1; position: relative; width: calc(340px * var(--k)); height: calc(565px * var(--k)); margin-right: calc(48px * var(--k)); }
+  .polaroid {
+    position: absolute; left: 0; top: calc(24px * var(--k)); width: 100%; background: #fff; margin: 0;
+    padding: calc(16px * var(--k)) calc(16px * var(--k)) calc(14px * var(--k)); transform: rotate(2deg);
+    box-shadow: 0 1px 0 rgba(0,0,0,.08), 0 18px 34px -10px rgba(0,0,0,.32), 0 0 0 1px rgba(0,0,0,.06);
+    transition: opacity .6s ease, transform .8s cubic-bezier(.2,1.2,.3,1);
+  }
+  .polaroid .photo { position: relative; aspect-ratio: 5 / 6; background: #cfcfcf; overflow: hidden; filter: grayscale(1) contrast(1.05); }
+  .polaroid .photo svg, .polaroid .photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .polaroid .cap { font-family: var(--serif); font-style: italic; font-weight: 500; font-size: calc(24px * var(--k)); text-align: center; padding-top: calc(10px * var(--k)); line-height: 1.1; }
+  .tape { position: absolute; left: 50%; top: calc(-14px * var(--k)); width: calc(110px * var(--k)); height: calc(30px * var(--k)); transform: translateX(-50%) rotate(-3deg); background: var(--green); opacity: .88;
+    clip-path: polygon(0 0, 4% 14%, 0 28%, 4% 42%, 0 56%, 4% 70%, 0 84%, 4% 100%, 96% 100%, 100% 84%, 96% 70%, 100% 56%, 96% 42%, 100% 28%, 96% 14%, 100% 0); }
+
+  /* ---------- STICKERS ---------- */
+  .sticker {
+    --r: 0deg; --s: 1; --dx: 0px; --dy: 0px; --g: 1;
+    position: absolute; transform: translate(var(--dx), var(--dy)) rotate(var(--r)) scale(var(--s));
+    transition: transform .45s cubic-bezier(.25,1.5,.45,1), opacity .25s;
+    cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none; z-index: 5;
+    filter: grayscale(var(--g)) drop-shadow(3px 0 0 #fff) drop-shadow(-3px 0 0 #fff) drop-shadow(0 3px 0 #fff) drop-shadow(0 -3px 0 #fff) drop-shadow(0 9px 9px rgba(0,0,0,.26));
+  }
+  .sticker:hover { --s: 1.07; --g: 0; }
+  .sticker.keep { --g: 0; }
+  .sticker.drag { --s: 1.13; --g: 0; transition: none; cursor: grabbing; z-index: 30; }
+  .sticker svg, .sticker img { display: block; width: 100%; height: auto; pointer-events: none; -webkit-user-drag: none; }
+  .collage .sticker { left: calc(var(--l) * 1px * var(--k)); top: calc(var(--t) * 1px * var(--k)); width: calc(var(--w) * 1px * var(--k)); }
+  .free { left: var(--x); top: var(--y); width: calc(var(--w) * 1px * var(--m)); }
+  .sticker.ny { width: auto; font-family: var(--serif); font-weight: 800; font-variation-settings: "SOFT" 0, "WONK" 0; font-size: calc(52px * var(--k)); line-height: .8; letter-spacing: -.02em; text-transform: uppercase; color: var(--ink); }
+  .sticker.ticket { filter: grayscale(var(--g)) drop-shadow(0 10px 12px rgba(0,0,0,.28)); }
+  .ticket-body { position: relative; background: #ffd9e6; border: 1.5px solid var(--ink); display: grid; grid-template-columns: 1fr auto; align-items: center; padding: calc(12px * var(--k)) calc(14px * var(--k)) calc(12px * var(--k)) calc(18px * var(--k)); gap: calc(18px * var(--k)); }
+  .ticket-body::before, .ticket-body::after { content: ""; position: absolute; top: 50%; width: calc(14px * var(--k)); height: calc(14px * var(--k)); border-radius: 50%; background: #fff; border: 1.5px solid var(--ink); transform: translateY(-50%); }
+  .ticket-body::before { left: calc(-8px * var(--k)); } .ticket-body::after { right: calc(-8px * var(--k)); }
+  .ticket-body small { display: block; font-size: calc(10px * var(--k)); font-weight: 700; letter-spacing: .12em; color: var(--mute); }
+  .ticket-body strong { display: block; white-space: nowrap; font-family: var(--serif); font-weight: 700; font-size: calc(25px * var(--k)); line-height: 1; margin: 2px 0 4px; letter-spacing: -.02em; }
+  .ticket-body em { white-space: nowrap; font-family: var(--serif); font-style: italic; font-weight: 500; font-size: calc(15px * var(--k)); line-height: 1; }
+  .ticket-body .seat { border-left: 1.5px dashed var(--ink); padding-left: calc(14px * var(--k)); text-align: center; }
+  .ticket-body .seat b { display: block; font-family: var(--serif); font-size: calc(36px * var(--k)); line-height: 1; font-weight: 600; }
+  .ticket-body .seat span { font-size: calc(9px * var(--k)); color: var(--mute); font-weight: 600; }
+
+  /* intro choreography: stickers slap on, hero text rises */
+  .rise { transition: opacity .7s ease, transform .8s cubic-bezier(.2,.8,.2,1); }
+  html.pre .rise { opacity: 0; transform: translateY(18px); }
+  html.pre .sticker { opacity: 0; --s: 1.7; }
+  html.pre .polaroid { opacity: 0; transform: rotate(8deg) translateY(30px); }
+  html.reveal .rise, html.reveal .sticker, html.reveal .polaroid { transition-delay: calc(var(--i, 0) * 110ms + 100ms); }
+
+  /* ---------- WORK TILES ---------- */
+  .work { position: relative; padding: clamp(40px, 6vw, 90px) 0 0; }
+  .tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 34px 26px; position: relative; z-index: 1; }
+  .tile {
+    --tr: 0deg; position: relative; display: flex; flex-direction: column; gap: 10px; min-height: 212px; padding: 24px 22px 18px;
+    border-radius: 14px; background-color: var(--tile); background-image: var(--grain); text-decoration: none; color: inherit;
+    transform: rotate(var(--tr)); transition: transform .3s cubic-bezier(.3,1.5,.5,1), box-shadow .25s;
+    box-shadow: 0 1px 0 rgba(0,0,0,.05), 0 18px 28px -18px rgba(0,0,0,.4);
+  }
+  .tile:nth-child(3n+1) { --tr: -.8deg; } .tile:nth-child(3n+2) { --tr: .5deg; } .tile:nth-child(3n) { --tr: -.35deg; }
+  .tile:hover, .tile:focus-visible { transform: rotate(0deg) translateY(-6px); box-shadow: 0 1px 0 rgba(0,0,0,.05), 0 26px 34px -18px rgba(0,0,0,.5); }
+  .tile::before { content: ""; position: absolute; top: -8px; left: var(--pin, 26px); width: 17px; height: 17px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #fff, #a3a3a0 55%, #55554f); box-shadow: 0 3px 4px rgba(0,0,0,.35); }
+  .tile.taped::before { width: 78px; height: 24px; border-radius: 0; top: -12px; left: 50%; margin-left: -39px; background: var(--green); opacity: .88; box-shadow: none; transform: rotate(-3deg);
+    clip-path: polygon(0 0, 4% 14%, 0 28%, 4% 42%, 0 56%, 4% 70%, 0 84%, 4% 100%, 96% 100%, 100% 84%, 96% 70%, 100% 56%, 96% 42%, 100% 28%, 96% 14%, 100% 0); }
+  .tile h3 { font-family: var(--serif); font-variation-settings: "SOFT" 100, "WONK" 0; font-weight: 600; font-size: 30px; line-height: 1; letter-spacing: -.02em; padding-right: 76px; }
+  .tile p { font-size: 15.5px; line-height: 1.45; color: var(--mute); max-width: 27em; text-wrap: pretty; }
+  .tile p::before { content: ""; float: right; width: 78px; height: 26px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 8px; }
+  .chip { font-size: 12.5px; font-weight: 600; line-height: 1; padding: 6px 11px; border-radius: 999px; background: #fff; box-shadow: inset 0 0 0 1px #d5d5d1; }
+  .go { font-size: 14px; font-weight: 600; }
+  .go span { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1.5px; }
+  .go i { font-style: normal; display: inline-block; transition: transform .2s; }
+  .tile:hover .go i { transform: translateX(4px); }
+  .tile .foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .badge { position: absolute; top: 18px; right: 18px; width: 62px; height: 62px; border-radius: 16px; background: #fff; transform: rotate(6deg); box-shadow: 0 0 0 1.5px var(--ink), 0 8px 14px -6px rgba(0,0,0,.4); transition: transform .3s cubic-bezier(.3,1.6,.5,1); overflow: hidden; }
+  .tile:nth-child(even) .badge { transform: rotate(-5deg); }
+  .tile:hover .badge { transform: rotate(0deg) scale(1.08); }
+  .badge.dark { background: var(--ink); }
+  .badge svg { display: block; width: 100%; height: 100%; }
+
+  /* ---------- ABOUT ---------- */
+  .about { position: relative; padding: clamp(100px, 12vw, 170px) 0 0; }
+  .about-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: clamp(36px, 6vw, 96px); align-items: start; }
+  .lede { font-family: var(--serif); font-variation-settings: "SOFT" 100, "WONK" 0; font-weight: 400; font-size: clamp(28px, 3.1vw, 44px); line-height: 1.12; letter-spacing: -.02em; margin-bottom: 26px; text-wrap: pretty; }
+  .about-copy p + p { margin-top: 14px; }
+  .about-copy p:not(.lede) { color: var(--mute); max-width: 33em; font-size: 18px; }
+  .btns { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+  .btn { font-size: 15px; font-weight: 600; text-decoration: none; padding: 12px 22px; border-radius: 999px; box-shadow: inset 0 0 0 1.5px var(--ink); transition: background .2s, color .2s, box-shadow .2s; display: inline-block; }
+  .btn.solid { background: var(--ink); color: #fff; }
+  .btn:hover { background: var(--green); color: #fff; box-shadow: inset 0 0 0 1.5px var(--green); }
+  .cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 20px; padding-top: 8px; }
+  .card { --tr: 0deg; position: relative; background: #fff; border-radius: 12px; padding: 18px 18px 16px; transform: rotate(var(--tr)); box-shadow: 0 1px 0 rgba(0,0,0,.06), 0 14px 24px -14px rgba(0,0,0,.35), 0 0 0 1px rgba(0,0,0,.07); transition: transform .3s cubic-bezier(.3,1.5,.5,1); }
+  .card:nth-child(odd) { --tr: -.9deg; } .card:nth-child(even) { --tr: .8deg; } .card:nth-child(3n) { --tr: -.3deg; }
+  .card:hover { transform: rotate(0deg) translateY(-4px); }
+  .card h4 { font-family: var(--serif); font-variation-settings: "SOFT" 100, "WONK" 0; font-weight: 600; font-size: 23px; line-height: 1.05; letter-spacing: -.015em; }
+  .card .role { font-size: 14.5px; font-weight: 600; margin-top: 3px; }
+  .card .when { font-size: 12.5px; color: var(--mute); margin-top: 2px; }
+  .card p { font-size: 14.5px; line-height: 1.4; color: var(--mute); margin-top: 8px; }
+  .card.now::before { content: ""; position: absolute; top: -11px; left: 50%; margin-left: -36px; width: 72px; height: 22px; background: var(--green); opacity: .88; transform: rotate(-3deg);
+    clip-path: polygon(0 0, 4% 14%, 0 28%, 4% 42%, 0 56%, 4% 70%, 0 84%, 4% 100%, 96% 100%, 100% 84%, 96% 70%, 100% 56%, 96% 42%, 100% 28%, 96% 14%, 100% 0); }
+  .cloud { display: flex; flex-wrap: wrap; gap: 9px; margin-top: clamp(48px, 6vw, 84px); }
+  .pill { font-size: 14.5px; font-weight: 500; padding: 8px 15px; border-radius: 999px; box-shadow: inset 0 0 0 1.5px var(--ink); transition: background .15s, color .15s, transform .2s cubic-bezier(.3,1.6,.5,1); cursor: default; }
+  .pill:hover { background: var(--ink); color: #fff; transform: translateY(-3px) rotate(-2deg); }
+  .outside { font-family: var(--serif); font-variation-settings: "SOFT" 100, "WONK" 0; font-style: italic; font-weight: 400; font-size: clamp(22px, 2.2vw, 30px); line-height: 1.25; margin: clamp(56px, 7vw, 100px) 0 18px; max-width: 28em; }
+  .slips { display: flex; flex-wrap: wrap; gap: 12px 12px; }
+  .slip { --r: 0deg; font-family: var(--serif); font-variation-settings: "SOFT" 100; font-style: italic; font-weight: 500; font-size: 19px; line-height: 1; padding: 9px 16px 10px; background: #fff; border-radius: 4px; box-shadow: 0 0 0 1.5px var(--ink); transform: rotate(var(--r)); transition: transform .25s cubic-bezier(.3,1.6,.5,1), background .15s, color .15s, box-shadow .15s; cursor: default; }
+  .slip:hover { background: var(--green); color: #fff; box-shadow: 0 0 0 1.5px var(--green); transform: rotate(0deg) scale(1.08); }
+
+  /* ---------- FOOTER ---------- */
+  footer { position: relative; padding: clamp(110px, 13vw, 190px) 0 40px; }
+  .big-cta { font-family: var(--serif); font-variation-settings: "SOFT" 100, "WONK" 0; font-weight: 500; font-size: clamp(76px, 17vw, 270px); line-height: .82; letter-spacing: -.05em; margin-bottom: clamp(28px, 4vw, 52px); }
+  .big-cta a { text-decoration: none; transition: color .2s; }
+  .big-cta a:hover { color: var(--green); }
+  .contact-row { display: flex; flex-wrap: wrap; gap: 14px 32px; align-items: baseline; justify-content: space-between; }
+  .contact-row .email { font-family: var(--serif); font-variation-settings: "SOFT" 100; font-size: clamp(24px, 2.8vw, 38px); letter-spacing: -.02em; text-decoration: none; }
+  .contact-row .links { display: flex; gap: 12px; flex-wrap: wrap; }
+  .legal { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-top: 64px; font-size: 13px; color: var(--mute); }
+  .legal button { font: inherit; background: none; border: 0; padding: 0; color: inherit; text-decoration: underline; cursor: pointer; }
+  .legal button:hover { color: var(--green); }
+  .replay { position: fixed; left: 16px; bottom: 16px; z-index: 40; font-family: var(--sans); font-size: 13px; font-weight: 600; background: var(--ink); color: #fff; border: 0; border-radius: 999px; padding: 10px 16px; cursor: pointer; transition: background .15s; }
+  .replay:hover { background: var(--green); }
+  html.intro .replay { display: none; }
+  #splat { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 900; }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 1060px) { .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 960px) {
+    .hero .grid { grid-template-columns: 1fr; }
+    .collage { --k: .86; margin: 24px auto 0; left: calc(30px * var(--k)); }
+    .about-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 720px) {
+    :root { --m: .7; }
+    body { font-size: 16px; }
+    .collage { --k: .74; }
+    .opt, .work .free:not(.m-keep) { display: none; }
+    .replay { display: none; }
+    .cards { grid-template-columns: 1fr; }
+    .nav .wrap { padding-top: 6px; padding-bottom: 8px; }
+  }
+  @media (max-width: 600px) { .tiles { grid-template-columns: 1fr; } .tile { min-height: 0; } }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Sticker artwork sprite. Replace any <symbol> (or the <img>) with your own art. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <radialGradient id="g-disco" cx=".34" cy=".28" r=".85"><stop offset="0" stop-color="#fff"/><stop offset=".45" stop-color="#a9a9a9"/><stop offset="1" stop-color="#2b2b2b"/></radialGradient>
+    <clipPath id="c-disco"><circle cx="50" cy="58" r="42"/></clipPath>
+    <linearGradient id="g-star" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff"/><stop offset=".3" stop-color="#ffc2e0"/><stop offset=".55" stop-color="#8fb8ff"/><stop offset=".8" stop-color="#e5e5e5"/><stop offset="1" stop-color="#9a9a9a"/></linearGradient>
+    <linearGradient id="g-tv" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#bfe7ff"/><stop offset="1" stop-color="#4a8fe0"/></linearGradient>
+  </defs>
+
+  <symbol id="s-disco" viewBox="0 0 100 106">
+    <path d="M50 0v14" stroke="#111" stroke-width="3.5"/>
+    <circle cx="50" cy="58" r="42" fill="url(#g-disco)" stroke="#111" stroke-width="3.5"/>
+    <g clip-path="url(#c-disco)" fill="none" stroke="#111" stroke-width="1.3" opacity=".75">
+      <ellipse cx="50" cy="58" rx="42" ry="13"/><ellipse cx="50" cy="58" rx="42" ry="27"/>
+      <ellipse cx="50" cy="58" rx="13" ry="42"/><ellipse cx="50" cy="58" rx="27" ry="42"/>
+      <path d="M8 58h84M50 16v84M18 34h64M18 82h64"/>
+    </g>
+    <g clip-path="url(#c-disco)">
+      <rect x="30" y="30" width="7" height="6" fill="#ffd166"/><rect x="43" y="24" width="6" height="6" fill="#fff"/>
+      <rect x="58" y="44" width="6" height="5" fill="#ef476f"/><rect x="36" y="52" width="6" height="6" fill="#06d6a0"/>
+      <rect x="66" y="66" width="5" height="5" fill="#fff"/><rect x="48" y="74" width="6" height="5" fill="#118ab2"/>
+      <rect x="24" y="66" width="5" height="5" fill="#ffd166"/>
+    </g>
+  </symbol>
+
+  <symbol id="s-vinyl" viewBox="0 0 100 100">
+    <circle cx="50" cy="50" r="47" fill="#111" stroke="#111" stroke-width="3"/>
+    <g fill="none" stroke="#3a3a3a" stroke-width="1"><circle cx="50" cy="50" r="41"/><circle cx="50" cy="50" r="35"/><circle cx="50" cy="50" r="29"/><circle cx="50" cy="50" r="23"/></g>
+    <path d="M18 30a38 38 0 0 1 30-17" fill="none" stroke="#fff" stroke-width="3" opacity=".22" stroke-linecap="round"/>
+    <circle cx="50" cy="50" r="16" fill="#f3f3f3"/>
+    <path d="M50 60c-11-7-9-16-3.5-16 2.5 0 3.5 2.3 3.5 3.2 0-.9 1-3.2 3.5-3.2 5.5 0 7.5 9-3.5 16z" fill="#d8262f"/>
+    <circle cx="50" cy="50" r="1.6" fill="#111"/>
+  </symbol>
+
+  <symbol id="s-star" viewBox="0 0 100 100">
+    <polygon points="50,6 61.2,36.6 93.8,37.8 68.1,57.9 77,89.2 50,71 23,89.2 31.9,57.9 6.3,37.8 38.8,36.6" fill="url(#g-star)" stroke="#111" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M50 16l7 20M30 40h14" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".85"/>
+  </symbol>
+
+  <symbol id="s-camera" viewBox="0 0 120 92">
+    <rect x="8" y="26" width="104" height="60" rx="9" fill="#efe6d2" stroke="#111" stroke-width="4"/>
+    <path d="M30 26l8-13h30l8 13z" fill="#cdcdcd" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
+    <rect x="84" y="12" width="20" height="14" rx="2" fill="#ef476f"/>
+    <rect x="16" y="34" width="16" height="9" rx="2" fill="#fff" stroke="#111" stroke-width="2.5"/>
+    <circle cx="62" cy="57" r="23" fill="#222" stroke="#111" stroke-width="4"/>
+    <circle cx="62" cy="57" r="14" fill="#3f6fb5"/>
+    <circle cx="56" cy="51" r="4.5" fill="#fff" opacity=".85"/>
+    <path d="M10 72h100" stroke="#111" stroke-width="2" opacity=".35"/>
+  </symbol>
+
+  <symbol id="s-ohio" viewBox="0 0 70 84">
+    <path d="M7 10l33-5 22 9 3 22-8 21-14 18-22-3-12-20z" fill="#fff" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
+    <text x="35" y="38" text-anchor="middle" font-family="DM Sans, sans-serif" font-weight="800" font-size="15" fill="#bb133e">OHIO</text>
+    <path d="M35 46l3.2 6.6 7.2 1-5.3 5 1.3 7.2-6.4-3.5-6.4 3.5 1.3-7.2-5.3-5 7.2-1z" fill="#1d3f8f"/>
+  </symbol>
+
+  <symbol id="s-coaster" viewBox="0 0 140 96">
+    <g fill="none" stroke="#111" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6 84H134" stroke-width="5"/>
+      <circle cx="88" cy="54" r="30" stroke-width="5"/>
+      <path d="M72 80l-6 4M104 80l6 4" stroke-width="3"/>
+    </g>
+    <rect x="12" y="62" width="40" height="17" rx="7" fill="#e63946" stroke="#111" stroke-width="3.5"/>
+    <circle cx="24" cy="55" r="6.5" fill="#ffd9a8" stroke="#111" stroke-width="3"/><circle cx="40" cy="55" r="6.5" fill="#ffd9a8" stroke="#111" stroke-width="3"/>
+    <path d="M18 62l-5-10M46 62l5-10" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="23" cy="81" r="4.5" fill="#111"/><circle cx="41" cy="81" r="4.5" fill="#111"/>
+  </symbol>
+
+  <symbol id="s-masks" viewBox="0 0 124 100">
+    <path d="M8 12Q38 2 66 12Q68 54 38 72Q6 56 8 12Z" fill="#f7c948" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M20 28Q27 21 34 28M44 28Q51 21 58 28" fill="none" stroke="#111" stroke-width="3.5" stroke-linecap="round"/>
+    <path d="M18 42Q38 66 58 42Q38 50 18 42Z" fill="#111" stroke="#111" stroke-width="3" stroke-linejoin="round"/>
+    <g transform="translate(50 22) rotate(8 38 36)">
+      <path d="M8 12Q38 2 66 12Q68 54 38 72Q6 56 8 12Z" fill="#cfd9ee" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M18 32L33 26M44 26L59 32" fill="none" stroke="#111" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M20 58Q38 40 56 58" fill="none" stroke="#111" stroke-width="4" stroke-linecap="round"/>
+    </g>
+  </symbol>
+
+  <symbol id="s-metro" viewBox="0 0 140 96">
+    <g transform="rotate(-8 70 48)">
+      <rect x="8" y="14" width="124" height="68" rx="9" fill="#ffd400" stroke="#111" stroke-width="4"/>
+      <rect x="8" y="56" width="124" height="14" fill="#111"/>
+      <text x="20" y="46" font-family="DM Sans, sans-serif" font-weight="800" font-size="24" fill="#111">NYC</text>
+      <rect x="98" y="24" width="24" height="18" rx="3" fill="#1a56db"/>
+      <text x="20" y="66.5" font-family="DM Sans, sans-serif" font-weight="700" font-size="8.5" letter-spacing="2.4" fill="#fff">UNLIMITED</text>
+    </g>
+  </symbol>
+
+  <symbol id="s-coffee" viewBox="0 0 80 114">
+    <path d="M30 14q-5-5 0-10M42 14q-5-5 0-10" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round"/>
+    <rect x="10" y="18" width="60" height="12" rx="5" fill="#2b2b2b" stroke="#111" stroke-width="3.5"/>
+    <path d="M14 30H66L60 108H20Z" fill="#fff" stroke="#111" stroke-width="3.5" stroke-linejoin="round"/>
+    <path d="M16.6 56H63.4L61.4 84H18.6Z" fill="#0f9d6b"/>
+    <path d="M40 78c-9-6-7-13-2.5-13 2 0 2.500 1.800 2.500 2.500 0-.7.500-2.500 2.500-2.500 4.500 0 6.500 7-2.500 13z" fill="#fff"/>
+  </symbol>
+
+  <symbol id="s-taxi" viewBox="0 0 140 78">
+    <path d="M10 56V42Q10 36 18 35L34 32L46 14Q48 12 52 12H92Q96 12 98 15L110 32L124 35Q132 37 132 44V56Z" fill="#ffc800" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M52 18H72V32H42ZM78 18H92L102 32H78Z" fill="#cfe8ff" stroke="#111" stroke-width="3" stroke-linejoin="round"/>
+    <rect x="60" y="3" width="22" height="9" rx="2" fill="#fff" stroke="#111" stroke-width="3"/>
+    <path d="M12 44H130" stroke="#111" stroke-width="3" stroke-dasharray="6 5"/>
+    <circle cx="38" cy="58" r="11" fill="#111"/><circle cx="38" cy="58" r="4" fill="#bbb"/>
+    <circle cx="106" cy="58" r="11" fill="#111"/><circle cx="106" cy="58" r="4" fill="#bbb"/>
+  </symbol>
+
+  <symbol id="s-tv" viewBox="0 0 120 106">
+    <path d="M40 16L58 2L78 16" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="6" y="16" width="108" height="80" rx="14" fill="#b0763c" stroke="#111" stroke-width="4"/>
+    <rect x="16" y="26" width="72" height="58" rx="10" fill="url(#g-tv)" stroke="#111" stroke-width="3.5"/>
+    <rect x="22" y="32" width="28" height="13" rx="3" fill="#e63946"/>
+    <text x="36" y="42" text-anchor="middle" font-family="DM Sans, sans-serif" font-weight="800" font-size="8.5" fill="#fff">LIVE</text>
+    <path d="M28 58h46M28 68h30" stroke="#fff" opacity=".75" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="102" cy="44" r="6" fill="#f2e6c9" stroke="#111" stroke-width="3"/><circle cx="102" cy="64" r="6" fill="#f2e6c9" stroke="#111" stroke-width="3"/>
+    <path d="M24 96l-4 9M96 96l4 9" stroke="#111" stroke-width="4" stroke-linecap="round"/>
+  </symbol>
+
+  <symbol id="s-sparkle" viewBox="0 0 92 92">
+    <path d="M36 14Q40 46 70 50Q40 54 36 86Q32 54 2 50Q32 46 36 14Z" fill="#ffd23f" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M72 4Q74 16 86 18Q74 20 72 32Q70 20 58 18Q70 16 72 4Z" fill="#fff" stroke="#111" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M78 66Q79 72 85 73Q79 74 78 80Q77 74 71 73Q77 72 78 66Z" fill="#ff7aa8" stroke="#111" stroke-width="2.5" stroke-linejoin="round"/>
+  </symbol>
+
+  <symbol id="s-smile" viewBox="0 0 100 100">
+    <g stroke="#111" stroke-width="3.5" fill="#fff">
+      <ellipse cx="50" cy="19" rx="12" ry="17"/><ellipse cx="50" cy="19" rx="12" ry="17" transform="rotate(45 50 50)"/>
+      <ellipse cx="50" cy="19" rx="12" ry="17" transform="rotate(90 50 50)"/><ellipse cx="50" cy="19" rx="12" ry="17" transform="rotate(135 50 50)"/>
+      <ellipse cx="50" cy="19" rx="12" ry="17" transform="rotate(180 50 50)"/><ellipse cx="50" cy="19" rx="12" ry="17" transform="rotate(225 50 50)"/>
+      <ellipse cx="50" cy="19" rx="12" ry="17" transform="rotate(270 50 50)"/><ellipse cx="50" cy="19" rx="12" ry="17" transform="rotate(315 50 50)"/>
+    </g>
+    <circle cx="50" cy="50" r="23" fill="#ffd23f" stroke="#111" stroke-width="4"/>
+    <circle cx="42" cy="45" r="3" fill="#111"/><circle cx="58" cy="45" r="3" fill="#111"/>
+    <path d="M40 55Q50 66 60 55" fill="none" stroke="#111" stroke-width="3.5" stroke-linecap="round"/>
+  </symbol>
+
+  <symbol id="s-heart" viewBox="0 0 100 92">
+    <path d="M50 86C6 54 8 20 30 14C42 11 50 20 50 26C50 20 58 11 70 14C92 20 94 54 50 86Z" fill="#ff5d8f" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M24 32Q26 23 35 22" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".85"/>
+  </symbol>
+
+  <symbol id="s-splat" viewBox="0 0 100 100">
+    <path d="M50 18C60 8 70 22 72 30C84 24 94 36 84 46C96 54 88 68 76 66C76 80 62 88 54 78C46 90 30 84 32 70C18 74 8 60 20 52C8 44 16 28 30 32C28 20 42 12 50 18Z" fill="#0f9d6b" stroke="#111" stroke-width="3.5" stroke-linejoin="round"/>
+    <circle cx="90" cy="14" r="4.5" fill="#0f9d6b" stroke="#111" stroke-width="2.5"/><circle cx="8" cy="20" r="3.5" fill="#0f9d6b" stroke="#111" stroke-width="2.5"/><circle cx="92" cy="86" r="4" fill="#0f9d6b" stroke="#111" stroke-width="2.5"/>
+    <ellipse cx="40" cy="38" rx="9" ry="5" fill="#fff" opacity=".4" transform="rotate(-30 40 38)"/>
+  </symbol>
+</svg>
+
+<!-- INTRO OVERLAY (only shown while html.intro is set; skipped for reduced motion) -->
+<div id="intro" aria-hidden="true">
+  <canvas id="paint"></canvas>
+  <div id="typed"></div>
+  <div id="brush"></div>
+  <div class="skip-hint">click to skip</div>
+</div>
+<canvas id="splat" aria-hidden="true"></canvas>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#home">Noah Proctor</a>
+    <nav aria-label="Primary">
+      <ul>
+        <li><a class="lnk" href="#home" data-key="home">home</a></li>
+        <li><a class="lnk" href="#product" data-key="product">product</a></li>
+        <li><a class="lnk" href="#data-science" data-key="data-science">data science</a></li>
+        <li><a class="lnk" href="#about" data-key="about">about</a></li>
+        <li><a class="lnk" href="Proctor_Noah_Resume.pdf">résumé</a></li>
+        <li><a class="cta" href="mailto:nap2180@columbia.edu">contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="wrap">
+    <div class="grid">
+      <div class="copy">
+        <h1 class="name rise" id="heroName" aria-label="Noah Proctor" style="--i:0">Noah<br>Proctor</h1>
+        <p class="bio rise" style="--i:2">junior at columbia university studying operations research and computer science. i love turning pain points into solutions, whether that&rsquo;s through yapping with users, working through the data, or spending way too much time on claude.</p>
+        <p class="fun rise" style="--i:3"><b>fun fact:</b> i&rsquo;m a huge rollercoaster nerd. go ahead and drag the stickers around.</p>
+      </div>
+
+      <div class="collage" id="collage">
+        <figure class="polaroid" style="--i:1">
+          <span class="tape" aria-hidden="true"></span>
+          <div class="photo">
+            <svg viewBox="0 0 100 120" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="100" height="120" fill="#bdbdbd"/><circle cx="50" cy="46" r="17" fill="#8e8e8e"/><path d="M12 120c2-26 16-38 38-38s36 12 38 38z" fill="#8e8e8e"/></svg>
+            <img src="assets/noah.jpg" alt="Noah smiling in a dark suit and patterned tie" onerror="this.remove()">
+          </div>
+          <figcaption class="cap">hey, i&rsquo;m noah</figcaption>
+        </figure>
+
+        <div class="sticker" style="--l:-86; --t:-18; --w:98; --r:-8deg; --i:3" role="img" aria-label="disco ball sticker"><svg viewBox="0 0 100 106"><use href="#s-disco"/></svg></div>
+        <div class="sticker" style="--l:288; --t:-40; --w:92; --r:10deg; --i:4" role="img" aria-label="vinyl record sticker"><svg viewBox="0 0 100 100"><use href="#s-vinyl"/></svg></div>
+        <div class="sticker" style="--l:300; --t:210; --w:74; --r:14deg; --i:5" role="img" aria-label="chrome star sticker"><svg viewBox="0 0 100 100"><use href="#s-star"/></svg></div>
+        <div class="sticker ny" style="--l:-70; --t:272; --r:-5deg; --i:6" role="img" aria-label="New York sticker">NEW<br>YORK</div>
+        <div class="sticker" style="--l:296; --t:330; --w:58; --r:-9deg; --i:7" role="img" aria-label="Ohio sticker"><svg viewBox="0 0 70 84"><use href="#s-ohio"/></svg></div>
+        <div class="sticker" style="--l:-34; --t:452; --w:116; --r:-6deg; --i:8" role="img" aria-label="camera sticker"><svg viewBox="0 0 120 92"><use href="#s-camera"/></svg></div>
+        <div class="sticker ticket" style="--l:104; --t:462; --w:244; --r:3deg; --i:9" role="img" aria-label="front car ticket sticker">
+          <div class="ticket-body">
+            <div><small>ADMIT ONE</small><strong>Front Car</strong><em>scroll to ride along</em></div>
+            <div class="seat"><b>1A</b><span>No. 0183</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- extra stickers around the hero -->
+  <div class="sticker free" style="--x:44%; --y:5%; --w:74; --r:8deg; --i:5" role="img" aria-label="sparkles sticker"><svg viewBox="0 0 92 92"><use href="#s-sparkle"/></svg></div>
+  <div class="sticker free" style="--x:1.5%; --y:7%; --w:64; --r:-12deg; --i:6" role="img" aria-label="heart sticker"><svg viewBox="0 0 100 92"><use href="#s-heart"/></svg></div>
+  <div class="sticker free opt" style="--x:52%; --y:80%; --w:104; --r:-6deg; --i:7" role="img" aria-label="retro tv sticker"><svg viewBox="0 0 120 106"><use href="#s-tv"/></svg></div>
+  <div class="sticker free opt" style="--x:33%; --y:90%; --w:64; --r:9deg; --i:8" role="img" aria-label="coffee sticker"><svg viewBox="0 0 80 114"><use href="#s-coffee"/></svg></div>
+</section>
+
+<!-- WORK -->
+<section class="work" id="work">
+  <div class="wrap">
+    <div class="tiles">
+
+      <a class="tile taped" id="product" href="#" data-todo="Transplant case study url" style="scroll-margin-top:96px">
+        <div class="badge"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M12 32L32 14l20 18" fill="none" stroke="#111" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 30v22h28V30" fill="none" stroke="#111" stroke-width="3.5" stroke-linejoin="round"/><rect x="28" y="38" width="8" height="14" fill="#0f9d6b"/><path d="M46 20h8v8" fill="none" stroke="#0f9d6b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>Transplant</h3>
+        <p>Moving made easy. Budget tracking and a dependency-aware roadmap for people moving states, built solo from persona to prototype.</p>
+        <div class="chips"><span class="chip">PRD</span><span class="chip">RICE</span><span class="chip">Figma</span><span class="chip">Lovable</span></div>
+        <div class="foot"><span class="go"><span>Case study</span> <i>&rarr;</i></span></div>
+      </a>
+
+      <a class="tile" href="#" data-todo="Series case study url">
+        <div class="badge dark"><svg viewBox="0 0 64 64" aria-hidden="true"><text x="32" y="44" text-anchor="middle" font-family="Fraunces, serif" font-weight="700" font-size="38" fill="#fff">S.</text></svg></div>
+        <h3>Series</h3>
+        <p>An iMessage-native AI networking platform. 30+ user interviews and a 20% drop in churn; $3.1M raised in 14 days.</p>
+        <div class="chips"><span class="chip">User research</span><span class="chip">Feature specs</span></div>
+        <div class="foot"><span class="go"><span>Case study</span> <i>&rarr;</i></span></div>
+      </a>
+
+      <a class="tile" href="#" data-todo="Threshold case study url">
+        <div class="badge"><svg viewBox="0 0 64 64" aria-hidden="true"><rect x="10" y="12" width="44" height="40" rx="6" fill="none" stroke="#111" stroke-width="3.5"/><path d="M10 24h44" stroke="#111" stroke-width="3.5"/><circle cx="17" cy="18" r="2" fill="#111"/><circle cx="24" cy="18" r="2" fill="#111"/><path d="M18 34h18M18 43h26" stroke="#111" stroke-width="3.5" stroke-linecap="round"/><circle cx="46" cy="36" r="5.5" fill="#0f9d6b"/></svg></div>
+        <h3>Threshold</h3>
+        <p>A Claude-powered daily briefing that pulls six work tools into one source-linked digest. Built solo at Thresh Consulting.</p>
+        <div class="chips"><span class="chip">Claude skill</span><span class="chip">Dashboard</span></div>
+        <div class="foot"><span class="go"><span>Case study</span> <i>&rarr;</i></span></div>
+      </a>
+
+      <a class="tile" href="#" data-todo="Lumelle url or details">
+        <div class="badge"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M14 26l8-12h20l8 12-18 26z" fill="none" stroke="#111" stroke-width="3.5" stroke-linejoin="round"/><path d="M14 26h36M22 14l10 38 10-38" fill="none" stroke="#111" stroke-width="3" stroke-linejoin="round"/><path d="M22 14h20l-10 12z" fill="#0f9d6b"/></svg></div>
+        <h3>Lumelle</h3>
+        <p>Leading the MVP for a jewelry rental and lease-to-own app, with the roadmap set by user and business impact.</p>
+        <div class="chips"><span class="chip">Founding PM</span><span class="chip">Roadmap</span></div>
+        <div class="foot"><span class="go"><span>Details</span> <i>&rarr;</i></span></div>
+      </a>
+
+      <a class="tile" href="#" data-todo="Hive PRD url">
+        <div class="badge"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 8l20 11.500v23L32 54 12 42.500v-23z" fill="none" stroke="#111" stroke-width="3.5" stroke-linejoin="round"/><path d="M32 22l9 5.200v10.400L32 43l-9-5.400V27.200z" fill="#0f9d6b"/></svg></div>
+        <h3>Hive Onboarding 2.0</h3>
+        <p>A PRD to cut Aden Hive&rsquo;s time to first agent from 30+ minutes to under five.</p>
+        <div class="chips"><span class="chip">PRD</span><span class="chip">Metrics</span></div>
+        <div class="foot"><span class="go"><span>Read the PRD</span> <i>&rarr;</i></span></div>
+      </a>
+
+      <a class="tile taped" href="#" data-todo="Phia teardown url">
+        <div class="badge dark"><svg viewBox="0 0 64 64" aria-hidden="true"><text x="32" y="38" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-weight="600" font-size="22" fill="#fff">phia</text></svg></div>
+        <h3>Phia teardown</h3>
+        <p>Where an AI shopping agent nailed it, where trust gets tricky, and what to ship next.</p>
+        <div class="chips"><span class="chip">Teardown</span><span class="chip">Strategy</span></div>
+        <div class="foot"><span class="go"><span>Read the teardown</span> <i>&rarr;</i></span></div>
+      </a>
+
+      <a class="tile" href="#" data-todo="Airline booking case url">
+        <div class="badge"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M8 30L56 10 42 54 31 39z" fill="none" stroke="#111" stroke-width="3.5" stroke-linejoin="round"/><path d="M31 39L56 10" stroke="#0f9d6b" stroke-width="3.5" stroke-linecap="round"/></svg></div>
+        <h3>Airline Booking</h3>
+        <p>A browser extension that predicts when a fare is about to move, built for hesitant flyers.</p>
+        <div class="chips"><span class="chip">Predictive AI</span><span class="chip">Market research</span></div>
+        <div class="foot"><span class="go"><span>Case study</span> <i>&rarr;</i></span></div>
+      </a>
+
+      <a class="tile" id="data-science" href="#" data-todo="Lake Erie github url" style="scroll-margin-top:96px">
+        <div class="badge"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M8 24q6-6 12 0t12 0 12 0 12 0M8 36q6-6 12 0t12 0 12 0 12 0M8 48q6-6 12 0t12 0 12 0 12 0" fill="none" stroke="#111" stroke-width="3.5" stroke-linecap="round"/><circle cx="40" cy="18" r="5" fill="#0f9d6b"/></svg></div>
+        <h3>Lake Erie Algal Blooms</h3>
+        <p>An ML pipeline that predicts bloom severity across 8 NOAA stations, with SHAP to explain it.</p>
+        <div class="chips"><span class="chip">XGBoost</span><span class="chip">scikit-learn</span><span class="chip">pandas</span></div>
+        <div class="foot"><span class="go"><span>GitHub</span> <i>&nearr;</i></span></div>
+      </a>
+
+      <a class="tile" href="#" data-todo="Water quality live site url">
+        <div class="badge"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 8C32 8 14 28 14 39a18 18 0 0 0 36 0C50 28 32 8 32 8z" fill="#fff" stroke="#111" stroke-width="3.5" stroke-linejoin="round"/><path d="M24 40a8 8 0 0 0 7 8" fill="none" stroke="#0f9d6b" stroke-width="3.5" stroke-linecap="round"/></svg></div>
+        <h3>Perkins Township Water</h3>
+        <p>A 1&ndash;5 star score for municipal drinking water across 10 contaminants, naming the limiting factor.</p>
+        <div class="chips"><span class="chip">Python</span><span class="chip">Data viz</span></div>
+        <div class="foot"><span class="go"><span>Live site</span> <i>&nearr;</i></span></div>
+      </a>
+
+      <a class="tile taped" href="#" data-todo="Brand financials live site url">
+        <div class="badge"><svg viewBox="0 0 64 64" aria-hidden="true"><rect x="12" y="34" width="8" height="18" fill="#111"/><rect x="25" y="26" width="8" height="26" fill="#111"/><rect x="38" y="18" width="8" height="34" fill="#111"/><rect x="51" y="10" width="6" height="42" fill="#0f9d6b"/></svg></div>
+        <h3>Brand Financials</h3>
+        <p>A pipeline that anonymizes a brand portfolio report for deal calls. Built at Alka Oaks Partners.</p>
+        <div class="chips"><span class="chip">Python</span><span class="chip">HTML</span></div>
+        <div class="foot"><span class="go"><span>Live site</span> <i>&nearr;</i></span></div>
+      </a>
+
+      <a class="tile" href="#" data-todo="Scope 2 github url">
+        <div class="badge"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M10 10v44h46" fill="none" stroke="#111" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 20l12 10 10-6 16 18" fill="none" stroke="#0f9d6b" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 36l12 4 10 6 16-4" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>Scope 2 Emissions</h3>
+        <p>80,633 firm-years across 5,040 U.S. companies, 2010&ndash;2024, matched to EPA data.</p>
+        <div class="chips"><span class="chip">pandas</span><span class="chip">Jupyter</span><span class="chip">Research</span></div>
+        <div class="foot"><span class="go"><span>GitHub</span> <i>&nearr;</i></span></div>
+      </a>
+
+      <a class="tile" href="#" data-todo="Video Poker github url">
+        <div class="badge"><svg viewBox="0 0 64 64" aria-hidden="true"><g transform="rotate(-12 32 32)"><rect x="16" y="9" width="32" height="46" rx="5" fill="#fff" stroke="#111" stroke-width="3.5"/><text x="22" y="26" font-family="Fraunces, serif" font-weight="700" font-size="14" fill="#111">A</text><path d="M32 46c-8-5-7-11-2.500-11 1.800 0 2.500 1.500 2.500 2 0-.5.700-2 2.500-2 4.500 0 5.500 6-2.500 11z" fill="#0f9d6b"/></g></svg></div>
+        <h3>Video Poker</h3>
+        <p>A playable Java video poker game with proper hand evaluation, built for my Columbia Java course.</p>
+        <div class="chips"><span class="chip">Java</span><span class="chip">OOP</span></div>
+        <div class="foot"><span class="go"><span>GitHub</span> <i>&nearr;</i></span></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="sticker free m-keep" style="--x:0.8%; --y:-3%; --w:150; --r:-4deg; --i:1" role="img" aria-label="roller coaster sticker"><svg viewBox="0 0 140 96"><use href="#s-coaster"/></svg></div>
+  <div class="sticker free" style="--x:55.5%; --y:23.5%; --w:118; --r:5deg; --i:2" role="img" aria-label="subway card sticker"><svg viewBox="0 0 140 96"><use href="#s-metro"/></svg></div>
+  <div class="sticker free" style="--x:88.5%; --y:17%; --w:100; --r:9deg; --i:3" role="img" aria-label="theater masks sticker"><svg viewBox="0 0 124 100"><use href="#s-masks"/></svg></div>
+  <div class="sticker free keep" style="--x:2%; --y:36%; --w:92; --r:-10deg; --i:4" role="img" aria-label="green paint splat sticker"><svg viewBox="0 0 100 100"><use href="#s-splat"/></svg></div>
+  <div class="sticker free" style="--x:80%; --y:44.5%; --w:118; --r:4deg; --i:5" role="img" aria-label="taxi sticker"><svg viewBox="0 0 140 78"><use href="#s-taxi"/></svg></div>
+  <div class="sticker free opt" style="--x:92%; --y:60%; --w:64; --r:12deg; --i:6" role="img" aria-label="heart sticker"><svg viewBox="0 0 100 92"><use href="#s-heart"/></svg></div>
+  <div class="sticker free opt" style="--x:28%; --y:71%; --w:64; --r:-8deg; --i:7" role="img" aria-label="sparkles sticker"><svg viewBox="0 0 92 92"><use href="#s-sparkle"/></svg></div>
+  <div class="sticker free" style="--x:1.5%; --y:82%; --w:76; --r:6deg; --i:8" role="img" aria-label="daisy sticker"><svg viewBox="0 0 100 100"><use href="#s-smile"/></svg></div>
+  <div class="sticker free opt" style="--x:59.5%; --y:95.5%; --w:74; --r:16deg; --i:9" role="img" aria-label="chrome star sticker"><svg viewBox="0 0 100 100"><use href="#s-star"/></svg></div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="about-copy">
+        <p class="lede">I study Operations Research at Columbia and largely build consumer products. Currently a founding product manager at Lumelle, a jewelry rental app, and building Transplant, a moving agent.</p>
+        <p>I like turning messy problems into useful products: talking to users, working through the data, and making the decisions that get an idea shipped. I&rsquo;m especially interested in consumer products and AI.</p>
+        <p>Outside work, you&rsquo;ll find me chasing roller coasters, walking around New York, finding a good dinner, catching a show, or taking reality TV a little too seriously.</p>
+        <div class="btns"><a class="btn solid" href="mailto:nap2180@columbia.edu">get in touch</a><a class="btn" href="Proctor_Noah_Resume.pdf">download r&eacute;sum&eacute;</a></div>
+      </div>
+      <div class="cards">
+        <div class="card now"><h4>Columbia Engineering</h4><div class="role">B.S. Operations Research</div><div class="when">Class of 2028</div><p>Minors in computer science and economics.</p></div>
+        <div class="card"><h4>Lumelle</h4><div class="role">Product Manager</div><div class="when">Sep 2026 &ndash; present</div><p>MVP for a jewelry rental and lease-to-own app.</p></div>
+        <div class="card"><h4>Thresh Consulting</h4><div class="role">Digital Strategy Intern</div><div class="when">Jun &ndash; Aug 2026</div><p>Launched an agentic AI OS to 75%+ adoption and built Threshold.</p></div>
+        <div class="card"><h4>Columbia Economics</h4><div class="role">Undergraduate Researcher</div><div class="when">Jan &ndash; May 2026</div><p>80,000+ emissions observations matched to EPA data in Python.</p></div>
+        <div class="card"><h4>Series</h4><div class="role">Product Strategist</div><div class="when">Dec 2025 &ndash; May 2026</div><p>30+ interviews, 25,000+ users, churn down 20%.</p></div>
+        <div class="card"><h4>Alka Oaks Partners</h4><div class="role">Industry Research Intern</div><div class="when">Dec 2025 &ndash; Mar 2026</div><p>Market research for due diligence on an EdTech target.</p></div>
+        <div class="card"><h4>Kelly Laboratory</h4><div class="role">Undergraduate Researcher</div><div class="when">2025</div><p>Reactive transport in sandstone for carbon mineralization.</p></div>
+      </div>
+    </div>
+
+    <div class="cloud" aria-label="Skills">
+      <span class="pill">Product lifecycle</span><span class="pill">Roadmaps</span><span class="pill">Market analysis</span><span class="pill">Data-driven decisions</span><span class="pill">Cross-functional collab</span><span class="pill">Stakeholder management</span><span class="pill">UX/UI principles</span>
+      <span class="pill">Python</span><span class="pill">Java</span><span class="pill">SQL</span><span class="pill">Figma</span><span class="pill">Jira</span><span class="pill">Asana</span><span class="pill">Trello</span><span class="pill">Tableau</span><span class="pill">Power BI</span><span class="pill">Google Analytics</span><span class="pill">Hotjar</span><span class="pill">InVision</span><span class="pill">Git / GitHub</span>
+      <span class="pill">Communication</span><span class="pill">Empathy</span><span class="pill">Leadership</span><span class="pill">Problem-solving</span><span class="pill">Negotiation</span><span class="pill">Time management</span>
+    </div>
+
+    <p class="outside">A serial side-quester. Long walks, good food, a seat at the theater, and the occasional scenic detour.</p>
+    <!-- To add photos later, put a small <img> above each caption and wrap the pair like the polaroid in the hero. -->
+    <div class="slips" id="slips">
+      <span class="slip">otw to class</span><span class="slip">famous coney island cyclone</span><span class="slip">csr @ club fair</span><span class="slip">ben shelton!</span><span class="slip">science communication!</span><span class="slip">met opera</span><span class="slip">bday antics</span><span class="slip">lincoln center</span><span class="slip">riverside park</span><span class="slip">my ra board!</span><span class="slip">chem lab substance</span><span class="slip">lovely uws</span><span class="slip">golden hour on campus</span><span class="slip">brunchhh</span><span class="slip">home hangouts</span><span class="slip">maximalist mirror</span><span class="slip">view from the un</span><span class="slip">my fav art gallery</span>
+    </div>
+  </div>
+
+  <div class="sticker free" style="--x:46%; --y:2%; --w:70; --r:14deg; --i:1" role="img" aria-label="chrome star sticker"><svg viewBox="0 0 100 100"><use href="#s-star"/></svg></div>
+  <div class="sticker free" style="--x:90%; --y:3%; --w:96; --r:8deg; --i:2" role="img" aria-label="vinyl sticker"><svg viewBox="0 0 100 100"><use href="#s-vinyl"/></svg></div>
+  <div class="sticker free opt" style="--x:2%; --y:56%; --w:90; --r:-9deg; --i:3" role="img" aria-label="disco ball sticker"><svg viewBox="0 0 100 106"><use href="#s-disco"/></svg></div>
+  <div class="sticker free opt" style="--x:0.6%; --y:41%; --w:70; --r:-6deg; --i:4" role="img" aria-label="coffee sticker"><svg viewBox="0 0 80 114"><use href="#s-coffee"/></svg></div>
+  <div class="sticker free opt" style="--x:91%; --y:80%; --w:92; --r:6deg; --i:5" role="img" aria-label="camera sticker"><svg viewBox="0 0 120 92"><use href="#s-camera"/></svg></div>
+</section>
+</main>
+
+<footer id="contact">
+  <div class="wrap">
+    <h2 class="big-cta"><a href="mailto:nap2180@columbia.edu">let&rsquo;s build.</a></h2>
+    <div class="contact-row">
+      <a class="email" href="mailto:nap2180@columbia.edu">nap2180@columbia.edu</a>
+      <div class="links">
+        <a class="btn" href="#" data-todo="linkedin url">LinkedIn</a>
+        <a class="btn" href="#" data-todo="github url">GitHub</a>
+        <a class="btn" href="Proctor_Noah_Resume.pdf">R&eacute;sum&eacute;</a>
+      </div>
+    </div>
+    <div class="legal"><span>built with curiosity in new york</span><button type="button" id="replayLink">replay intro</button></div>
+  </div>
+  <div class="sticker free" style="--x:76%; --y:6%; --w:190; --r:-5deg; --i:1" role="img" aria-label="roller coaster sticker"><svg viewBox="0 0 140 96"><use href="#s-coaster"/></svg></div>
+  <div class="sticker free keep opt" style="--x:36%; --y:9%; --w:84; --r:9deg; --i:2" role="img" aria-label="green paint splat sticker"><svg viewBox="0 0 100 100"><use href="#s-splat"/></svg></div>
+  <div class="sticker free opt" style="--x:44%; --y:70%; --w:70; --r:-12deg; --i:3" role="img" aria-label="heart sticker"><svg viewBox="0 0 100 92"><use href="#s-heart"/></svg></div>
+</footer>
+<button type="button" class="replay" id="replayBtn" aria-label="Replay the intro animation">&circlearrowright; replay intro</button>
+
+<script>
+(function () {
+  'use strict';
+  /* ================= FLAGS ================= */
+  var INTRO_ENABLED = true;            // false: skip the intro entirely
+  var PLAY_ONCE_PER_SESSION = false;   // true: only play on the first visit of each browser session
+  var SPLAT_LIFETIME = 6000;           // ms a click splat stays on the page before fading
+
+  var NAME = 'Noah Proctor';
+  var GREENS = ['#0f9d6b', '#0f9d6b', '#12b57d', '#0b8a5d', '#0f9d6b', '#18c088'];
+  var BASE = '#0f9d6b';
+  /* light / mid / dark tones for each paint color; the light and dark ones become rim light and shade */
+  var PALS = [
+    { l: '#4fdcaa', m: '#0f9d6b', d: '#096847' },
+    { l: '#66e4b9', m: '#12b57d', d: '#0b7f57' },
+    { l: '#38c892', m: '#0b8a5d', d: '#055238' },
+    { l: '#b4f2d8', m: '#34c58f', d: '#1b9a6d' }
+  ];
+  var PAL3 = PALS.slice(0, 3);
+  var root = document.documentElement;
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function clamp(x, a, b) { return Math.max(a, Math.min(b, x)); }
+  function rnd(a, b) { return a + Math.random() * (b - a); }
+  function pick(a) { return a[(Math.random() * a.length) | 0]; }
+  function easeOutCubic(x) { return 1 - Math.pow(1 - x, 3); }
+  function easeInOutCubic(x) { return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; }
+  function easeInOutSine(x) { return -(Math.cos(Math.PI * x) - 1) / 2; }
+
+  /* ================= HERO NAME: split into hoverable letters ================= */
+  (function () {
+    var h = document.getElementById('heroName');
+    if (!h) return;
+    var out = '';
+    h.childNodes.forEach(function (n) {
+      if (n.nodeType === 3) out += n.textContent.split('').map(function (c) { return '<span class="l" aria-hidden="true">' + c + '</span>'; }).join('');
+      else out += n.outerHTML;
+    });
+    h.innerHTML = out;
+  })();
+
+  /* ================= PAINT SPLAT SHAPES ================= */
+  function makeNoise() {
+    var terms = [];
+    [[.5, 3], [.32, 5], [.24, 8], [.16, 13], [.1, 21]].forEach(function (t) { terms.push({ a: t[0], f: t[1], p: Math.random() * 6.283, s: rnd(-1.4, 1.4) }); });
+    return function (theta, time) { var n = 0; for (var i = 0; i < terms.length; i++) n += terms[i].a * Math.sin(terms[i].f * theta + terms[i].p + time * terms[i].s); return n; };
+  }
+  function tracePoly(ctx, cx, cy, R, amp, noise, time) {
+    var N = 180; ctx.beginPath();
+    for (var i = 0; i <= N; i++) {
+      var th = i / N * 6.283185, r = R * (1 + amp * noise(th, time));
+      var x = cx + Math.cos(th) * r, y = cy + Math.sin(th) * r;
+      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    }
+    ctx.closePath();
+  }
+  /* A splat = a lumpy core, curved paint "fingers" built from chains of circles (so every end is round and
+     the stalk necks in before a fat blob), and loose drops beyond them. */
+  function makeSplat(R) {
+    var K = 7 + ((Math.random() * 5) | 0), lig = [], k;
+    for (k = 0; k < K; k++) {
+      var w = R * rnd(.15, .28);
+      lig.push({ a: (k / K) * 6.283 + rnd(-.3, .3), len: R * (.95 + Math.pow(Math.random(), 1.4) * 1.3), w: w, bulb: R * rnd(.13, .24), bend: rnd(-1, 1) * w * 1.8, gap: R * rnd(.06, .26) });
+    }
+    var M = 10 + ((Math.random() * 10) | 0), sats = [];
+    for (k = 0; k < M; k++) sats.push({ a: rnd(0, 6.283), d: R * rnd(1.2, 3), r: R * rnd(.035, .11), st: rnd(1, 1.8) });
+    /* long, mostly parallel bristle streaks that get painted inside the finished splat */
+    var sa = rnd(0, Math.PI), streaks = [];
+    for (k = 0; k < 12; k++) streaks.push({ off: rnd(-.7, .7) * R, len: R * rnd(1.2, 3.4), w: Math.max(1, R * rnd(.02, .07)), a: sa + rnd(-.12, .12), tone: Math.random() < .5 ? 1 : -1, al: rnd(.07, .15) });
+    return { R: R, lig: lig, sats: sats, streaks: streaks, noise: makeNoise(), sprite: null };
+  }
+  function circ(path, x, y, r) { path.moveTo(x + r, y); path.ellipse(x, y, r, r, 0, 6.283185, 0, true); }
+  /* All sub-shapes are wound the same way (counter-clockwise) so they merge into one solid shape. */
+  function splatPath(x, y, p, s) {
+    var g = 1 - Math.pow(1 - p, 3), path = new Path2D(), N = 96, i, j, th, r;
+    for (i = 0; i <= N; i++) {
+      th = (1 - i / N) * 6.283185; r = s.R * .72 * g * (1 + .22 * s.noise(th, 0));
+      var px = x + Math.cos(th) * r, py = y + Math.sin(th) * r;
+      if (i === 0) path.moveTo(px, py); else path.lineTo(px, py);
+    }
+    path.closePath();
+    for (i = 0; i < s.lig.length; i++) {
+      var l = s.lig[i], ux = Math.cos(l.a), uy = Math.sin(l.a), nx = -uy, ny = ux;
+      var r0 = s.R * .3 * g, L = l.len * g, w = l.w * g, bk = l.bulb * g;
+      var x0 = x + ux * r0, y0 = y + uy * r0, x2 = x + ux * L, y2 = y + uy * L;
+      var cx = x + ux * L * .55 + nx * l.bend * g, cy = y + uy * L * .55 + ny * l.bend * g;
+      var neck = Math.min(w * .55, bk * .75), STEPS = 26;
+      for (j = 0; j <= STEPS; j++) {
+        var t = j / STEPS, u = 1 - t, bx = u * u * x0 + 2 * u * t * cx + t * t * x2, by = u * u * y0 + 2 * u * t * cy + t * t * y2;
+        var rad = t < .7 ? w + (neck - w) * Math.pow(t / .7, .8) : neck + (bk * 1.15 - neck) * Math.pow((t - .7) / .3, 1.6);
+        circ(path, bx, by, Math.max(.5, rad));
+      }
+    }
+    return path;
+  }
+  function dropsPath(x, y, s) {
+    var path = new Path2D(), i, ux, uy;
+    for (i = 0; i < s.lig.length; i++) {
+      var l = s.lig[i]; ux = Math.cos(l.a); uy = Math.sin(l.a);
+      var d = l.len + l.bulb * 1.8 + l.gap;
+      circ(path, x + ux * d, y + uy * d, l.bulb * .5);
+    }
+    for (i = 0; i < s.sats.length; i++) {
+      var t = s.sats[i]; ux = Math.cos(t.a); uy = Math.sin(t.a);
+      circ(path, x + ux * t.d, y + uy * t.d, t.r * t.st);
+    }
+    return path;
+  }
+  /* The finished, shaded splat is rendered once into a small sprite so it can be stamped cheaply:
+     cast shadow, light rim on the top-left edge, dark rim bottom-right (made by offsetting the silhouette),
+     bristle streaks and glossy glints. */
+  function makeSprite(s, pal) {
+    var ext = s.R * 3.6, sc = s.R > 60 ? .6 : Math.min(window.devicePixelRatio || 1, 2), N = Math.ceil(ext * 2 * sc);
+    function cv() { var c = document.createElement('canvas'); c.width = c.height = N; var g = c.getContext('2d'); g.setTransform(sc, 0, 0, sc, ext * sc, ext * sc); return { c: c, g: g }; }
+    var path = splatPath(0, 0, 1, s); path.addPath(dropsPath(0, 0, s));
+    var k = Math.max(1.3, s.R * .03), i;
+    var out = cv(), body = cv(), rim = cv(), o = out.g, b = body.g, m = rim.g;
+    o.save(); o.translate(k * 1.6, k * 2.4); o.fillStyle = 'rgba(0,38,22,.24)'; o.fill(path); o.restore();
+    b.fillStyle = pal.m; b.fill(path);
+    function rimTone(dx, dy, color) {
+      m.clearRect(-ext, -ext, ext * 2, ext * 2);
+      m.globalCompositeOperation = 'source-over'; m.fillStyle = '#000'; m.fill(path);
+      m.globalCompositeOperation = 'destination-out'; m.save(); m.translate(dx, dy); m.fill(path); m.restore();
+      m.globalCompositeOperation = 'source-in'; m.fillStyle = color; m.fillRect(-ext, -ext, ext * 2, ext * 2);
+      b.save(); b.setTransform(1, 0, 0, 1, 0, 0); b.drawImage(rim.c, 0, 0); b.restore();
+    }
+    rimTone(k * 1.2, k * 1.2, pal.l);     /* light catches the top-left lip */
+    rimTone(-k * 1.2, -k * 1.2, pal.d);   /* shade pools along the bottom-right lip */
+    b.globalCompositeOperation = 'source-atop'; b.lineCap = 'round';
+    for (i = 0; i < s.streaks.length; i++) {
+      var st = s.streaks[i], ux = Math.cos(st.a), uy = Math.sin(st.a), cx = -uy * st.off, cy = ux * st.off;
+      b.globalAlpha = st.al; b.strokeStyle = st.tone > 0 ? pal.l : pal.d; b.lineWidth = st.w;
+      b.beginPath(); b.moveTo(cx - ux * st.len / 2, cy - uy * st.len / 2); b.lineTo(cx + ux * st.len / 2, cy + uy * st.len / 2); b.stroke();
+    }
+    b.globalAlpha = 1; b.fillStyle = 'rgba(255,255,255,.4)';
+    b.beginPath(); b.ellipse(-s.R * .2, -s.R * .26, s.R * .2, s.R * .08, -.5, 0, 6.283); b.fill();
+    for (i = 0; i < Math.min(7, s.lig.length); i++) {
+      var l = s.lig[i], bx = Math.cos(l.a) * l.len * .97, by = Math.sin(l.a) * l.len * .97;
+      b.fillStyle = 'rgba(255,255,255,.36)'; b.beginPath(); b.ellipse(bx - l.bulb * .35, by - l.bulb * .42, l.bulb * .4, l.bulb * .2, -.5, 0, 6.283); b.fill();
+    }
+    o.save(); o.setTransform(1, 0, 0, 1, 0, 0); o.drawImage(body.c, 0, 0); o.restore();
+    return { c: out.c, ext: ext, pal: pal };
+  }
+  /* Flat while growing; at the end (shaded) the finished sprite is stamped. */
+  function paintSplat(ctx, x, y, p, s, pal, shaded, drops) {
+    if (shaded) {
+      if (!s.sprite || s.sprite.pal !== pal) s.sprite = makeSprite(s, pal);
+      ctx.drawImage(s.sprite.c, x - s.sprite.ext, y - s.sprite.ext, s.sprite.ext * 2, s.sprite.ext * 2);
+      return;
+    }
+    var path = splatPath(x, y, p, s);
+    if (drops) path.addPath(dropsPath(x, y, s));
+    ctx.fillStyle = pal.m; ctx.fill(path);
+  }
+
+  /* ================= INTRO ================= */
+  var raf = 0, running = false, resizeHandler = null;
+  var el = document.getElementById('intro');
+  var typed = document.getElementById('typed');
+  var paint = document.getElementById('paint');
+  var brushEl = document.getElementById('brush');
+  var pctx = paint.getContext('2d');
+  var W = 0, H = 0, dpr = 1;
+
+  function sizeCanvas() {
+    dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    W = window.innerWidth; H = window.innerHeight;
+    paint.width = Math.round(W * dpr); paint.height = Math.round(H * dpr);
+    pctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    pctx.globalCompositeOperation = 'source-over'; pctx.globalAlpha = 1;
+    pctx.clearRect(0, 0, W, H);
+  }
+
+  function endIntro() {
+    cancelAnimationFrame(raf); running = false;
+    window.removeEventListener('keydown', onKey);
+    if (resizeHandler) window.removeEventListener('resize', resizeHandler);
+    resizeHandler = null;
+    if (root.classList.contains('pre')) {
+      root.classList.add('reveal'); root.classList.remove('pre');
+      setTimeout(function () { root.classList.remove('reveal'); }, 2600);
+    }
+    root.classList.remove('intro');
+    el.style.background = ''; brushEl.style.display = 'none'; brushEl.innerHTML = '';
+    pctx.clearRect(0, 0, W, H);
+    window.scrollTo(0, 0);
+  }
+  function onKey(e) { if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') { e.preventDefault(); endIntro(); } }
+
+  /* A flat paintbrush (bristle edge faces the direction of travel, handle trails behind). Local x=0 is the leading edge. */
+  function brushSVG(h) {
+    var front = [], y, i;
+    for (y = h * .015; y < h * .985; y += 7) front.push([rnd(-4, 1), y]);
+    var bristle = front.map(function (p) { return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' ') + ' -34,' + (h * .985) + ' -34,' + (h * .015);
+    var tip = front.map(function (p) { return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' ');
+    for (i = front.length - 1; i >= 0; i--) tip += ' ' + (-20 + rnd(-3, 3)).toFixed(1) + ',' + front[i][1].toFixed(1);
+    var streaks = '';
+    for (y = h * .04; y < h * .96; y += 9) streaks += '<path d="M-34 ' + y.toFixed(1) + 'H-20" stroke="#bfae85" stroke-width="1.6"/>';
+    return '<svg width="560" height="' + h + '" viewBox="-540 0 560 ' + h + '" xmlns="http://www.w3.org/2000/svg">' +
+      '<defs><linearGradient id="bf" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#f4f4f4"/><stop offset=".5" stop-color="#a5a5a5"/><stop offset="1" stop-color="#e6e6e6"/></linearGradient></defs>' +
+      '<path d="M-96 ' + (h * .5 - h * .04) + 'L-520 ' + (h * .5 - h * .024) + 'Q-538 ' + (h * .5) + ' -520 ' + (h * .5 + h * .024) + 'L-96 ' + (h * .5 + h * .04) + 'Z" fill="#111"/>' +
+      '<rect x="-102" y="' + (h * .045) + '" width="70" height="' + (h * .91) + '" rx="8" fill="url(#bf)" stroke="#111" stroke-width="3.5"/>' +
+      '<path d="M-84 ' + (h * .07) + 'V' + (h * .93) + 'M-70 ' + (h * .07) + 'V' + (h * .93) + '" stroke="#111" stroke-width="2" opacity=".3"/>' +
+      '<polygon points="' + bristle + '" fill="#efe3c8" stroke="#111" stroke-width="3" stroke-linejoin="round"/>' + streaks +
+      '<polygon points="' + tip + '" fill="#0f9d6b" stroke="#0a6e4a" stroke-width="1.5" stroke-linejoin="round"/>' +
+      '</svg>';
+  }
+
+  function runIntro() {
+    if (running) return;
+    if (!INTRO_ENABLED || reduce) { root.classList.remove('intro', 'pre'); return; }
+    try { if (PLAY_ONCE_PER_SESSION && sessionStorage.getItem('np-intro')) { root.classList.remove('intro', 'pre'); return; } sessionStorage.setItem('np-intro', '1'); } catch (e) {}
+
+    running = true;
+    root.classList.add('intro', 'pre'); root.classList.remove('reveal');
+    window.scrollTo(0, 0);
+    el.style.background = '#fff';
+    sizeCanvas();
+    window.addEventListener('keydown', onKey);
+    resizeHandler = function () { if (!burstStarted) sizeCanvas(); else if (Math.abs(window.innerWidth - W) > 40) endIntro(); };
+    window.addEventListener('resize', resizeHandler);
+    el.onpointerdown = endIntro;
+    var hint = el.querySelector('.skip-hint'); hint.style.opacity = '';
+
+    /* --- typed name --- */
+    typed.innerHTML = ''; typed.style.cssText = ''; typed.style.visibility = 'visible';
+    var caret = document.createElement('span'); caret.className = 'caret blink'; typed.appendChild(caret);
+    var chars = [];
+    NAME.split('').forEach(function (ch) {
+      var s = document.createElement('span'); s.className = 'c'; s.textContent = ch === ' ' ? ' ' : ch; typed.appendChild(s); chars.push(s);
+    });
+    var times = [], acc = 650;
+    NAME.split('').forEach(function (ch) { times.push(acc); acc += 90 + Math.random() * 70 + (ch === ' ' ? 170 : 0); });
+    var TYPE_END = acc, HOLD_END = TYPE_END + 550, SHAKE_DUR = 1400, SHAKE_END = HOLD_END + SHAKE_DUR;
+    var FLOOD_AT = 800, COVER_AT = 1380, WIPE_AT = 1480;
+    var phases = chars.map(function () { return Math.random() * 6.283; });
+    var freq = chars.map(function () { return rnd(.8, 1.4); });
+    var revealed = 0, holdStarted = false, shakeStarted = false, burstStarted = false, covered = false, revealStarted = false;
+    var fs = 120, cx = W / 2, cy = H / 2, maxR = 0;
+    var splats = [], floodNoise = makeNoise();
+
+    function addSplat(x, y, R, delay, dur, pal) { splats.push({ x: x, y: y, R: R, s: makeSplat(R), pal: pal, t0: delay, dur: dur, drops: false, done: false }); }
+
+    function startBurst() {
+      burstStarted = true;
+      var tr = typed.getBoundingClientRect();
+      cx = tr.left + tr.width / 2; cy = tr.top + tr.height / 2;
+      maxR = Math.hypot(Math.max(cx, W - cx), Math.max(cy, H - cy));
+      /* the letters themselves turn into splats, with one big one at the center */
+      addSplat(cx, cy, Math.min(W, H) * .24, 0, 300, PALS[0]);
+      chars.forEach(function (s) {
+        var r = s.getBoundingClientRect(); if (r.width < 4) return;
+        addSplat(r.left + r.width / 2, r.top + r.height / 2, r.height * rnd(.4, .62), rnd(20, 140), 260, pick(PAL3));
+      });
+      /* big splats ripple outward from the center and cover the screen */
+      var cols = W > H ? 5 : 3, rows = W > H ? 3 : 5, cells = [], i, j;
+      for (i = 0; i < cols; i++) for (j = 0; j < rows; j++) {
+        var px = (i + .5) / cols * W + rnd(-.18, .18) * W / cols, py = (j + .5) / rows * H + rnd(-.18, .18) * H / rows;
+        cells.push({ x: px, y: py, d: Math.hypot(px - cx, py - cy) });
+      }
+      cells.sort(function (a, b) { return a.d - b.d; });
+      cells.forEach(function (c, n) { addSplat(c.x, c.y, Math.max(W / cols, H / rows) * rnd(.58, .85), 160 + n * (560 / cells.length) + rnd(0, 40), 300, pick(PAL3)); });
+      /* a few lighter, smaller splats on top for depth */
+      for (i = 0; i < 9; i++) addSplat(rnd(0, W), rnd(0, H), Math.min(W, H) * rnd(.05, .1), 700 + i * 55, 240, PALS[3]);
+      typed.style.visibility = 'hidden';
+    }
+
+    /* --- brush wipe state --- */
+    var P = H > W * 1.2 ? 4 : 3, PASS = 480, LAGMAX = .14, MARGIN = 170;
+    var bandH = (H / P) * 1.5, passes = null;
+    function buildPass(k) {
+      var N = Math.ceil(bandH / 6), b = [], i;
+      for (i = 0; i < N; i++) b.push({ off: (i / (N - 1) - .5) * bandH, lag: Math.random() * LAGMAX, lw: bandH / N * rnd(1.3, 2.4), ph: rnd(0, 6.283), prev: null });
+      return { k: k, dir: k % 2 === 0 ? 1 : -1, yc: H * (k + .5) / P, b: b };
+    }
+    function bx(pass, p) { var a = -MARGIN, z = W + MARGIN; return pass.dir > 0 ? a + (z - a) * p : z - (z - a) * p; }
+    function by(pass, bri, x) { return pass.yc + bri.off + (x - W / 2) * -.045 + Math.sin(x * .012 + bri.ph) * 5; }
+
+    /* Long soft brush drags plus fine grain over the solid green so it reads as paint, not a flat fill. */
+    function paintTexture() {
+      var i, a = -.18 + rnd(-.06, .06);
+      pctx.globalCompositeOperation = 'source-atop'; pctx.lineCap = 'round';
+      for (i = 0; i < 46; i++) {
+        pctx.globalAlpha = rnd(.05, .11); pctx.strokeStyle = Math.random() < .5 ? PALS[0].l : PALS[0].d; pctx.lineWidth = rnd(14, 64);
+        var sx = rnd(-W * .2, W), sy = rnd(0, H), len = W * rnd(.35, 1.1);
+        pctx.beginPath(); pctx.moveTo(sx, sy); pctx.lineTo(sx + Math.cos(a) * len, sy + Math.sin(a) * len); pctx.stroke();
+      }
+      var c = document.createElement('canvas'); c.width = c.height = 160;
+      var g = c.getContext('2d'), id = g.createImageData(160, 160), d = id.data, v;
+      for (i = 0; i < d.length; i += 4) { v = (Math.random() * 255) | 0; d[i] = d[i + 1] = d[i + 2] = v; d[i + 3] = 255; }
+      g.putImageData(id, 0, 0);
+      pctx.globalCompositeOperation = 'overlay'; pctx.globalAlpha = .22; pctx.fillStyle = pctx.createPattern(c, 'repeat'); pctx.fillRect(0, 0, W, H);
+      pctx.globalAlpha = 1; pctx.globalCompositeOperation = 'source-over';
+    }
+
+    var t0 = 0, last = 0;
+    function frame(now) {
+      if (!running) return;
+      if (!t0) { t0 = now; last = now; }
+      var t = now - t0; last = now;
+
+      /* typing */
+      while (revealed < chars.length && times[revealed] <= t) { var s = chars[revealed]; s.classList.add('on'); s.after(caret); caret.classList.remove('blink'); revealed++; }
+      if (t >= TYPE_END && !holdStarted) { holdStarted = true; caret.classList.add('blink'); }
+      if (t >= HOLD_END && !shakeStarted) { shakeStarted = true; hint.style.opacity = 0; caret.style.visibility = 'hidden'; fs = parseFloat(getComputedStyle(typed).fontSize) || 120; }
+
+      /* shake + bob, ramping up; letters flick green */
+      if (shakeStarted && t < SHAKE_END) {
+        var p = clamp((t - HOLD_END) / SHAKE_DUR, 0, 1), j = easeInOutCubic(clamp((p - .18) / .82, 0, 1));
+        for (var i = 0; i < chars.length; i++) {
+          var bob = Math.sin(t * .011 * freq[i] + phases[i]) * fs * .04 * (.5 + p);
+          var jx = (Math.sin(t * .09 * freq[i] + phases[i]) * .5 + (Math.random() - .5)) * fs * .07 * j;
+          var jy = (Math.cos(t * .08 * freq[i] + phases[i]) * .5 + (Math.random() - .5)) * fs * .07 * j;
+          var rot = (Math.sin(t * .05 * freq[i] + phases[i] * 2) * 5 + (Math.random() - .5) * 7) * j;
+          chars[i].style.transform = 'translate(' + jx.toFixed(1) + 'px,' + (bob + jy).toFixed(1) + 'px) rotate(' + rot.toFixed(1) + 'deg)';
+          if (p > .5 && Math.random() < (p - .5) * .1) chars[i].style.color = BASE;
+        }
+        typed.style.transform = 'translate(-50%,-50%) scale(' + (1 + .12 * p * p + .012 * Math.sin(t * .04)).toFixed(3) + ')';
+      }
+
+      /* ---- splatter ---- */
+      if (t >= SHAKE_END) {
+        if (!burstStarted) startBurst();
+        var tb = t - SHAKE_END;
+        pctx.globalCompositeOperation = 'source-over'; pctx.globalAlpha = 1;
+
+        for (var n = 0; n < splats.length; n++) {
+          var sp = splats[n];
+          if (sp.done || tb < sp.t0) continue;
+          var pp = clamp((tb - sp.t0) / sp.dur, 0, 1);
+          if (pp < 1) paintSplat(pctx, sp.x, sp.y, pp, sp.s, sp.pal, false, false);
+          if (pp >= .7 && !sp.drops) { sp.drops = true; pctx.fillStyle = sp.pal.m; pctx.fill(dropsPath(sp.x, sp.y, sp.s)); }
+          if (pp >= 1) { paintSplat(pctx, sp.x, sp.y, 1, sp.s, sp.pal, true, true); sp.done = true; }
+        }
+
+        /* a flood fills whatever white is left (drawn behind the splats so their shapes still show) */
+        if (tb >= FLOOD_AT && !covered) {
+          var fp = clamp((tb - FLOOD_AT) / (COVER_AT - FLOOD_AT), 0, 1);
+          pctx.globalCompositeOperation = 'destination-over'; pctx.fillStyle = BASE;
+          tracePoly(pctx, cx, cy, maxR * 1.5 * easeOutCubic(fp), .13, floodNoise, tb / 1000); pctx.fill();
+          pctx.globalCompositeOperation = 'source-over';
+        }
+        if (tb >= COVER_AT && !covered) {
+          covered = true;
+          pctx.globalCompositeOperation = 'destination-over'; pctx.fillStyle = BASE; pctx.fillRect(0, 0, W, H);
+          pctx.globalCompositeOperation = 'source-over';
+          el.style.background = 'transparent';
+          paintTexture();
+        }
+
+        /* ---- brush wipe ---- */
+        var tw = tb - WIPE_AT;
+        if (tw > 0) {
+          var k = Math.min(P - 1, Math.floor(tw / PASS));
+          if (!passes) { passes = []; brushEl.innerHTML = brushSVG(bandH); brushEl.style.display = 'block'; }
+          if (!passes[k]) passes[k] = buildPass(k);
+          if (k >= 1 && !revealStarted) { revealStarted = true; root.classList.add('reveal'); root.classList.remove('pre'); setTimeout(function () { root.classList.remove('reveal'); }, 2600); }
+          var pass = passes[k], local = tw - k * PASS, span = 1 + LAGMAX;
+          var prog = clamp(local / PASS, 0, 1) * span;
+          pctx.globalCompositeOperation = 'destination-out'; pctx.strokeStyle = '#000'; pctx.lineCap = 'round';
+          for (var q = 0; q < pass.b.length; q++) {
+            var br = pass.b[q], pb = easeInOutSine(clamp(prog - br.lag, 0, 1)), x = bx(pass, pb), y = by(pass, br, x);
+            pctx.lineWidth = br.lw; pctx.beginPath();
+            if (br.prev) { pctx.moveTo(br.prev.x, br.prev.y); pctx.lineTo(x, y); } else { pctx.moveTo(x, y); pctx.lineTo(x + .1, y); }
+            pctx.stroke(); br.prev = { x: x, y: y };
+          }
+          pctx.globalCompositeOperation = 'source-over';
+          /* brush follows the leading edge, handle tilted back */
+          var fx = bx(pass, easeInOutSine(clamp(prog, 0, 1))), fy = pass.yc + (fx - W / 2) * -.045 + Math.sin(tw * .02) * 4;
+          brushEl.style.transform = 'translate(' + (fx - (pass.dir > 0 ? 540 : 580)).toFixed(1) + 'px,' + (fy - bandH / 2).toFixed(1) + 'px) rotate(' + (pass.dir > 0 ? 9 : -9) + 'deg) scaleX(' + pass.dir + ')';
+          brushEl.style.transformOrigin = '100% 50%';
+          if (tw >= PASS * P + PASS * LAGMAX + 120) { endIntro(); return; }
+        }
+      }
+      raf = requestAnimationFrame(frame);
+    }
+    raf = requestAnimationFrame(frame);
+  }
+
+  /* ================= STICKERS: drag to move ================= */
+  var zTop = 10;
+  document.querySelectorAll('.sticker').forEach(function (s) {
+    var sx = 0, sy = 0, ox = 0, oy = 0, dragging = false;
+    s.addEventListener('pointerdown', function (e) {
+      dragging = true; s.setPointerCapture(e.pointerId); sx = e.clientX; sy = e.clientY;
+      ox = parseFloat(s.style.getPropertyValue('--dx')) || 0; oy = parseFloat(s.style.getPropertyValue('--dy')) || 0;
+      s.classList.add('drag'); s.style.zIndex = ++zTop;
+    });
+    s.addEventListener('pointermove', function (e) {
+      if (!dragging) return;
+      s.style.setProperty('--dx', (ox + e.clientX - sx) + 'px'); s.style.setProperty('--dy', (oy + e.clientY - sy) + 'px');
+    });
+    function up() { dragging = false; s.classList.remove('drag'); }
+    s.addEventListener('pointerup', up); s.addEventListener('pointercancel', up);
+  });
+  function resetStickers() { document.querySelectorAll('.sticker').forEach(function (s) { s.style.removeProperty('--dx'); s.style.removeProperty('--dy'); s.style.zIndex = ''; }); }
+
+  /* ================= SLIPS: random tilt ================= */
+  document.querySelectorAll('.slip').forEach(function (s) { s.style.setProperty('--r', (Math.random() * 6 - 3).toFixed(1) + 'deg'); });
+
+  /* ================= CLICK SPLAT: paint splats wherever you click the background ================= */
+  var sc = document.getElementById('splat'), sctx = sc.getContext('2d'), blots = [], sraf = 0, sdpr = 1;
+  function sizeSplat() { sdpr = Math.min(window.devicePixelRatio || 1, 2); sc.width = Math.round(window.innerWidth * sdpr); sc.height = Math.round(window.innerHeight * sdpr); sctx.setTransform(sdpr, 0, 0, sdpr, 0, 0); }
+  sizeSplat(); window.addEventListener('resize', sizeSplat);
+  function splatLoop(now) {
+    sctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+    for (var i = blots.length - 1; i >= 0; i--) {
+      var b = blots[i], age = now - b.t;
+      if (age > SPLAT_LIFETIME) { blots.splice(i, 1); continue; }
+      var y = b.y - window.scrollY, reach = b.s.R * 4.5;
+      if (y < -reach || y > window.innerHeight + reach) continue;   /* anchored to the page, so it scrolls with it */
+      sctx.globalAlpha = age < SPLAT_LIFETIME - 1500 ? 1 : 1 - (age - (SPLAT_LIFETIME - 1500)) / 1500;
+      var p = clamp(age / 170, 0, 1);
+      paintSplat(sctx, b.x, y, p, b.s, b.pal, p >= 1, p >= .7);
+    }
+    sctx.globalAlpha = 1;
+    sraf = blots.length ? requestAnimationFrame(splatLoop) : 0;
+  }
+  document.addEventListener('pointerdown', function (e) {
+    if (reduce || root.classList.contains('intro')) return;
+    if (e.target.closest('a, button, .sticker, .tile, .card, .slip, .pill')) return;
+    blots.push({ x: e.clientX, y: e.clientY + window.scrollY, s: makeSplat(rnd(16, 30)), pal: pick(PAL3), t: performance.now() });
+    if (blots.length > 12) blots.shift();
+    if (!sraf) sraf = requestAnimationFrame(splatLoop);
+  });
+
+  /* ================= NAV HIGHLIGHT ================= */
+  var spy = ['home', 'product', 'data-science', 'about', 'contact'].map(function (id) { return { id: id, el: document.getElementById(id), link: document.querySelector('.nav a[data-key="' + id + '"]') }; });
+  function onScroll() {
+    var y = window.scrollY + 160, cur = null;
+    spy.forEach(function (s) { if (s.el && s.el.getBoundingClientRect().top + window.scrollY <= y) cur = s; });
+    spy.forEach(function (s) { if (s.link) { if (s === cur) s.link.setAttribute('aria-current', 'true'); else s.link.removeAttribute('aria-current'); } });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+  /* placeholder links should not jump the page to the top */
+  document.querySelectorAll('a[href="#"]').forEach(function (a) { a.addEventListener('click', function (e) { e.preventDefault(); }); });
+
+  /* ================= REPLAY ================= */
+  function replay() { if (running) endIntro(); resetStickers(); running = false; runIntro(); }
+  document.getElementById('replayBtn').addEventListener('click', replay);
+  document.getElementById('replayLink').addEventListener('click', replay);
+
+  /* ================= GO ================= */
+  function start() { runIntro(); }
+  if (document.fonts && document.fonts.ready) { Promise.race([document.fonts.ready, new Promise(function (r) { setTimeout(r, 1500); })]).then(start); }
+  else start();
+})();
+</script>
+</body>
+</html>
