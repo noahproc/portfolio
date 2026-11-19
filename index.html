@@ -14,7 +14,7 @@
     header        sticky nav
     #home         hero: name, bio, polaroid collage
     #product / #data-science   one tile grid (the first product tile and first data tile carry the ids)
-    #about        lede, experience cards, skill pills, caption slips
+    #about        lede, experience cards, then the side-quest reel (polaroids that glide past; script: REEL)
     #contact      footer
   Stickers: every .sticker is draggable. Most are <img>s from pictures/stickers/ (Noah's sticker sheet);
   the green paint splat is the one drawn <symbol> left in the sprite at the top of <body>.
@@ -128,20 +128,11 @@
   .sticker svg, .sticker img { display: block; width: 100%; height: auto; pointer-events: none; -webkit-user-drag: none; }
   .collage .sticker { left: calc(var(--l) * 1px * var(--k)); top: calc(var(--t) * 1px * var(--k)); width: calc(var(--w) * 1px * var(--k)); }
   .free { left: var(--x); top: var(--y); width: calc(var(--w) * 1px * var(--m)); }
-  .sticker.ticket { filter: grayscale(var(--g)) drop-shadow(0 10px 12px rgba(0,0,0,.28)); }
-  .ticket-body { position: relative; background: #ffd9e6; border: 1.5px solid var(--ink); display: grid; grid-template-columns: 1fr auto; align-items: center; padding: calc(12px * var(--k)) calc(14px * var(--k)) calc(12px * var(--k)) calc(18px * var(--k)); gap: calc(18px * var(--k)); }
-  .ticket-body::before, .ticket-body::after { content: ""; position: absolute; top: 50%; width: calc(14px * var(--k)); height: calc(14px * var(--k)); border-radius: 50%; background: #fff; border: 1.5px solid var(--ink); transform: translateY(-50%); }
-  .ticket-body::before { left: calc(-8px * var(--k)); } .ticket-body::after { right: calc(-8px * var(--k)); }
-  .ticket-body small { display: block; font-size: calc(10px * var(--k)); font-weight: 700; letter-spacing: .12em; color: var(--mute); }
-  .ticket-body strong { display: block; white-space: nowrap; font-family: var(--serif); font-weight: 700; font-size: calc(25px * var(--k)); line-height: 1; margin: 2px 0 4px; letter-spacing: -.02em; }
-  .ticket-body em { white-space: nowrap; font-family: var(--serif); font-style: italic; font-weight: 500; font-size: calc(15px * var(--k)); line-height: 1; }
-  .ticket-body .seat { border-left: 1.5px dashed var(--ink); padding-left: calc(14px * var(--k)); text-align: center; }
-  .ticket-body .seat b { display: block; font-family: var(--serif); font-size: calc(36px * var(--k)); line-height: 1; font-weight: 600; }
-  .ticket-body .seat span { font-size: calc(9px * var(--k)); color: var(--mute); font-weight: 600; }
 
   /* intro choreography: stickers slap on, hero text rises */
   .rise { transition: opacity .7s ease, transform .8s cubic-bezier(.2,.8,.2,1); }
   html.pre .rise { opacity: 0; transform: translateY(18px); }
+  html.measuring .rise { transform: none !important; transition: none !important; }
   html.pre .sticker { opacity: 0; --s: 1.7; }
   html.pre .polaroid { opacity: 0; transform: rotate(8deg) translateY(30px); }
   html.reveal .rise, html.reveal .sticker, html.reveal .polaroid { transition-delay: calc(var(--i, 0) * 110ms + 100ms); }
@@ -224,13 +215,21 @@
   .card p { font-size: 14.5px; line-height: 1.4; color: var(--mute); margin-top: 8px; }
   .card.now::before { content: ""; position: absolute; top: -11px; left: 50%; margin-left: -36px; width: 72px; height: 22px; background: var(--green); opacity: .88; transform: rotate(-3deg);
     clip-path: polygon(0 0, 4% 14%, 0 28%, 4% 42%, 0 56%, 4% 70%, 0 84%, 4% 100%, 96% 100%, 100% 84%, 96% 70%, 100% 56%, 96% 42%, 100% 28%, 96% 14%, 100% 0); }
-  .cloud { display: flex; flex-wrap: wrap; gap: 9px; margin-top: clamp(48px, 6vw, 84px); }
-  .pill { font-size: 14.5px; font-weight: 500; padding: 8px 15px; border-radius: 999px; box-shadow: inset 0 0 0 1.5px var(--ink); transition: background .15s, color .15s, transform .2s cubic-bezier(.3,1.6,.5,1); cursor: default; }
-  .pill:hover { background: var(--ink); color: #fff; transform: translateY(-3px) rotate(-2deg); }
   .outside { font-family: var(--serif); font-variation-settings: "SOFT" 100, "WONK" 0; font-style: italic; font-weight: 400; font-size: clamp(22px, 2.2vw, 30px); line-height: 1.25; margin: clamp(56px, 7vw, 100px) 0 18px; max-width: 28em; }
-  .slips { display: flex; flex-wrap: wrap; gap: 12px 12px; }
-  .slip { --r: 0deg; font-family: var(--serif); font-variation-settings: "SOFT" 100; font-style: italic; font-weight: 500; font-size: 19px; line-height: 1; padding: 9px 16px 10px; background: #fff; border-radius: 4px; box-shadow: 0 0 0 1.5px var(--ink); transform: rotate(var(--r)); transition: transform .25s cubic-bezier(.3,1.6,.5,1), background .15s, color .15s, box-shadow .15s; cursor: default; }
-  .slip:hover { background: var(--green); color: #fff; box-shadow: 0 0 0 1.5px var(--green); transform: rotate(0deg) scale(1.08); }
+
+  /* ---------- SIDE-QUEST REEL ---------- */
+  .reel { position: relative; height: clamp(300px, 29vw, 400px); margin-top: 8px; overflow: hidden; touch-action: pan-y; cursor: grab;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent); mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent); }
+  .reel.grab { cursor: grabbing; }
+  .reel-track { position: absolute; left: 0; top: 0; height: 100%; display: flex; align-items: center; padding: 0 40px; will-change: transform; }
+  .snap { --pw: clamp(150px, 14.5vw, 210px); --y: 0px; --rot: 0deg; position: relative; flex: 0 0 auto; width: var(--pw); margin: 0 calc(var(--pw) * -.1) 0 0; padding: calc(var(--pw) * .055) calc(var(--pw) * .055) 0;
+    background: #fff; transform: translateY(var(--y)) rotate(var(--rot)); box-shadow: 0 1px 0 rgba(0,0,0,.08), 0 16px 26px -12px rgba(0,0,0,.42), 0 0 0 1px rgba(0,0,0,.05); user-select: none; -webkit-user-select: none; }
+  .snap .ph { aspect-ratio: 300 / 336; overflow: hidden; background: #d8d8d6; }
+  .snap img { display: block; width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.04); transition: filter .35s; pointer-events: none; -webkit-user-drag: none; }
+  .snap:hover img, .snap.on img { filter: none; }
+  .snap figcaption { font-family: var(--serif); font-variation-settings: "SOFT" 100; font-style: italic; font-weight: 500; font-size: clamp(14px, 1.2vw, 17px); line-height: 1.15; text-align: center; padding: .55em 4px .8em; }
+  html.no-reel .reel { overflow-x: auto; cursor: auto; }
+  html.no-reel .reel-track { position: relative; }
 
   /* ---------- FOOTER ---------- */
   footer { position: relative; padding: clamp(110px, 13vw, 190px) 0 40px; }
@@ -329,13 +328,6 @@
         <div class="sticker" style="--l:-70; --t:272; --w:124; --r:-5deg; --i:6" role="img" aria-label="New York sticker"><img src="pictures/stickers/new-york.webp" alt="" width="391" height="348" decoding="async"></div>
         <div class="sticker" style="--l:296; --t:330; --w:58; --r:-9deg; --i:7" role="img" aria-label="Ohio sticker"><img src="pictures/stickers/ohio.webp" alt="" width="392" height="379" decoding="async"></div>
         <div class="sticker" style="--l:-34; --t:452; --w:116; --r:-6deg; --i:8" role="img" aria-label="camera sticker"><img src="pictures/stickers/camera.webp" alt="" width="390" height="330" decoding="async"></div>
-        <div class="sticker ticket" style="--l:104; --t:462; --w:244; --r:3deg; --i:9" role="img" aria-label="front car ticket sticker">
-          <div class="ticket-body">
-            <div><small>ADMIT ONE</small><strong>Front Car</strong><em>scroll to ride along</em></div>
-            <div class="seat"><b>1A</b><span>No. 0183</span></div>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 
@@ -360,7 +352,7 @@
         <div class="foot"><span class="go"><span>Case study</span> <i>&rarr;</i></span></div>
       </a>
 
-      <a class="tile" href="series-case-study.html">
+      <a class="tile taped" href="series-case-study.html">
         <div class="badge logo"><img src="case-assets/logos/series.webp" alt="" width="447" height="447" loading="lazy" decoding="async"></div>
         <h3>Series</h3>
         <p>An iMessage-native AI networking platform. 30+ user interviews and a 20% drop in churn; $3.1M raised in 14 days.</p>
@@ -368,15 +360,15 @@
         <div class="foot"><span class="go"><span>Case study</span> <i>&rarr;</i></span></div>
       </a>
 
-      <a class="tile" href="threshold-case-study.html">
-        <div class="badge"><svg viewBox="0 0 64 64" aria-hidden="true"><rect x="10" y="12" width="44" height="40" rx="6" fill="none" stroke="#111" stroke-width="3.5"/><path d="M10 24h44" stroke="#111" stroke-width="3.5"/><circle cx="17" cy="18" r="2" fill="#111"/><circle cx="24" cy="18" r="2" fill="#111"/><path d="M18 34h18M18 43h26" stroke="#111" stroke-width="3.5" stroke-linecap="round"/><circle cx="46" cy="36" r="5.5" fill="#0f9d6b"/></svg></div>
+      <a class="tile taped" href="threshold-case-study.html">
+        <div class="badge logo"><img src="case-assets/logos/threshold.webp" alt="" width="300" height="300" loading="lazy" decoding="async"></div>
         <h3>Threshold</h3>
         <p>A Claude-powered daily briefing that pulls six work tools into one source-linked digest. Built solo at Thresh Consulting.</p>
         <div class="chips"><span class="chip">Claude skill</span><span class="chip">Dashboard</span></div>
         <div class="foot"><span class="go"><span>Case study</span> <i>&rarr;</i></span></div>
       </a>
 
-      <a class="tile" href="#" data-todo="Lumelle url or details">
+      <a class="tile taped" href="#" data-todo="Lumelle url or details">
         <div class="badge logo wide"><img src="case-assets/logos/lumelle.webp" alt="" width="900" height="308" loading="lazy" decoding="async"></div>
         <h3>Lumelle</h3>
         <p>Leading the MVP for a jewelry rental and lease-to-own app, with the roadmap set by user and business impact.</p>
@@ -384,7 +376,7 @@
         <div class="foot"><span class="go"><span>Details</span> <i>&rarr;</i></span></div>
       </a>
 
-      <a class="tile" href="aden-prd.html">
+      <a class="tile taped" href="aden-prd.html">
         <div class="badge logo"><img src="case-assets/logos/aden.webp" alt="" width="280" height="280" loading="lazy" decoding="async"></div>
         <h3>Hive Onboarding 2.0</h3>
         <p>A PRD to cut Aden Hive&rsquo;s time to first agent from 30+ minutes to under five.</p>
@@ -400,8 +392,8 @@
         <div class="foot"><span class="go"><span>Read the teardown</span> <i>&rarr;</i></span></div>
       </a>
 
-      <a class="tile" href="airline-booking-case.html">
-        <div class="badge"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M8 30L56 10 42 54 31 39z" fill="none" stroke="#111" stroke-width="3.5" stroke-linejoin="round"/><path d="M31 39L56 10" stroke="#0f9d6b" stroke-width="3.5" stroke-linecap="round"/></svg></div>
+      <a class="tile taped" href="airline-booking-case.html">
+        <div class="badge logo"><img src="case-assets/logos/airline.webp" alt="" width="300" height="300" loading="lazy" decoding="async"></div>
         <h3>Airline Booking</h3>
         <p>A browser extension that predicts when a fare is about to move, built for hesitant flyers.</p>
         <div class="chips"><span class="chip">Predictive AI</span><span class="chip">Market research</span></div>
@@ -434,7 +426,7 @@
         <div class="foot"><span class="go"><span>Live site</span> <i>&nearr;</i></span></div>
       </a>
 
-      <a class="tile code taped" href="https://noahproc.github.io/brand-financials-dashboard/" target="_blank" rel="noopener">
+      <a class="tile code" href="https://noahproc.github.io/brand-financials-dashboard/" target="_blank" rel="noopener">
         <figure class="shot"><img src="case-assets/research/gmv-financials.webp" alt="The anonymized brand financials dashboard" width="1600" height="655" loading="lazy" decoding="async"></figure>
         <h3>Brand Financials</h3>
         <p>A pipeline that anonymizes a brand portfolio report for deal calls. Built at Alka Oaks Partners.</p>
@@ -492,16 +484,30 @@
       </div>
     </div>
 
-    <div class="cloud" aria-label="Skills">
-      <span class="pill">Product lifecycle</span><span class="pill">Roadmaps</span><span class="pill">Market analysis</span><span class="pill">Data-driven decisions</span><span class="pill">Cross-functional collab</span><span class="pill">Stakeholder management</span><span class="pill">UX/UI principles</span>
-      <span class="pill">Python</span><span class="pill">Java</span><span class="pill">SQL</span><span class="pill">Figma</span><span class="pill">Jira</span><span class="pill">Asana</span><span class="pill">Trello</span><span class="pill">Tableau</span><span class="pill">Power BI</span><span class="pill">Google Analytics</span><span class="pill">Hotjar</span><span class="pill">InVision</span><span class="pill">Git / GitHub</span>
-      <span class="pill">Communication</span><span class="pill">Empathy</span><span class="pill">Leadership</span><span class="pill">Problem-solving</span><span class="pill">Negotiation</span><span class="pill">Time management</span>
-    </div>
-
     <p class="outside">A serial side-quester. Long walks, good food, a seat at the theater, and the occasional scenic detour.</p>
-    <!-- To add photos later, put a small <img> above each caption and wrap the pair like the polaroid in the hero. -->
-    <div class="slips" id="slips">
-      <span class="slip">otw to class</span><span class="slip">famous coney island cyclone</span><span class="slip">csr @ club fair</span><span class="slip">ben shelton!</span><span class="slip">science communication!</span><span class="slip">met opera</span><span class="slip">bday antics</span><span class="slip">lincoln center</span><span class="slip">riverside park</span><span class="slip">my ra board!</span><span class="slip">chem lab substance</span><span class="slip">lovely uws</span><span class="slip">golden hour on campus</span><span class="slip">brunchhh</span><span class="slip">home hangouts</span><span class="slip">maximalist mirror</span><span class="slip">view from the un</span><span class="slip">my fav art gallery</span>
+  </div>
+
+  <!-- the side-quest reel: polaroids spread across the table, gliding past. The set is cloned once in script so it loops. -->
+  <div class="reel" id="reel" aria-label="Photos from life outside class" role="region">
+    <div class="reel-track" id="reelTrack">
+      <figure class="snap"><div class="ph"><img src="pictures/reel/hello.webp" alt="An outdoor candid portrait with a peace sign" width="300" height="336" loading="lazy" decoding="async"></div><figcaption>otw to class</figcaption></figure>
+      <figure class="snap"><div class="ph"><img src="pictures/reel/coaster.webp" alt="Roller coaster tracks at sunset" width="300" height="336" loading="lazy" decoding="async"></div><figcaption>famous coney island cyclone</figcaption></figure>
+      <figure class="snap"><div class="ph"><img src="pictures/reel/science-review.webp" alt="A Columbia Science Review table on campus" width="300" height="336" loading="lazy" decoding="async"></div><figcaption>csr @ club fair</figcaption></figure>
+      <figure class="snap"><div class="ph"><img src="pictures/reel/tennis.webp" alt="A tennis match viewed from the stands" width="300" height="336" loading="lazy" decoding="async"></div><figcaption>ben shelton!</figcaption></figure>
+      <figure class="snap"><div class="ph"><img src="pictures/reel/group-photo.webp" alt="Noah with a group of classmates in a lecture hall" width="300" height="336" loading="lazy" decoding="async"></div><figcaption>science communication!</figcaption></figure>
+      <figure class="snap"><div class="ph"><img src="pictures/reel/theater.webp" alt="The inside of a theater auditorium" width="300" height="336" loading="lazy" decoding="async"></div><figcaption>met opera</figcaption></figure>
+      <figure class="snap"><div class="ph"><img src="pictures/reel/dinner-candid.webp" alt="A playful portrait in a red-lit restaurant" width="300" height="336" loading="lazy" decoding="async"></div><figcaption>bday antics</figcaption></figure>
+      <figure class="snap"><div class="ph"><img src="pictures/reel/campus-blue.webp" alt="Columbia campus illuminated at blue hour" width="300" height="336" loading="lazy" decoding="async"></div><figcaption>lincoln center</figcaption></figure>
+      <figure class="snap"><div class="ph"><img src="pictures/reel/park-walk.webp" alt="A tree-lined walking path in spring" width="300" height="336" loading="lazy" decoding="async"></div><figcaption>riverside park</figcaption></figure>
+      <figure class="snap"><div class="ph"><img src="pictures/reel/speech.webp" alt="A display about original oratory" width="300" height="336" loading="lazy" decoding="async"></div><figcaption>my ra board!</figcaption></figure>
+      <figure class="snap"><div class="ph"><img src="pictures/reel/ice-cream.webp" alt="A cup of bright blue ice cream" width="300" height="336" loading="lazy" decoding="async"></div><figcaption>chem lab substance</figcaption></figure>
+      <figure class="snap"><div class="ph"><img src="pictures/reel/travel.webp" alt="Historic buildings along a city street" width="300" height="336" loading="lazy" decoding="async"></div><figcaption>lovely uws</figcaption></figure>
+      <figure class="snap"><div class="ph"><img src="pictures/reel/campus-sunset.webp" alt="Columbia campus at sunset" width="300" height="336" loading="lazy" decoding="async"></div><figcaption>golden hour on campus</figcaption></figure>
+      <figure class="snap"><div class="ph"><img src="pictures/reel/dinner-friends.webp" alt="Noah and a friend at dinner" width="300" height="336" loading="lazy" decoding="async"></div><figcaption>brunchhh</figcaption></figure>
+      <figure class="snap"><div class="ph"><img src="pictures/reel/car-selfie.webp" alt="Noah and a friend in a car" width="300" height="336" loading="lazy" decoding="async"></div><figcaption>home hangouts</figcaption></figure>
+      <figure class="snap"><div class="ph"><img src="pictures/reel/mirror.webp" alt="Noah photographing himself in a sticker-covered mirror" width="300" height="336" loading="lazy" decoding="async"></div><figcaption>maximalist mirror</figcaption></figure>
+      <figure class="snap"><div class="ph"><img src="pictures/reel/city-skyline.webp" alt="The New York City skyline" width="300" height="336" loading="lazy" decoding="async"></div><figcaption>view from the un</figcaption></figure>
+      <figure class="snap"><div class="ph"><img src="pictures/reel/museum.webp" alt="An empty museum gallery" width="300" height="336" loading="lazy" decoding="async"></div><figcaption>my fav art gallery</figcaption></figure>
     </div>
   </div>
 
@@ -927,8 +933,77 @@
     s.addEventListener('pointerup', up); s.addEventListener('pointercancel', up);
   });
 
-  /* ================= SLIPS: random tilt ================= */
-  document.querySelectorAll('.slip').forEach(function (s) { s.style.setProperty('--r', (Math.random() * 6 - 3).toFixed(1) + 'deg'); });
+  /* ================= REEL: polaroids glide across the page =================
+     The track drifts left on its own; scrolling throws it faster (scroll up and it runs backwards),
+     and you can grab it and fling it. Each print rocks and bobs with its place on screen, so the
+     row moves like a film reel. Pointing at a print slows the row and lifts that print.
+     Only transform is animated. Reduced motion: no animation, the row just scrolls sideways. */
+  (function () {
+    var reel = document.getElementById('reel'), track = document.getElementById('reelTrack');
+    if (!reel || !track) return;
+    var orig = [].slice.call(track.children);
+    function seeded(i) { var x = Math.sin(i * 12.9898 + 4.1) * 43758.5453; return x - Math.floor(x); }
+    orig.forEach(function (c, i) {   /* a stable, table-top scatter */
+      c.dataset.y = ((seeded(i) - .5) * 40).toFixed(1);
+      c.dataset.r = ((seeded(i + 40) - .5) * 16).toFixed(1);
+      c.style.setProperty('--y', c.dataset.y + 'px'); c.style.setProperty('--rot', c.dataset.r + 'deg');
+      c.dataset.z = 1 + Math.round(seeded(i + 80) * 8); c.style.zIndex = c.dataset.z;
+    });
+    if (reduce) { root.classList.add('no-reel'); return; }
+    orig.forEach(function (c) {   /* second copy so the loop never shows a seam */
+      var k = c.cloneNode(true); k.setAttribute('aria-hidden', 'true'); k.querySelector('img').alt = ''; track.appendChild(k);
+    });
+    var cards = [].slice.call(track.children), lefts = [], widthHalf = 1, x = 0, v = 0, base = 38, slow = 1, slowTo = 1;
+    var hovered = null, visible = false, raf = 0, last = 0, lastScroll = window.scrollY, drag = null;
+    function measure() { lefts = cards.map(function (c) { return c.offsetLeft + c.offsetWidth / 2; }); widthHalf = track.scrollWidth / 2 || 1; }
+    window.addEventListener('resize', measure); measure();
+    window.addEventListener('load', measure);
+    cards.forEach(function (c) {
+      c.addEventListener('pointerenter', function () { hovered = c; c.classList.add('on'); });
+      c.addEventListener('pointerleave', function () { if (hovered === c) hovered = null; c.classList.remove('on'); });
+    });
+    reel.addEventListener('pointerenter', function () { slowTo = .18; });
+    reel.addEventListener('pointerleave', function () { slowTo = 1; });
+    reel.addEventListener('pointerdown', function (e) {
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
+      drag = { x: e.clientX, t: performance.now() }; reel.classList.add('grab');
+      try { reel.setPointerCapture(e.pointerId); } catch (_) {}
+    });
+    reel.addEventListener('pointermove', function (e) {
+      if (!drag) return;
+      var now = performance.now(), dx = e.clientX - drag.x;
+      x += dx; v = clamp(dx / Math.max(now - drag.t, 8) * 1000, -2600, 2600);
+      drag.x = e.clientX; drag.t = now;
+    });
+    function release() { drag = null; reel.classList.remove('grab'); }
+    reel.addEventListener('pointerup', release); reel.addEventListener('pointercancel', release);
+    window.addEventListener('scroll', function () {
+      var dy = window.scrollY - lastScroll; lastScroll = window.scrollY;
+      if (visible) v = clamp(v - dy * 9, -2600, 2600);   /* scroll down throws the reel left */
+    }, { passive: true });
+    function frame(now) {
+      var dt = Math.min((now - last) / 1000, .05); last = now;
+      slow += (slowTo - slow) * Math.min(dt * 6, 1);
+      if (!drag) { x += (-base * slow + v) * dt; v *= Math.pow(.06, dt); }
+      x = ((x % widthHalf) - widthHalf) % widthHalf;   /* keep x in (-widthHalf, 0] */
+      track.style.transform = 'translate3d(' + x.toFixed(2) + 'px,0,0)';
+      var vw = window.innerWidth, tilt = clamp(v * .006, -9, 9);
+      for (var i = 0; i < cards.length; i++) {
+        var c = cards[i], sx = lefts[i] + x;   /* card centre on screen */
+        if (sx < -300 || sx > vw + 300) continue;
+        var ph = sx / vw * Math.PI * 2;
+        if (c === hovered) { c.style.transform = 'translateY(-14px) rotate(0deg) scale(1.1)'; c.style.zIndex = 40; continue; }
+        c.style.zIndex = c.dataset.z;
+        var r = +c.dataset.r + Math.sin(ph + i) * 5 - tilt, y = +c.dataset.y + Math.cos(ph * .8 + i * .7) * 9;
+        c.style.transform = 'translateY(' + y.toFixed(1) + 'px) rotate(' + r.toFixed(2) + 'deg)';
+      }
+      raf = visible ? requestAnimationFrame(frame) : 0;
+    }
+    new IntersectionObserver(function (es) {
+      visible = es[0].isIntersecting;
+      if (visible && !raf) { last = performance.now(); raf = requestAnimationFrame(frame); }
+    }, { rootMargin: '120px 0px' }).observe(reel);
+  })();
 
   /* ================= CLICK SPLAT: paint splats wherever you click the background ================= */
   var sc = document.getElementById('splat'), sctx = sc.getContext('2d'), blots = [], sraf = 0, sdpr = 1;
@@ -950,7 +1025,7 @@
   }
   document.addEventListener('pointerdown', function (e) {
     if (reduce || root.classList.contains('intro')) return;
-    if (e.target.closest('a, button, .sticker, .tile, .card, .slip, .pill')) return;
+    if (e.target.closest('a, button, .sticker, .tile, .card, .reel')) return;
     blots.push({ x: e.clientX, y: e.clientY + window.scrollY, s: makeSplat(rnd(16, 30)), pal: pick(PAL3), t: performance.now() });
     if (blots.length > 12) blots.shift();
     if (!sraf) sraf = requestAnimationFrame(splatLoop);
@@ -968,8 +1043,66 @@
   /* placeholder links should not jump the page to the top */
   document.querySelectorAll('a[href="#"]').forEach(function (a) { a.addEventListener('click', function (e) { e.preventDefault(); }); });
 
+  /* ================= KEEP CLEAR: no sticker ever sits on text =================
+     Stickers are placed by hand in % of their section, so a reflow can push one onto words.
+     After layout (and on resize) each sticker is checked against every line of text, the chart
+     prints, the logo badges, the reel and the stickers already settled. If it touches any of them it
+     moves to the nearest clear spot (searching outward in rings), and if there is none it hides.
+     Measured from layout boxes, so the intro's scale and the drag offsets don't skew it. */
+  function pageBox(el) {
+    var x = 0, y = 0, e = el;
+    while (e) { x += e.offsetLeft; y += e.offsetTop; e = e.offsetParent; }
+    return { l: x, t: y, r: x + el.offsetWidth, b: y + el.offsetHeight };
+  }
+  function overlaps(a, b) { return a.l < b.r && b.l < a.r && a.t < b.b && b.t < a.b; }
+  function keepClear() {
+    var stickers = [].slice.call(document.querySelectorAll('.sticker'));
+    stickers.forEach(function (s) { s.style.removeProperty('left'); s.style.removeProperty('top'); s.style.removeProperty('display'); s.classList.remove('benched'); });
+    root.classList.add('measuring');   /* measure text where it will rest, not mid rise-in */
+    var sx = window.scrollX, sy = window.scrollY, blocks = [], pad = 6;
+    var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    for (var n; (n = walker.nextNode());) {
+      if (!n.nodeValue.trim() || !n.parentElement || n.parentElement.closest('.sticker, script, #intro, .reel')) continue;
+      var rg = document.createRange(); rg.selectNodeContents(n);
+      [].forEach.call(rg.getClientRects(), function (r) {
+        if (r.width > 1 && r.height > 1) blocks.push({ l: r.left + sx - pad, r: r.right + sx + pad, t: r.top + sy - pad, b: r.bottom + sy + pad });
+      });
+    }
+    document.querySelectorAll('.shot, .badge, .reel, .polaroid .photo').forEach(function (el) {
+      if (el.offsetParent) { var b = pageBox(el); if (el.classList.contains('photo')) { b.l += 30; b.r -= 30; b.t += 30; b.b -= 30; } blocks.push(b); }
+    });
+    var docW = document.documentElement.clientWidth;
+    stickers.forEach(function (s) {
+      if (!s.offsetParent || s.classList.contains('drag')) return;
+      var home = s.closest('section, footer') || document.body, zone = pageBox(home), box = pageBox(s);
+      var best = null;
+      for (var ring = 0; ring <= 16 && !best; ring++) {
+        var steps = ring ? 16 : 1;
+        for (var k = 0; k < steps && !best; k++) {
+          var a = k / steps * Math.PI * 2, dx = Math.round(Math.cos(a) * ring * 18), dy = Math.round(Math.sin(a) * ring * 18);
+          var c = { l: box.l + dx, r: box.r + dx, t: box.t + dy, b: box.b + dy };
+          if (c.l < 16 || c.r > docW - 16 || c.t < zone.t || c.b > zone.b) continue;
+          var ok = true;
+          for (var i = 0; i < blocks.length && ok; i++) if (overlaps(c, blocks[i])) ok = false;
+          if (ok) best = { dx: dx, dy: dy, box: c };
+        }
+      }
+      if (!best) { s.style.display = 'none'; s.classList.add('benched'); return; }
+      if (best.dx || best.dy) { s.style.left = (s.offsetLeft + best.dx) + 'px'; s.style.top = (s.offsetTop + best.dy) + 'px'; }
+      blocks.push(best.box);   /* settled stickers don't pile on each other */
+    });
+    root.classList.remove('measuring');
+  }
+  var clearT = 0;
+  window.addEventListener('resize', function () { clearTimeout(clearT); clearT = setTimeout(keepClear, 150); });
+  window.addEventListener('load', keepClear);
+  if (document.fonts) {   /* Fraunces arriving reflows the name, so look again once fonts settle */
+    document.fonts.ready.then(keepClear);
+    document.fonts.addEventListener && document.fonts.addEventListener('loadingdone', function () { clearTimeout(clearT); clearT = setTimeout(keepClear, 60); });
+  }
+
   /* ================= GO ================= */
-  function start() { runIntro(); }
+  function start() { keepClear(); runIntro(); }
   if (document.fonts && document.fonts.ready) { Promise.race([document.fonts.ready, new Promise(function (r) { setTimeout(r, 1500); })]).then(start); }
   else start();
 })();

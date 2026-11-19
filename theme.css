@@ -133,3 +133,6 @@ html body.inner .about-lead{font-family:var(--serif)!important;font-variation-se
 html body.inner .page-header p{line-height:1.3!important}
 /* on phones the wrapped nav would eat a sixth of the screen, so it scrolls away */
 @media (max-width:720px){html body.inner .site-header{position:relative}}
+/* one underline only: the old theme drew a black ::after line under nav links as well */
+html body.inner .site-header .site-nav a::after,html body.inner .site-header .site-nav a::before{content:none!important;display:none!important}
+html body.inner .site-header .site-nav a{text-decoration:none!important}
