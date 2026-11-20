@@ -1,4 +1,4 @@
-/* Stickers must never sit on text.
+/* Stickers must never sit on text, buttons, tiles or links.
    For every page and width: measure each visible sticker (home: .sticker, inner pages: .stk),
    shrink its box a little for the transparent margin around the die-cut art, and test it against
    every line box of visible text (Range.getClientRects) and against the home's moving reel band.
@@ -43,6 +43,12 @@ const INSET = +(process.env.INSET || 0.12);
         }
         const reel = document.getElementById('reel');
         if (reel && seen(reel)) { const r = reel.getBoundingClientRect(); obstacles.push({ what: 'the photo reel', b: { l: r.left, r: r.right, t: r.top + 20, b: r.bottom - 20 } }); }
+        // buttons, tiles and nav links count as text: a sticker on a button's edge still hides it
+        for (const el of document.querySelectorAll('.btn, .tile, .more, .nav a, .site-nav a, .repo-links a, .back-link, .doc-resource-link, .foot-thin a')) {
+          if (!seen(el)) continue;
+          const r = el.getBoundingClientRect();
+          if (r.width > 2) obstacles.push({ what: (el.className || el.tagName).toString().split(' ')[0] + ' "' + el.textContent.trim().slice(0, 30) + '"', b: { l: r.left, r: r.right, t: r.top, b: r.bottom } });
+        }
         const out = [];
         for (const s of stickers) for (const o of obstacles) if (hit(s.b, o.b)) { out.push(s.name + ' on ' + o.what + ' @y=' + Math.round(o.b.t + sy)); break; }
         return out;

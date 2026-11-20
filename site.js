@@ -52,14 +52,14 @@
 
  /* ---------- which stickers belong with which work ---------- */
  const THEMES=[
-  [/series|imessage|interview/i,['telly','phone-rotary','headphones','cassette']],
+  [/series|imessage|interview/i,['phone-rotary','headphones','cassette']],
   [/lumelle|jewel/i,['pearls','heart-keys','crown','padlock']],
-  [/transplant|moving|new city|interstate/i,['bus','uptown','usa','golden-gate']],
+  [/transplant|moving|new city|interstate/i,['bus','usa','golden-gate']],
   [/threshold|briefing|digest|slack/i,['alarm','megaphone-hand','clock','coffee']],
   [/phia|shopping|price/i,['candy','flats','iconic','ribbon']],
   [/hive|onboarding|requirements|\bprd\b/i,['fountain-pen','diary','books-stack']],
   [/airline|flight|travel/i,['eiffel','liberty','big-ben','globe']],
-  [/nysee|transit/i,['liberty','new-york','uptown','bus']],
+  [/nysee|transit/i,['liberty','new-york','bus']],
   [/lake erie|bloom|noaa|water/i,['wave','dragonfly','lily']],
   [/emission|scope|carbon/i,['globe','usa','sun']],
   [/dashboard|gmv|brand portfolio|financ/i,['keychain','barcode','dice']],
@@ -70,8 +70,8 @@
   [/science review|editor|publication/i,['love-clip','fountain-pen','darwin']],
   [/inspirate|climate/i,['globe','sun','lilies']],
   [/columbia|engineering|economics|research|laboratory/i,['grad-cap','books-open','darwin','books']],
-  [/coaster/i,['coaster-car','coaster-loop','ticket']],
-  [/tennis/i,['tennis']],[/theat|show/i,['marquee','clapper']],[/dinner|food/i,['supper','coffee','cherries-ink']],
+  [/coaster/i,['ticket']],
+  [/theat|show/i,['clapper']],[/dinner|food/i,['coffee','cherries-ink']],
   [/sci-fi|dystopian/i,['ufo','saturn','rocket']],[/skill|python|sql|figma/i,['knob','cassette','reel']],
   [/timeline|intern|manager/i,['alarm','clock','keychain']],
  ];

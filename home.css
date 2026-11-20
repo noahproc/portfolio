@@ -169,7 +169,7 @@ html{scroll-behavior:smooth}
 .admit-no{font:10px var(--data);color:var(--grey)}
 .flash{position:absolute;inset:0;z-index:45;background:#fff;opacity:0;pointer-events:none}
 .flash.go{animation:flash .9s ease-out}
-.flash::after{content:'';position:absolute;right:7%;top:12%;width:230px;height:76px;background:url(pictures/stickers/sign-photo.webp) center/contain no-repeat;rotate:-7deg}
+
 .booth{width:min(540px,calc(100vw - 24px));max-height:calc(100svh - 24px);padding:var(--s6) var(--s5) var(--s5);border:3px solid var(--ink);background:var(--lines),var(--paper);color:var(--ink);box-shadow:10px 12px 0 rgba(0,0,0,.3);overflow:auto;text-align:center}
 .booth::backdrop{background:rgba(0,0,0,.72)}
 .booth h2{margin:0 0 var(--s3);font-size:38px}

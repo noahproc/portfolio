@@ -197,7 +197,8 @@
 
   /* ---------- ABOUT ---------- */
   .about { position: relative; padding: clamp(100px, 12vw, 170px) 0 0; }
-  .about-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: clamp(36px, 6vw, 96px); align-items: start; }
+  .about-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: clamp(28px, 6vw, 96px); align-items: start; }
+  .about-grid .lede { margin-bottom: 0; }
   .lede { font-family: var(--serif); font-variation-settings: "SOFT" 100, "WONK" 0; font-weight: 400; font-size: clamp(28px, 3.1vw, 44px); line-height: 1.12; letter-spacing: -.02em; margin-bottom: 26px; text-wrap: pretty; }
   .about-copy p + p { margin-top: 14px; }
   .about-copy p:not(.lede) { color: var(--mute); max-width: 33em; font-size: 18px; }
@@ -205,16 +206,6 @@
   .btn { font-size: 15px; font-weight: 600; text-decoration: none; padding: 12px 22px; border-radius: 999px; box-shadow: inset 0 0 0 1.5px var(--ink); transition: background .2s, color .2s, box-shadow .2s; display: inline-block; }
   .btn.solid { background: var(--ink); color: #fff; }
   .btn:hover { background: var(--green); color: #fff; box-shadow: inset 0 0 0 1.5px var(--green); }
-  .cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 20px; padding-top: 8px; }
-  .card { --tr: 0deg; position: relative; background: #fff; border-radius: 12px; padding: 18px 18px 16px; transform: rotate(var(--tr)); box-shadow: 0 1px 0 rgba(0,0,0,.06), 0 14px 24px -14px rgba(0,0,0,.35), 0 0 0 1px rgba(0,0,0,.07); transition: transform .3s cubic-bezier(.3,1.5,.5,1); }
-  .card:nth-child(odd) { --tr: -.9deg; } .card:nth-child(even) { --tr: .8deg; } .card:nth-child(3n) { --tr: -.3deg; }
-  .card:hover { transform: rotate(0deg) translateY(-4px); }
-  .card h4 { font-family: var(--serif); font-variation-settings: "SOFT" 100, "WONK" 0; font-weight: 600; font-size: 23px; line-height: 1.05; letter-spacing: -.015em; }
-  .card .role { font-size: 14.5px; font-weight: 600; margin-top: 3px; }
-  .card .when { font-size: 12.5px; color: var(--mute); margin-top: 2px; }
-  .card p { font-size: 14.5px; line-height: 1.4; color: var(--mute); margin-top: 8px; }
-  .card.now::before { content: ""; position: absolute; top: -11px; left: 50%; margin-left: -36px; width: 72px; height: 22px; background: var(--green); opacity: .88; transform: rotate(-3deg);
-    clip-path: polygon(0 0, 4% 14%, 0 28%, 4% 42%, 0 56%, 4% 70%, 0 84%, 4% 100%, 96% 100%, 100% 84%, 96% 70%, 100% 56%, 96% 42%, 100% 28%, 96% 14%, 100% 0); }
   .outside { font-family: var(--serif); font-variation-settings: "SOFT" 100, "WONK" 0; font-style: italic; font-weight: 400; font-size: clamp(22px, 2.2vw, 30px); line-height: 1.25; margin: clamp(56px, 7vw, 100px) 0 18px; max-width: 28em; }
 
   /* ---------- SIDE-QUEST REEL ---------- */
@@ -229,6 +220,7 @@
   .snap:hover img, .snap.on img { filter: none; }
   .snap figcaption { font-family: var(--serif); font-variation-settings: "SOFT" 100; font-style: italic; font-weight: 500; font-size: clamp(14px, 1.2vw, 17px); line-height: 1.15; text-align: center; padding: .55em 4px .8em; }
   html.no-reel .reel { overflow-x: auto; cursor: auto; }
+  .reel:focus-visible { outline: 2px solid var(--green); outline-offset: -2px; }
   html.no-reel .reel-track { position: relative; }
 
   /* ---------- FOOTER ---------- */
@@ -255,8 +247,7 @@
     body { font-size: 16px; }
     .collage { --k: .74; }
     .opt, .work .free:not(.m-keep) { display: none; }
-    .cards { grid-template-columns: 1fr; }
-    .nav .wrap { padding-top: 6px; padding-bottom: 8px; }
+      .nav .wrap { padding-top: 6px; padding-bottom: 8px; }
   }
   @media (max-width: 600px) { .tiles { grid-template-columns: 1fr; } .tile { min-height: 0; } .filler { min-height: 0; padding: 0; justify-content: flex-start; } .filler .sticker { display: none; } }
   @media (prefers-reduced-motion: reduce) {
@@ -267,15 +258,6 @@
 </head>
 <body>
 
-<!-- Drawn sticker art (only the green paint splat now; the rest are images). -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-
-  <symbol id="s-splat" viewBox="0 0 100 100">
-    <path d="M50 18C60 8 70 22 72 30C84 24 94 36 84 46C96 54 88 68 76 66C76 80 62 88 54 78C46 90 30 84 32 70C18 74 8 60 20 52C8 44 16 28 30 32C28 20 42 12 50 18Z" fill="#0f9d6b" stroke="#111" stroke-width="3.5" stroke-linejoin="round"/>
-    <circle cx="90" cy="14" r="4.5" fill="#0f9d6b" stroke="#111" stroke-width="2.5"/><circle cx="8" cy="20" r="3.5" fill="#0f9d6b" stroke="#111" stroke-width="2.5"/><circle cx="92" cy="86" r="4" fill="#0f9d6b" stroke="#111" stroke-width="2.5"/>
-    <ellipse cx="40" cy="38" rx="9" ry="5" fill="#fff" opacity=".4" transform="rotate(-30 40 38)"/>
-  </symbol>
-</svg>
 
 <!-- INTRO OVERLAY (only shown while html.intro is set; skipped for reduced motion) -->
 <div id="intro" aria-hidden="true">
@@ -326,7 +308,7 @@
         <div class="sticker" style="--l:288; --t:-40; --w:92; --r:10deg; --i:4" role="img" aria-label="vinyl record sticker"><img src="pictures/stickers/vinyl-heart.webp" alt="" width="392" height="386" decoding="async"></div>
         <div class="sticker" style="--l:300; --t:210; --w:74; --r:14deg; --i:5" role="img" aria-label="chrome star sticker"><img src="pictures/stickers/star-chrome.webp" alt="" width="392" height="369" decoding="async"></div>
         <div class="sticker" style="--l:-70; --t:272; --w:124; --r:-5deg; --i:6" role="img" aria-label="New York sticker"><img src="pictures/stickers/new-york.webp" alt="" width="391" height="348" decoding="async"></div>
-        <div class="sticker" style="--l:296; --t:330; --w:58; --r:-9deg; --i:7" role="img" aria-label="Ohio sticker"><img src="pictures/stickers/ohio.webp" alt="" width="392" height="379" decoding="async"></div>
+        <div class="sticker" style="--l:300; --t:318; --w:50; --r:-9deg; --i:7" role="img" aria-label="rocket sticker"><img src="pictures/stickers/rocket.webp" alt="" width="216" height="460" decoding="async"></div>
         <div class="sticker" style="--l:-34; --t:452; --w:116; --r:-6deg; --i:8" role="img" aria-label="camera sticker"><img src="pictures/stickers/camera.webp" alt="" width="390" height="330" decoding="async"></div>
     </div>
   </div>
@@ -334,7 +316,7 @@
   <!-- extra stickers around the hero -->
   <div class="sticker free" style="--x:44%; --y:5%; --w:74; --r:8deg; --i:5" role="img" aria-label="sparkles sticker"><img src="pictures/stickers/sparkles.webp" alt="" width="311" height="392" decoding="async"></div>
   <div class="sticker free" style="--x:1.5%; --y:7%; --w:64; --r:-12deg; --i:6" role="img" aria-label="heart sticker"><img src="pictures/stickers/heart.webp" alt="" width="303" height="414" decoding="async"></div>
-  <div class="sticker free opt" style="--x:52%; --y:80%; --w:104; --r:-6deg; --i:7" role="img" aria-label="tv sticker"><img src="pictures/stickers/telly.webp" alt="" width="392" height="382" decoding="async"></div>
+  <div class="sticker free opt" style="--x:52%; --y:80%; --w:96; --r:-6deg; --i:7" role="img" aria-label="film clapper sticker"><img src="pictures/stickers/clapper.webp" alt="" width="392" height="341" decoding="async"></div>
   <div class="sticker free opt" style="--x:33%; --y:90%; --w:64; --r:9deg; --i:8" role="img" aria-label="coffee sticker"><img src="pictures/stickers/coffee.webp" alt="" width="162" height="114" decoding="async"></div>
 </section>
 
@@ -402,9 +384,9 @@
 
             <div class="filler">
         <a class="more" href="work.html"><span>all the product work</span> <i>&rarr;</i></a>
-        <div class="sticker" style="--fx:8%; --fy:52%; --w:96; --r:5deg; --i:2" role="img" aria-label="subway sticker"><img src="pictures/stickers/uptown.webp" alt="" width="392" height="392" decoding="async" loading="lazy"></div>
-        <div class="sticker" style="--fx:44%; --fy:56%; --w:108; --r:9deg; --i:3" role="img" aria-label="theater marquee sticker"><img src="pictures/stickers/marquee.webp" alt="" width="392" height="282" decoding="async" loading="lazy"></div>
-        <div class="sticker wide-only" style="--fx:68%; --fy:40%; --w:150; --r:-4deg; --i:4" role="img" aria-label="roller coaster sticker"><img src="pictures/stickers/coaster-car.webp" alt="" width="392" height="254" decoding="async" loading="lazy"></div>
+        <div class="sticker" style="--fx:6%; --fy:48%; --w:112; --r:-6deg; --i:2" role="img" aria-label="megaphone sticker"><img src="pictures/stickers/megaphone.webp" alt="" width="460" height="446" decoding="async" loading="lazy"></div>
+        <div class="sticker" style="--fx:44%; --fy:40%; --w:44; --r:18deg; --i:3" role="img" aria-label="fountain pen sticker"><img src="pictures/stickers/fountain-pen.webp" alt="" width="153" height="392" decoding="async" loading="lazy"></div>
+        <div class="sticker wide-only" style="--fx:68%; --fy:42%; --w:96; --r:8deg; --i:4" role="img" aria-label="globe sticker"><img src="pictures/stickers/globe.webp" alt="" width="323" height="392" decoding="async" loading="lazy"></div>
       </div>
     </div>
 
@@ -454,11 +436,14 @@
         <a class="more" href="projects.html"><span>all the data science</span> <i>&rarr;</i></a>
         <div class="sticker" style="--fx:12%; --fy:50%; --w:70; --r:16deg; --i:2" role="img" aria-label="chrome star sticker"><img src="pictures/stickers/star-chrome.webp" alt="" width="392" height="369" decoding="async" loading="lazy"></div>
         <div class="sticker" style="--fx:52%; --fy:58%; --w:66; --r:-8deg; --i:3" role="img" aria-label="sparkles sticker"><img src="pictures/stickers/sparkles.webp" alt="" width="311" height="392" decoding="async" loading="lazy"></div>
+        <div class="sticker wide-only" style="--fx:78%; --fy:30%; --w:70; --r:-10deg; --i:4" role="img" aria-label="eight ball sticker"><img src="pictures/stickers/eight-ball.webp" alt="" width="390" height="392" decoding="async" loading="lazy"></div>
       </div>
     </div>
   </div>
 
-  <div class="sticker free keep" style="--x:2%; --y:36%; --w:92; --r:-10deg; --i:4" role="img" aria-label="green paint splat sticker"><svg viewBox="0 0 100 100"><use href="#s-splat"/></svg></div>
+  <div class="sticker free" style="--x:2%; --y:36%; --w:84; --r:-10deg; --i:4" role="img" aria-label="leopard star sticker"><img src="pictures/stickers/leopard-star.webp" alt="" width="388" height="392" decoding="async" loading="lazy"></div>
+  <div class="sticker free" style="--x:93%; --y:8%; --w:66; --r:10deg; --i:5" role="img" aria-label="chrome cherries sticker"><img src="pictures/stickers/cherries-chrome.webp" alt="" width="338" height="392" decoding="async" loading="lazy"></div>
+  <div class="sticker free opt" style="--x:1%; --y:64%; --w:100; --r:-7deg; --i:7" role="img" aria-label="film camera sticker"><img src="pictures/stickers/camera-film.webp" alt="" width="392" height="261" decoding="async" loading="lazy"></div>
   <div class="sticker free opt" style="--x:92%; --y:60%; --w:64; --r:12deg; --i:6" role="img" aria-label="heart sticker"><img src="pictures/stickers/heart.webp" alt="" width="303" height="414" decoding="async" loading="lazy"></div>
   <div class="sticker free" style="--x:1.5%; --y:82%; --w:76; --r:6deg; --i:8" role="img" aria-label="flower sticker"><img src="pictures/stickers/flower.webp" alt="" width="312" height="312" decoding="async" loading="lazy"></div>
 </section>
@@ -467,20 +452,11 @@
 <section class="about" id="about">
   <div class="wrap">
     <div class="about-grid">
+      <p class="lede">I study Operations Research at Columbia and largely build consumer products. Currently a founding product manager at Lumelle, a jewelry rental app, and building Transplant, a moving agent.</p>
       <div class="about-copy">
-        <p class="lede">I study Operations Research at Columbia and largely build consumer products. Currently a founding product manager at Lumelle, a jewelry rental app, and building Transplant, a moving agent.</p>
         <p>I like turning messy problems into useful products: talking to users, working through the data, and making the decisions that get an idea shipped. I&rsquo;m especially interested in consumer products and AI.</p>
         <p>Outside work, you&rsquo;ll find me chasing roller coasters, walking around New York, finding a good dinner, catching a show, or taking reality TV a little too seriously.</p>
         <div class="btns"><a class="btn solid" href="mailto:nap2180@columbia.edu">get in touch</a><a class="btn" href="Proctor_Noah_Resume.pdf" target="_blank" rel="noopener">download r&eacute;sum&eacute;</a></div>
-      </div>
-      <div class="cards">
-        <div class="card now"><h4>Columbia Engineering</h4><div class="role">B.S. Operations Research</div><div class="when">Class of 2028</div><p>Minors in computer science and economics.</p></div>
-        <div class="card"><h4>Lumelle</h4><div class="role">Product Manager</div><div class="when">Sep 2026 &ndash; present</div><p>MVP for a jewelry rental and lease-to-own app.</p></div>
-        <div class="card"><h4>Thresh Consulting</h4><div class="role">Digital Strategy Intern</div><div class="when">Jun &ndash; Aug 2026</div><p>Launched an agentic AI OS to 75%+ adoption and built Threshold.</p></div>
-        <div class="card"><h4>Columbia Economics</h4><div class="role">Undergraduate Researcher</div><div class="when">Jan &ndash; May 2026</div><p>80,000+ emissions observations matched to EPA data in Python.</p></div>
-        <div class="card"><h4>Series</h4><div class="role">Product Strategist</div><div class="when">Dec 2025 &ndash; May 2026</div><p>30+ interviews, 25,000+ users, churn down 20%.</p></div>
-        <div class="card"><h4>Alka Oaks Partners</h4><div class="role">Industry Research Intern</div><div class="when">Dec 2025 &ndash; Mar 2026</div><p>Market research for due diligence on an EdTech target.</p></div>
-        <div class="card"><h4>Kelly Laboratory</h4><div class="role">Undergraduate Researcher</div><div class="when">2025</div><p>Reactive transport in sandstone for carbon mineralization.</p></div>
       </div>
     </div>
 
@@ -488,7 +464,7 @@
   </div>
 
   <!-- the side-quest reel: polaroids spread across the table, gliding past. The set is cloned once in script so it loops. -->
-  <div class="reel" id="reel" aria-label="Photos from life outside class" role="region">
+  <div class="reel" id="reel" aria-label="Photos from life outside class. Swipe sideways or use the arrow keys to browse." role="region" tabindex="0">
     <div class="reel-track" id="reelTrack">
       <figure class="snap"><div class="ph"><img src="pictures/reel/hello.webp" alt="An outdoor candid portrait with a peace sign" width="300" height="336" loading="lazy" decoding="async"></div><figcaption>otw to class</figcaption></figure>
       <figure class="snap"><div class="ph"><img src="pictures/reel/coaster.webp" alt="Roller coaster tracks at sunset" width="300" height="336" loading="lazy" decoding="async"></div><figcaption>famous coney island cyclone</figcaption></figure>
@@ -511,11 +487,13 @@
     </div>
   </div>
 
-  <div class="sticker free" style="--x:46%; --y:2%; --w:70; --r:14deg; --i:1" role="img" aria-label="chrome star sticker"><img src="pictures/stickers/star-chrome.webp" alt="" width="392" height="369" decoding="async" loading="lazy"></div>
+  <div class="sticker free" style="--x:46%; --y:2%; --w:70; --r:14deg; --i:1" role="img" aria-label="spiral star sticker"><img src="pictures/stickers/spiral-star.webp" alt="" width="360" height="353" decoding="async" loading="lazy"></div>
   <div class="sticker free" style="--x:90%; --y:3%; --w:96; --r:8deg; --i:2" role="img" aria-label="vinyl sticker"><img src="pictures/stickers/vinyl-heart.webp" alt="" width="392" height="386" decoding="async" loading="lazy"></div>
   <div class="sticker free opt" style="--x:2%; --y:56%; --w:90; --r:-9deg; --i:3" role="img" aria-label="disco ball sticker"><img src="pictures/stickers/disco-ball.webp" alt="" width="392" height="392" decoding="async" loading="lazy"></div>
   <div class="sticker free opt" style="--x:0.6%; --y:41%; --w:70; --r:-6deg; --i:4" role="img" aria-label="coffee sticker"><img src="pictures/stickers/coffee.webp" alt="" width="162" height="114" decoding="async" loading="lazy"></div>
   <div class="sticker free opt" style="--x:91%; --y:80%; --w:92; --r:6deg; --i:5" role="img" aria-label="camera sticker"><img src="pictures/stickers/camera.webp" alt="" width="390" height="330" decoding="async" loading="lazy"></div>
+  <div class="sticker free" style="--x:93%; --y:36%; --w:86; --r:-6deg; --i:6" role="img" aria-label="stack of books sticker"><img src="pictures/stickers/books-stack.webp" alt="" width="195" height="210" decoding="async" loading="lazy"></div>
+  <div class="sticker free opt" style="--x:47%; --y:30%; --w:74; --r:8deg; --i:7" role="img" aria-label="clock sticker"><img src="pictures/stickers/clock.webp" alt="" width="298" height="316" decoding="async" loading="lazy"></div>
 </section>
 </main>
 
@@ -532,8 +510,8 @@
     </div>
     <div class="legal"><span>built with curiosity in new york</span></div>
   </div>
-  <div class="sticker free" style="--x:76%; --y:6%; --w:190; --r:-5deg; --i:1" role="img" aria-label="roller coaster sticker"><img src="pictures/stickers/coaster-loop.webp" alt="" width="392" height="261" decoding="async" loading="lazy"></div>
-  <div class="sticker free keep opt" style="--x:36%; --y:9%; --w:84; --r:9deg; --i:2" role="img" aria-label="green paint splat sticker"><svg viewBox="0 0 100 100"><use href="#s-splat"/></svg></div>
+  <div class="sticker free" style="--x:78%; --y:4%; --w:170; --r:-8deg; --i:1" role="img" aria-label="chrome saturn sticker"><img src="pictures/stickers/saturn-chrome.webp" alt="" width="392" height="201" decoding="async" loading="lazy"></div>
+  <div class="sticker free opt" style="--x:36%; --y:8%; --w:90; --r:9deg; --i:2" role="img" aria-label="butterfly sticker"><img src="pictures/stickers/butterfly.webp" alt="" width="286" height="230" decoding="async" loading="lazy"></div>
   <div class="sticker free opt" style="--x:44%; --y:70%; --w:70; --r:-12deg; --i:3" role="img" aria-label="heart sticker"><img src="pictures/stickers/heart.webp" alt="" width="303" height="414" decoding="async" loading="lazy"></div>
 </footer>
 
@@ -979,12 +957,23 @@
     reel.addEventListener('pointerup', release); reel.addEventListener('pointercancel', release);
     window.addEventListener('scroll', function () {
       var dy = window.scrollY - lastScroll; lastScroll = window.scrollY;
-      if (visible) v = clamp(v - dy * 9, -2600, 2600);   /* scroll down throws the reel left */
+      if (visible) v = clamp(v - dy * 16, -3200, 3200);   /* scroll down throws the reel left, up runs it back */
     }, { passive: true });
+    /* sideways trackpad swipes (and shift + wheel) browse the reel without moving the page */
+    reel.addEventListener('wheel', function (e) {
+      var dx = e.deltaX || (e.shiftKey ? e.deltaY : 0);
+      if (!dx || Math.abs(dx) < Math.abs(e.deltaY) && !e.shiftKey) return;
+      e.preventDefault();
+      x -= dx; v = clamp(-dx * 30, -3200, 3200); slow = .18;
+    }, { passive: false });
+    reel.addEventListener('keydown', function (e) {
+      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+      e.preventDefault(); v = e.key === 'ArrowLeft' ? 1400 : -1400;
+    });
     function frame(now) {
       var dt = Math.min((now - last) / 1000, .05); last = now;
       slow += (slowTo - slow) * Math.min(dt * 6, 1);
-      if (!drag) { x += (-base * slow + v) * dt; v *= Math.pow(.06, dt); }
+      if (!drag) { x += (-base * slow + v) * dt; v *= Math.pow(.12, dt); }
       x = ((x % widthHalf) - widthHalf) % widthHalf;   /* keep x in (-widthHalf, 0] */
       track.style.transform = 'translate3d(' + x.toFixed(2) + 'px,0,0)';
       var vw = window.innerWidth, tilt = clamp(v * .006, -9, 9);
@@ -1068,8 +1057,8 @@
         if (r.width > 1 && r.height > 1) blocks.push({ l: r.left + sx - pad, r: r.right + sx + pad, t: r.top + sy - pad, b: r.bottom + sy + pad });
       });
     }
-    document.querySelectorAll('.shot, .badge, .reel, .polaroid .photo').forEach(function (el) {
-      if (el.offsetParent) { var b = pageBox(el); if (el.classList.contains('photo')) { b.l += 30; b.r -= 30; b.t += 30; b.b -= 30; } blocks.push(b); }
+    document.querySelectorAll('.shot, .badge, .reel, .polaroid .photo, .btn, .tile, .more, .nav a, .polaroid .cap').forEach(function (el) {
+      if (el.offsetParent || el.closest('.nav')) { var b = pageBox(el); if (el.classList.contains('photo')) { b.l += 30; b.r -= 30; b.t += 30; b.b -= 30; } blocks.push(b); }
     });
     var docW = document.documentElement.clientWidth;
     stickers.forEach(function (s) {
