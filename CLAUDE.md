@@ -1,6 +1,13 @@
 # Noah Proctor portfolio — working rules
 
-Static site (HTML/CSS/vanilla JS) on GitHub Pages (noahproctor.co), served locally with `python3 -m http.server 8765` from the repo root.
+Static site (HTML/CSS/vanilla JS) on GitHub Pages (noahproctor.co), served locally with `python3 -m http.server 8765` from the repo root. Layout is in README.md.
+
+## Repo layout (keep it)
+- Pages stay at the root: their URLs are public. So do CNAME, favicon.ico and the résumé PDFs (old résumé names stay in case old links point at them).
+- Everything else lives under `assets/`: `css/`, `js/`, `images/` (stickers, photos, reel, logos, research, projects, textures, source), `docs/` (case-study PDFs), `icons/`.
+- CSS in `assets/css/` points at images with `../images/...`; pages and JS use `assets/images/...`.
+- `scripts/` regenerates derived files (favicon, reel thumbnails, sticker manifest). `tests/` holds the Playwright checks.
+- Raw photo originals go in `originals/` (git-ignored, never published; some carry GPS). Strip EXIF from anything added to `assets/images/`.
 
 ## Homepage (index.html): portfolio design rules
 - Homepage is a single self-contained HTML file. No frameworks, no build step.
@@ -9,20 +16,22 @@ Static site (HTML/CSS/vanilla JS) on GitHub Pages (noahproctor.co), served local
 - Stickers are draggable, grayscale until hover. Clicking the background leaves a paint splat (not on links/buttons/stickers/tiles).
 - Respect prefers-reduced-motion. Intro plays once per session.
 - Don't edit Proctor_Noah_Resume.pdf. Don't push or deploy without asking.
-- Stickers come from Noah's sheet in `pictures/stickers/` (keep the die-cut outline); the green paint splat is the only drawn sticker. When swapping one, match the old sticker's footprint so it doesn't land on text.
+- Only Noah's own stickers: everything in `assets/images/stickers/` was cut from sheets he supplied. Never draw, generate or add stickers of your own (14 Claude-drawn ones and the drawn paint splat were removed on 2026-11-19 at his request). After adding or removing one, run `python3 scripts/make-sticker-manifest.py`.
 - Work tiles are previews that link to the existing pages (case studies, PRD, teardown, repos, live sites); they don't replace them.
-- Product tiles show the real logo files from `case-assets/logos/` in their corner badge (Threshold: the brain icon, Airline: the plane). Product tiles are all taped (`.taped`); code & data tiles are all pinned. Keep that split. Code & data tiles (`.tile.code`) carry a print of that project's own chart from `case-assets/research/` instead of a badge.
+- Product tiles show the real logo files from `assets/images/logos/` in their corner badge (Threshold: the brain icon, Airline: the plane). Product tiles are all taped (`.taped`); code & data tiles are all pinned. Keep that split. Code & data tiles (`.tile.code`) carry a print of that project's own chart from `assets/images/research/` instead of a badge.
 - Each grid ends with a `.filler`: a link to the full page (work.html / projects.html) plus a few stickers, placed by `--fx/--fy` inside the filler. It fills the grid's spare cell at every width, so stickers there never drift onto tiles. Free stickers in the work section are hidden below 1100px, where there's no margin for them.
 - The redesign source from Claude Design is kept locally at `redesign/index.html` (untracked).
 - Stickers never touch text. The home's KEEP CLEAR script nudges any sticker that lands on text, a chart print, a badge, the reel or another sticker to the nearest clear spot (or hides it), on load, after fonts, and on resize. Verify with `PW=<playwright path> node tests/stickers-text.cjs` (every page, 390–1920 wide); it must PASS.
-- The about band ends with the side-quest reel (`#reel`): 18 polaroids from `pictures/reel/` (small copies of `pictures/portfolio/`) that glide left, speed up with scroll, can be flung, and rock like a film reel. Reduced motion: a still row that scrolls sideways.
-- Off the homepage on purpose: the skill pills and the "front car" ticket.
+- The about band ends with the side-quest reel (`#reel`): 18 polaroids from `assets/images/reel/` (small copies of `assets/images/photos/`) that glide left, speed up with scroll, can be flung, and rock like a film reel. Reduced motion: a still row that scrolls sideways.
+- Off the homepage on purpose: the skill pills, the "front car" ticket and the experience cards (they repeat the about page). The about band is the lede beside two short paragraphs and the buttons.
+- The reel also browses sideways without moving the page: trackpad swipe, shift + wheel, drag, or arrow keys when focused.
+- Favicon: Noah's chrome star sticker (`python3 scripts/make-favicon.py`).
 
 ## Inner pages
-work.html, projects.html, about.html and the case-study pages keep their structure and their scripts (site.js sticker packer, photo-tiles.js lightbox), but wear the home's theme. `theme.css` is loaded last on each page and maps the old CSS (styles.css, portfolio-theme.css, site.css) onto the home's tokens: white page, Fraunces titles, DM Sans text, green #0f9d6b as the only accent, pinned grey tiles, pill chips and buttons, and stickers that are grey until hover. Change the look there, not in site.css. Nav links get exactly one underline: the green one. Headlines are plain text (no `data-cut-out`). The nav is copy-pasted per page; theme.css styles it like the home's.
+work.html, projects.html, about.html and the case-study pages keep their structure and their scripts (assets/js/site.js sticker packer, photo-tiles.js lightbox), but wear the home's theme. `assets/css/theme.css` is loaded last on each page and maps the old CSS (styles.css, portfolio-theme.css, site.css) onto the home's tokens: white page, Fraunces titles, DM Sans text, green #0f9d6b as the only accent, pinned grey tiles, pill chips and buttons, and stickers that are grey until hover. Change the look there, not in site.css. Nav links get exactly one underline: the green one. Headlines are plain text (no `data-cut-out`). The nav is copy-pasted per page; theme.css styles it like the home's.
 
 ## Legacy roller-coaster home (coaster.html)
-The previous homepage, kept at the root so its scripts' asset paths still work. Everything below applies to coaster.html only. Its collision test (`tests/collisions.cjs`) targets coaster.html.
+The previous homepage, kept at the root so its URL still works. Everything below applies to coaster.html only. Its collision test (`tests/collisions.cjs`) targets coaster.html.
 Design sketch: `~/Downloads/Portfolio Roller Coaster.pdf` (3 pages, read as one continuous ride).
 
 ### Priorities, in order
@@ -63,4 +72,4 @@ Design sketch: `~/Downloads/Portfolio Roller Coaster.pdf` (3 pages, read as one 
 - Collision test: `PW=<playwright path> node tests/collisions.cjs` (locally: `PW=/Users/noahproctor/.npm/_npx/e41f203b7505f1fb/node_modules/playwright`). It runs at 390, 768, 1024 and 1440 wide (or `SIZES='[[1280,720],...]'`) and ~20 scroll positions; also run the common laptop sizes 1280×720, 1366×768, 1536×864 and 1920×1080. It samples the track path (`getPointAtLength`) and the cart's bounding box against every tile, image, text block and decoration, and fails on any intersection, or on any tile too small for its content. Sideways, everything is re-measured at each scroll position. It must report 0 collisions.
 - Screenshot every width at the top, middle and bottom.
 - No horizontal scroll, no layout shift after load, and a steady scroll frame rate (performance trace).
-- Report total page height in viewport heights at 1440px: 5 or fewer. The sideways scroll speed is `SPEED` in home.js (px of track per px scrolled).
+- Report total page height in viewport heights at 1440px: 5 or fewer. The sideways scroll speed is `SPEED` in assets/js/home.js (px of track per px scrolled).

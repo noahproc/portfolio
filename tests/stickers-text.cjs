@@ -16,7 +16,11 @@ const INSET = +(process.env.INSET || 0.12);
     for (const pg of PAGES) {
       const page = await browser.newPage({ viewport: { width: w, height: 900 } });
       await page.addInitScript(() => { try { sessionStorage.setItem('np-intro', '1'); } catch (_) {} });
-      await page.goto(BASE + (pg === 'index' ? '' : pg + '.html'), { waitUntil: 'load', timeout: 60000 });
+      // python's dev server occasionally stalls a request; retry instead of failing the whole sweep
+      for (let tries = 0; ; tries++) {
+        try { await page.goto(BASE + (pg === 'index' ? '' : pg + '.html'), { waitUntil: 'load', timeout: 30000 }); break; }
+        catch (e) { if (tries >= 2) throw e; }
+      }
       await page.evaluate(async () => {
         document.documentElement.style.scrollBehavior = 'auto';
         await (document.fonts ? document.fonts.ready : null);

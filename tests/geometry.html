@@ -1,6 +1,0 @@
-<!doctype html><meta charset="utf-8"><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js"}}</script><script type="module">
-import {buildRoute} from '../coaster-geometry.js';
-const fixtures=[{width:1440,stationY:524.359375,transplantBottom:1515.203125,researchBottom:2725.5,writingBottom:3768.4375,endY:5439.171875,mobile:false},{width:390,stationY:387.59375,transplantBottom:1728.890625,researchBottom:3078.796875,writingBottom:4362.421875,endY:5986.671875,mobile:true}];
-window.routeReport=fixtures.map(layout=>{const r=buildRoute(layout),i=Math.floor(r.worstT*(r.controls.length-1)),ai=Math.floor(r.worstArcT*(r.controls.length-1));return {width:layout.width,count:r.controls.length,max:r.maxTangentJump,arcMax:r.maxArcTangentJump,index:i,arcIndex:ai,points:r.controls.slice(Math.max(0,i-1),i+3).map(c=>c.point.toArray()),arcPoints:r.controls.slice(Math.max(0,ai-1),ai+3).map(c=>c.point.toArray())};});
-document.body.textContent=JSON.stringify(window.routeReport,null,2);
-</script><body></body>

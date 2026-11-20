@@ -1,5 +1,25 @@
+# macOS / editors
 .DS_Store
-# raw photo originals (the site uses the web copies in pictures/portfolio)
+*.swp
+.vscode/
+.idea/
+
+# raw photo originals: kept on this machine, never published (some carry GPS location).
+# The site uses the resized web copies in assets/images/photos.
+originals/
 photos/
-# old local test screenshots
+*.HEIC
+*.heic
+
+# Claude Design source of the homepage (kept locally for reference)
+redesign/
+
+# local tool output
 artifacts/
+test-results/
+playwright-report/
+node_modules/
+__pycache__/
+
+# local Claude Code settings
+.claude/settings.local.json
