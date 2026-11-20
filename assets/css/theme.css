@@ -136,3 +136,19 @@ html body.inner .page-header p{line-height:1.3!important}
 /* one underline only: the old theme drew a black ::after line under nav links as well */
 html body.inner .site-header .site-nav a::after,html body.inner .site-header .site-nav a::before{content:none!important;display:none!important}
 html body.inner .site-header .site-nav a{text-decoration:none!important}
+
+/* about: the skill cards keep their crumpled paper and get room to breathe */
+html body.inner .skills-grid{gap:22px!important}
+html body.inner :is(.skill-group,div:has(> .nav-socials)){padding:22px 24px 20px!important;background:#fff url(../images/textures/paper.webp) 0 0/560px auto!important;border-radius:14px!important}
+html body.inner .skill-group h5{margin:0 0 10px!important}
+html body.inner .skill-group ul{margin:0;padding:0;list-style:none}
+html body.inner .skill-group li{padding:3px 0;line-height:1.45!important}
+
+/* tape is black and white until you point at it, like the home */
+html body.inner :is(.doc-wrap,.case-featured)::before{background:var(--ink)!important;opacity:.82;transition:background-color .3s}
+html body.inner :is(.doc-wrap,.case-featured):hover::before{background:var(--green)!important;opacity:.88}
+.tape{background:var(--ink);opacity:.82;transition:background-color .3s}
+:hover > .tape{background:var(--green);opacity:.88}
+
+/* no bold text anywhere (Noah, 2026-11-19) */
+html body.inner *:not(#_),html body.inner *:not(#_)::before,html body.inner *:not(#_)::after{font-weight:400!important}   /* :not(#_) lends ID strength so this beats every older !important weight */
