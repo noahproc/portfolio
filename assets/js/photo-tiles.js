@@ -11,7 +11,7 @@
  triggers.forEach(trigger=>{
   trigger.setAttribute('aria-haspopup','dialog');
   trigger.addEventListener('click',()=>{
-   opener=trigger;image.src=trigger.dataset.photoSrc;image.alt=trigger.dataset.photoAlt||'';caption.textContent=trigger.dataset.photoCaption||'';
+   opener=trigger;image.src=trigger.dataset.photoSrc;image.alt=trigger.dataset.photoAlt||'';caption.textContent=(trigger.querySelector('.pol-cap')?.textContent||trigger.dataset.photoCaption||'').trim();   // same words as the polaroid
    dialog.showModal();close.focus();
   });
  });
