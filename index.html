@@ -112,7 +112,8 @@
     box-shadow: 0 1px 0 rgba(0,0,0,.08), 0 18px 34px -10px rgba(0,0,0,.32), 0 0 0 1px rgba(0,0,0,.06);
     transition: opacity .6s ease, transform .8s cubic-bezier(.2,1.2,.3,1);
   }
-  .polaroid .photo { position: relative; aspect-ratio: 5 / 6; background: #cfcfcf; overflow: hidden; filter: grayscale(1) contrast(1.05); }
+  .polaroid .photo { position: relative; aspect-ratio: 5 / 6; background: #cfcfcf; overflow: hidden; filter: grayscale(1) contrast(1.05); transition: filter .35s; }
+  .polaroid:hover .photo { filter: grayscale(0) contrast(1); }
   .polaroid .photo svg, .polaroid .photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   .polaroid .cap { font-family: var(--serif); font-style: italic; font-weight: 500; font-size: calc(24px * var(--k)); text-align: center; padding-top: calc(10px * var(--k)); line-height: 1.1; }
   .tape { position: absolute; left: 50%; top: calc(-14px * var(--k)); width: calc(110px * var(--k)); height: calc(30px * var(--k)); transform: translateX(-50%) rotate(-3deg); background: var(--ink); opacity: .82; transition: background-color .3s, opacity .3s;
@@ -313,7 +314,7 @@
       <div class="copy">
         <h1 class="name rise" id="heroName" aria-label="Noah Proctor" style="--i:0">Noah<br>Proctor</h1>
         <p class="bio rise" style="--i:2">junior at columbia university studying operations research and computer science. i love turning pain points into solutions, whether that&rsquo;s through yapping with users, working through the data, or spending way too much time on claude.</p>
-        <p class="fun rise" style="--i:3"><b>fun fact:</b> i&rsquo;m a huge rollercoaster nerd. go ahead and drag the stickers around.</p>
+        <p class="fun rise" style="--i:3"><b>(cough, cough)</b> you can move the stickers around.</p>
       </div>
 
       <div class="collage" id="collage">
@@ -804,15 +805,10 @@
     }
 
     /* --- brush wipe state --- */
-    var P = H > W * 1.2 ? 4 : 3, PASS = 480, LAGMAX = .14, MARGIN = 170;
+    var P = H > W * 1.2 ? 4 : 3, PASS = 480, MARGIN = 170;
     var bandH = (H / P) * 1.5, passes = null;
-    function buildPass(k) {
-      var N = Math.ceil(bandH / 6), b = [], i;
-      for (i = 0; i < N; i++) b.push({ off: (i / (N - 1) - .5) * bandH, lag: Math.random() * LAGMAX, lw: bandH / N * rnd(1.3, 2.4), ph: rnd(0, 6.283), prev: null });
-      return { k: k, dir: k % 2 === 0 ? 1 : -1, yc: H * (k + .5) / P, b: b };
-    }
+    function buildPass(k) { return { k: k, dir: k % 2 === 0 ? 1 : -1, yc: H * (k + .5) / P }; }
     function bx(pass, p) { var a = -MARGIN, z = W + MARGIN; return pass.dir > 0 ? a + (z - a) * p : z - (z - a) * p; }
-    function by(pass, bri, x) { return pass.yc + bri.off + (x - W / 2) * -.045 + Math.sin(x * .012 + bri.ph) * 5; }
 
     /* Long soft brush drags plus fine grain over the solid green so it reads as paint, not a flat fill. */
     function paintTexture() {
@@ -893,21 +889,18 @@
           if (!passes) { passes = []; brushEl.innerHTML = brushSVG(bandH); brushEl.style.display = 'block'; }
           if (!passes[k]) passes[k] = buildPass(k);
           if (k >= 1 && !revealStarted) { revealStarted = true; root.classList.add('reveal'); root.classList.remove('pre'); setTimeout(function () { root.classList.remove('reveal'); }, 2600); }
-          var pass = passes[k], local = tw - k * PASS, span = 1 + LAGMAX;
+          var pass = passes[k], local = tw - k * PASS, span = 1;
           var prog = clamp(local / PASS, 0, 1) * span;
-          pctx.globalCompositeOperation = 'destination-out'; pctx.strokeStyle = '#000'; pctx.lineCap = 'round';
-          for (var q = 0; q < pass.b.length; q++) {
-            var br = pass.b[q], pb = easeInOutSine(clamp(prog - br.lag, 0, 1)), x = bx(pass, pb), y = by(pass, br, x);
-            pctx.lineWidth = br.lw; pctx.beginPath();
-            if (br.prev) { pctx.moveTo(br.prev.x, br.prev.y); pctx.lineTo(x, y); } else { pctx.moveTo(x, y); pctx.lineTo(x + .1, y); }
-            pctx.stroke(); br.prev = { x: x, y: y };
-          }
+          /* a clean wipe: each pass clears its whole band, straight-edged, up to the brush */
+          var ex = bx(pass, easeInOutSine(clamp(prog, 0, 1))), top = Math.floor(H * k / P) - 1, bh = Math.ceil(H / P) + 2;
+          if (top > 0) pctx.clearRect(0, 0, W, top + 1);   /* bands already passed stay fully clear */
+          if (pass.dir > 0) pctx.clearRect(-1, top, ex + 1, bh); else pctx.clearRect(ex, top, W - ex + 1, bh);
           pctx.globalCompositeOperation = 'source-over';
           /* brush follows the leading edge, handle tilted back */
-          var fx = bx(pass, easeInOutSine(clamp(prog, 0, 1))), fy = pass.yc + (fx - W / 2) * -.045 + Math.sin(tw * .02) * 4;
+          var fx = bx(pass, easeInOutSine(clamp(prog, 0, 1))), fy = pass.yc + Math.sin(tw * .02) * 3;
           brushEl.style.transform = 'translate(' + (fx - (pass.dir > 0 ? 540 : 580)).toFixed(1) + 'px,' + (fy - bandH / 2).toFixed(1) + 'px) rotate(' + (pass.dir > 0 ? 9 : -9) + 'deg) scaleX(' + pass.dir + ')';
           brushEl.style.transformOrigin = '100% 50%';
-          if (tw >= PASS * P + PASS * LAGMAX + 120) { endIntro(); return; }
+          if (tw >= PASS * P + 120) { endIntro(); return; }
         }
       }
       raf = requestAnimationFrame(frame);
