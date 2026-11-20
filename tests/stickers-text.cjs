@@ -39,7 +39,9 @@ const INSET = +(process.env.INSET || 0.12);
           const p = n.parentElement;
           if (!p || p.closest('.sticker, .stk, script, style, .sr-only, #intro, .skip-hint, .reel') || !seen(p)) continue;
           const rg = document.createRange(); rg.selectNodeContents(n);
-          for (const r of rg.getClientRects()) if (r.width > 2 && r.height > 2) obstacles.push({ what: 'text "' + n.nodeValue.trim().slice(0, 40) + '"', b: { l: r.left, r: r.right, t: r.top, b: r.bottom } });
+          // a big display face's glyph box runs far above and below the letters; clip it to the element's own box (+6px for ascenders)
+          const pb = p.getBoundingClientRect();
+          for (const r of rg.getClientRects()) if (r.width > 2 && r.height > 2) obstacles.push({ what: 'text "' + n.nodeValue.trim().slice(0, 40) + '"', b: { l: r.left, r: r.right, t: Math.max(r.top, pb.top - 6), b: Math.min(r.bottom, pb.bottom + 6) } });
         }
         const reel = document.getElementById('reel');
         if (reel && seen(reel)) { const r = reel.getBoundingClientRect(); obstacles.push({ what: 'the photo reel', b: { l: r.left, r: r.right, t: r.top + 20, b: r.bottom - 20 } }); }

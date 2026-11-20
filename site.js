@@ -217,7 +217,7 @@
   // the corkboard is its own collage: dense, and everything on it can be moved
   const cork=document.querySelector('.corkboard');
   if(cork)scatter(cork,{key:'cork',corners:false,per:innerWidth<820?42000:26000,min:innerWidth<820?44:58,max:innerWidth<820?72:104,top:14,bottom:14,left:14,right:14});
-  scatter(body,{key:'page',extra,blocks:'.ride,.hero,.site-header,.photo-lightbox,.ticker,.foot,.foot-thin,.corkboard',top:(head?head.offsetHeight:0)+6});
+  scatter(body,{key:'page',extra,blocks:'.ride,.hero,.site-header,.page-header h1,.photo-lightbox,.ticker,.foot,.foot-thin,.corkboard',top:(head?head.offsetHeight:0)+6});
  }
  let timer=0;
  const later=()=>{clearTimeout(timer);timer=setTimeout(scatterPage,260);};
