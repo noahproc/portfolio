@@ -239,7 +239,7 @@
  document.addEventListener('pointermove',event=>{
   if(!held)return;
   const dx=event.clientX-held.x,dy=event.clientY-held.y;
-  if(!held.moved&&Math.abs(dx)+Math.abs(dy)>5){held.moved=true;held.item.setPointerCapture?.(held.id);held.item.classList.remove('slap','wig');held.item.classList.add('held');}
+  if(!held.moved&&Math.abs(dx)+Math.abs(dy)>5){held.moved=true;held.item.setPointerCapture?.(held.id);held.item.classList.remove('slap','wig','drift');held.item.classList.add('held');}
   if(!held.moved)return;
   held.item.style.setProperty('--dx',held.dx+dx/held.scale+'px');
   held.item.style.setProperty('--dy',held.dy+dy/held.scale+'px');
@@ -247,7 +247,6 @@
  const drop=()=>{
   if(!held)return;const it=held.item,moved=held.moved;held=null;it.classList.remove('held');
   if(moved)swallow=true;   // a drag is not a click: don't open the photo
-  if(!reduce.matches&&it.classList.contains('stk')){void it.offsetWidth;it.classList.add(moved?'slap':'wig');}
  };
  document.addEventListener('pointerup',drop);document.addEventListener('pointercancel',drop);
  document.addEventListener('click',event=>{if(swallow){swallow=false;if(event.target.closest?.(MOVABLE)){event.preventDefault();event.stopImmediatePropagation();}}},true);

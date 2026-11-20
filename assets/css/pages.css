@@ -739,3 +739,11 @@ html body.inner .site-nav::-webkit-scrollbar{display:none}
 /* links sit flush right (an auto margin, so nothing is clipped when the row scrolls on phones) */
 html body.inner .site-nav > a:first-child{margin-left:auto}
 @media (max-width:600px){html body.inner .site-nav > a[href="/"] + a{margin-left:auto}}
+
+/* stickers move like the homepage's: pick up, carry, set down. No spin on hover, no bounce on drop,
+   and the first appearance is a soft settle instead of a springy slap. */
+html body.inner .stk:not(#_){transition:scale .22s ease-out,filter .25s}
+html body.inner .stk:not(#_):hover{scale:1.07;rotate:var(--r,0deg)}
+html body.inner .stk.held:not(#_){scale:1.13;rotate:var(--r,0deg)}
+html body.inner .stk.slap:not(#_){animation:stk-settle .45s ease-out var(--del,0s) both}
+@keyframes stk-settle{from{opacity:0;scale:1.08}to{opacity:1;scale:1}}
