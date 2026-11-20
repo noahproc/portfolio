@@ -46,8 +46,13 @@ const OLD = {
     if (hidden && !path.startsWith('/archive/')) problems.push(hidden + ' card(s) invisible');   // the archive animates its own tiles in
     for (const ref of new Set(refs)) {
       const url = new URL(ref, BASE + path).href;
-      if (!checked.has(url)) checked.set(url, (await page.request.get(url, { maxRedirects: 3 })).status());
-      if (checked.get(url) >= 400) problems.push('link ' + checked.get(url) + ' ' + ref);
+      if (!checked.has(url)) {
+        // python's dev server sometimes stalls one request; retry before calling it broken
+        let status = 0;
+        for (let t = 0; t < 3 && !status; t++) { try { status = (await page.request.get(url, { maxRedirects: 3, timeout: 10000 })).status(); } catch (_) {} }
+        checked.set(url, status || 'timeout');
+      }
+      if (checked.get(url) === 'timeout' || checked.get(url) >= 400) problems.push('link ' + checked.get(url) + ' ' + ref);
     }
     bad += problems.length;
     console.log(`${path}: ${problems.length ? [...new Set(problems)].join(' | ') : 'ok'}`);
