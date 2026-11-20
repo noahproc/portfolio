@@ -9,7 +9,7 @@
    From 768px the ride is a sideways stage that moves as you scroll, so every
    check measures the track, tiles and cart together at the same scroll. */
 const {chromium}=require(process.env.PW||'playwright');
-const BASE=process.argv[2]||'http://localhost:8765/coaster.html';
+const BASE=process.argv[2]||'http://localhost:8765/archive/coaster/';
 const SIZES=process.env.SIZES?JSON.parse(process.env.SIZES):[[390,844],[768,1000],[1024,800],[1440,900]];   // e.g. SIZES='[[1280,720]]'
 const OBSTACLES='#ride .tile, #ride img, #ride .band-head, #ride .build-l > *, #ride .build-r > *, #ride .end-links > *, #ride .station-l > *, #ride .act-label, #ride .mini-pol, #ride .tile-accent, #ride .band-art';
 (async()=>{

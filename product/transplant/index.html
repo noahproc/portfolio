@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="icon" href="favicon.ico" sizes="any">
-<link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
-<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png">
+<link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
   <title>Transplant — Noah Proctor</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="assets/css/styles.css" />
+  <link rel="stylesheet" href="/assets/css/base.css" />
   <style>
     .doc-wrap {
       max-width: 740px;
@@ -153,20 +153,20 @@
     }
     .doc-resource-link:hover { border-color: var(--navy); }
   </style>
-  <link rel="stylesheet" href="assets/css/portfolio-theme.css">
-<link rel="stylesheet" href="assets/css/header-effects.css"><link rel="stylesheet" href="assets/css/photo-tiles.css"><script defer src="assets/js/photo-tiles.js"></script>
+  <link rel="stylesheet" href="/assets/css/pages.css">
+<script defer src="/assets/js/photo-tiles.js"></script>
 
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&amp;family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..800,0..100,0..1;1,9..144,300..800,0..100,0..1&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/site.css"><link rel="stylesheet" href="assets/css/theme.css"><script defer src="assets/js/stickers.js"></script><script defer src="assets/js/site.js"></script>
+<script defer src="/assets/js/stickers.js"></script><script defer src="/assets/js/site.js"></script>
 </head>
 <body class="inner ch-product">
 
   <!-- NAV -->
-  <header class="site-header" id="nav"><a class="wordmark" href="index.html" aria-label="Noah Proctor home">Noah Proctor</a><nav class="site-nav" aria-label="Main navigation"><a href="index.html">Home</a><a href="work.html" aria-current="page">Product</a><a href="projects.html">Data science</a><a href="about.html">About</a><a href="Proctor_Noah_Resume.pdf" target="_blank" rel="noopener">Résumé</a><a class="nav-cta" href="mailto:nap2180@columbia.edu">Contact</a></nav></header>
+  <header class="site-header" id="nav"><a class="wordmark" href="/" aria-label="Noah Proctor home">Noah Proctor</a><nav class="site-nav" aria-label="Main navigation"><a href="/">Home</a><a href="/product/" aria-current="page">Product</a><a href="/data-science/">Data science</a><a href="/about/">About</a><a href="/resume/" target="_blank" rel="noopener">Résumé</a><a class="nav-cta" href="mailto:nap2180@columbia.edu">Contact</a></nav></header>
 
   <div class="doc-wrap">
 
-    <a href="work.html" class="back-link">← Back to Work</a>
+    <a href="/product/" class="back-link">← Back to Work</a>
 
     <div class="doc-meta">
       <span>0  1 Product</span>
@@ -225,7 +225,7 @@
     <p class="doc-p">
       Then I found something better: real pain-point research showing people saying moving logistics (updating your bank, insurance, government records, subscriptions) feels weirdly outdated and things still get missed even when you're careful. That's a sharper, more specific problem than "moving is stressful," so I pivoted the whole product around it: budget tracking and logistics roadmapping, not house-hunting.
     </p>
-    <a href="assets/docs/transplant-one-pager.pdf" target="_blank" class="doc-resource-link" style="max-width:280px;">📄 Transplant One-Pager (PDF)</a>
+    <a href="/assets/docs/transplant-one-pager.pdf" target="_blank" class="doc-resource-link" style="max-width:280px;">📄 Transplant One-Pager (PDF)</a>
 
     <hr class="doc-divider">
 
@@ -239,8 +239,8 @@
     </div>
 
     <div class="doc-resource-grid">
-      <a href="assets/docs/transplant-user-persona.pdf" target="_blank" class="doc-resource-link">📄 User Persona (PDF)</a>
-      <a href="assets/docs/transplant-competitor-teardown.pdf" target="_blank" class="doc-resource-link">📄 Competitor Teardown (PDF)</a>
+      <a href="/assets/docs/transplant-user-persona.pdf" target="_blank" class="doc-resource-link">📄 User Persona (PDF)</a>
+      <a href="/assets/docs/transplant-competitor-teardown.pdf" target="_blank" class="doc-resource-link">📄 Competitor Teardown (PDF)</a>
     </div>
 
     <hr class="doc-divider">
@@ -250,7 +250,7 @@
     <p class="doc-p">
       I built a RICE table to score every candidate feature, and it told me something disheartening: my actual core feature, the dependency-aware roadmap generator, ranked fifth. It's expensive and moderately uncertain, so it scores low, while things like push notifications score high because they're cheap and safe. But push notifications have nothing to notify anyone about without the roadmap already existing. So I overrode the score where the dependency demanded it and used RICE properly everywhere else. Being able to recognize these types of tension in products is the whole point of this exercise.
     </p>
-    <a href="assets/docs/transplant-feature-prioritization.pdf" target="_blank" class="doc-resource-link" style="max-width:280px;">📄 Feature Prioritization / RICE (PDF)</a>
+    <a href="/assets/docs/transplant-feature-prioritization.pdf" target="_blank" class="doc-resource-link" style="max-width:280px;">📄 Feature Prioritization / RICE (PDF)</a>
 
     <hr class="doc-divider">
 
@@ -259,7 +259,7 @@
     <p class="doc-p">
       Wrote the actual PRD for the MVP slice: user stories, the dependency-sequencing rules in plain if/then logic (grounded in a real finding: most states require proof of new-state insurance before they'll register your car), the budget-tracking logic, and an explicit out-of-scope list. I also fully specified the readiness-score and milestone-badge logic even though it's not being built yet, since the RICE work flagged gamification as an unvalidated hypothesis. Documented, not built, until it's actually tested.
     </p>
-    <a href="assets/docs/transplant-prd.pdf" target="_blank" class="doc-resource-link" style="max-width:220px; margin-bottom:24px;">📄 Full PRD (PDF)</a>
+    <a href="/assets/docs/transplant-prd.pdf" target="_blank" class="doc-resource-link" style="max-width:220px; margin-bottom:24px;">📄 Full PRD (PDF)</a>
     <p class="doc-p">
       Took the PRD and actually built it out as a live Scrum board instead of leaving it as a document: epics for the roadmap generator, budget tracking, monetization validation, and the "no account linking" trust boundary, plus backlog epics for the deferred gamification and long-term expansion work. The validation gate (don't build badges until they're tested) is modeled as a real issue link on the board, not just a note, so the sequencing decision is enforced structurally, not just written down.
     </p>
@@ -288,7 +288,7 @@
     <a href="https://www.figma.com/design/Us7ni6AQgd9WPmmhR4WD4x/transplant?node-id=0-1&p=f&t=hTkklSOLdz5KLwcp-0" target="_blank" class="btn" style="border:1px solid rgba(10,22,40,0.2); color:var(--navy); display:inline-block;">View Figma File </a>
 
     <div style="margin-top:56px; display:flex; gap:16px; flex-wrap:wrap;">
-      <a href="work.html" class="btn btn-navy">Back to Work </a>
+      <a href="/product/" class="btn btn-navy">Back to Work </a>
       <a href="https://trnsplant.lovable.app/" target="_blank" class="btn" style="border:1px solid rgba(10,22,40,0.2); color:var(--navy);">Access the Prototype </a>
     </div>
 
@@ -298,7 +298,7 @@
   
 <footer class="foot-thin" id="exit">
  <span class="ft-name">Noah Proctor</span>
- <nav class="ft-links" aria-label="Contact"><a href="mailto:nap2180@columbia.edu">nap2180@columbia.edu</a><a href="https://www.linkedin.com/in/noah-a-proctor/" target="_blank" rel="noopener">LinkedIn</a><a href="https://github.com/noahproc" target="_blank" rel="noopener">GitHub</a><a href="Proctor_Noah_Resume.pdf" target="_blank" rel="noopener">Résumé</a></nav>
+ <nav class="ft-links" aria-label="Contact"><a href="mailto:nap2180@columbia.edu">nap2180@columbia.edu</a><a href="https://www.linkedin.com/in/noah-a-proctor/" target="_blank" rel="noopener">LinkedIn</a><a href="https://github.com/noahproc" target="_blank" rel="noopener">GitHub</a><a href="/resume/" target="_blank" rel="noopener">Résumé</a></nav>
  <span class="ft-built">Built with curiosity in New York</span>
 </footer>
 

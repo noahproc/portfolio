@@ -160,7 +160,7 @@
   function put(st,x,y,g){
    placed.add({x,y,w:g.bw,h:g.bh});used.add(st.n);
    const img=document.createElement('img');
-   img.className='stk scattered';img.src=`assets/images/stickers/${st.n}.webp`;img.alt='';img.setAttribute('aria-hidden','true');img.decoding='async';
+   img.className='stk scattered';img.src=`/assets/images/stickers/${st.n}.webp`;img.alt='';img.setAttribute('aria-hidden','true');img.decoding='async';
    if(zr.top+y*scale>innerHeight*1.5)img.loading='lazy';
    img.width=Math.round(g.w);img.height=Math.round(g.h);
    img.style.cssText=`left:${(x+(g.bw-g.w)/2).toFixed(1)}px;top:${(y+(g.bh-g.h)/2).toFixed(1)}px;width:${g.w.toFixed(1)}px;height:${g.h.toFixed(1)}px;--r:${(g.rot*180/Math.PI*(r()<.5?1:-1)).toFixed(1)}deg`;

@@ -1,0 +1,14 @@
+# GitHub Pages builds this site with Jekyll. Pages are plain HTML (no front matter), so Jekyll
+# copies them as they are. This list keeps everything that isn't the website off noahproctor.co:
+# the archived coaster homepage, tooling, tests and notes.
+exclude:
+  - archive/
+  - scripts/
+  - tests/
+  - originals/
+  - redesign/
+  - node_modules/
+  - README.md
+  - CLAUDE.md
+  - package.json
+  - package-lock.json

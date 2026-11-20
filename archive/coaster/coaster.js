@@ -6,7 +6,7 @@
  const clamp=(v,lo,hi)=>Math.max(lo,Math.min(hi,v));
  const load=src=>new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=rej;i.src=src;});
  // Where Noah's face sits in hello.webp, as fractions of the image (822 x 1400).
- const NOAH={src:'assets/images/photos/hello.webp',w:822,h:1400,cx:.52,cy:.33,r:.26};
+ const NOAH={src:'/assets/images/photos/hello.webp',w:822,h:1400,cx:.52,cy:.33,r:.26};
  const STORE='np-rider';
 
  /* ---------- rider state (this tab only) ---------- */
@@ -335,7 +335,7 @@
   finally{URL.revokeObjectURL(objectUrl);}
  });
  document.querySelectorAll('[data-standin]').forEach(button=>button.addEventListener('click',async()=>{
-  stopCamera();const img=await load(`assets/images/stickers/${button.dataset.standin}.webp`);
+  stopCamera();const img=await load(`/assets/images/stickers/${button.dataset.standin}.webp`);
   status.textContent='A fine choice.';show(toRider(img,img.naturalWidth,img.naturalHeight,{mono:false}));
  }));
  $('booth-board').addEventListener('click',()=>{

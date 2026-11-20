@@ -73,8 +73,8 @@ html{scroll-behavior:smooth}
 .bento{display:grid;grid-template-columns:minmax(0,1fr);grid-auto-rows:var(--row);grid-auto-flow:dense;gap:16px;align-content:start}
 
 /* --- tiles ------------------------------------------------------------- */
-.tile{position:relative;display:flex;flex-direction:column;gap:8px;min-width:0;margin:0;padding:14px 16px;background:#fff url(../images/textures/paper.webp) 0 0/520px auto;color:#000;box-shadow:4px 5px 0 rgba(0,0,0,.14)}
-.tile.dark{background:#111 url(../images/textures/paper-k.webp) 0 0/520px auto;color:#fff}
+.tile{position:relative;display:flex;flex-direction:column;gap:8px;min-width:0;margin:0;padding:14px 16px;background:#fff url(/assets/images/textures/paper.webp) 0 0/520px auto;color:#000;box-shadow:4px 5px 0 rgba(0,0,0,.14)}
+.tile.dark{background:#111 url(/assets/images/textures/paper-k.webp) 0 0/520px auto;color:#fff}
 .tile-title{margin:0;font:900 23px/1.05 var(--head);letter-spacing:.01em}
 .tile-line{margin:0;max-width:none;font-size:15px;line-height:1.42}
 .chips{display:flex;flex-wrap:wrap;gap:5px;margin:0;padding:0;list-style:none}
@@ -152,7 +152,7 @@ html{scroll-behavior:smooth}
 @media (prefers-reduced-motion:reduce){.motion .tile{opacity:1;transform:none}}
 
 /* --- details modal ------------------------------------------------------ */
-.tile-modal{width:min(560px,calc(100vw - 24px));padding:var(--s5) var(--s5) var(--s4);border:3px solid #000;background:#fff url(../images/textures/paper.webp) 0 0/560px auto;box-shadow:10px 12px 0 rgba(0,0,0,.3)}
+.tile-modal{width:min(560px,calc(100vw - 24px));padding:var(--s5) var(--s5) var(--s4);border:3px solid #000;background:#fff url(/assets/images/textures/paper.webp) 0 0/560px auto;box-shadow:10px 12px 0 rgba(0,0,0,.3)}
 .tile-modal::backdrop{background:rgba(0,0,0,.6)}
 .tile-modal .tile-title{font-size:30px;margin-bottom:var(--s3)}
 .tile-modal-body p{margin:0 0 var(--s3);font-size:17px;line-height:1.55}

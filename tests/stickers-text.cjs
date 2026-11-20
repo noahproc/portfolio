@@ -2,10 +2,10 @@
    For every page and width: measure each visible sticker (home: .sticker, inner pages: .stk),
    shrink its box a little for the transparent margin around the die-cut art, and test it against
    every line box of visible text (Range.getClientRects) and against the home's moving reel band.
-   Usage: PW=<playwright path> node tests/stickers-text.cjs   (optional PAGES=index,work  WIDTHS=390,1440) */
+   Usage: PW=<playwright path> node tests/stickers-text.cjs   (optional PAGES=/,/about/  WIDTHS=390,1440) */
 const { chromium } = require(process.env.PW || 'playwright');
-const BASE = process.env.BASE || 'http://localhost:8765/';
-const PAGES = (process.env.PAGES || 'index,work,projects,about,transplant-case-study,series-case-study,threshold-case-study,aden-prd,phia-teardown,airline-booking-case').split(',');
+const BASE = process.env.BASE || 'http://localhost:8765';
+const PAGES = (process.env.PAGES || '/,/product/,/data-science/,/about/,/product/transplant/,/product/series/,/product/threshold/,/product/hive-onboarding/,/product/phia-teardown/,/product/airline-booking/').split(',');
 const WIDTHS = (process.env.WIDTHS || '390,768,1024,1280,1440,1920').split(',').map(Number);
 const INSET = +(process.env.INSET || 0.12);
 
@@ -18,7 +18,7 @@ const INSET = +(process.env.INSET || 0.12);
       await page.addInitScript(() => { try { sessionStorage.setItem('np-intro', '1'); } catch (_) {} });
       // python's dev server occasionally stalls a request; retry instead of failing the whole sweep
       for (let tries = 0; ; tries++) {
-        try { await page.goto(BASE + (pg === 'index' ? '' : pg + '.html'), { waitUntil: 'load', timeout: 30000 }); break; }
+        try { await page.goto(BASE + pg, { waitUntil: 'load', timeout: 30000 }); break; }
         catch (e) { if (tries >= 2) throw e; }
       }
       await page.evaluate(async () => {

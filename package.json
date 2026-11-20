@@ -1,0 +1,18 @@
+{
+  "name": "noahproctor.co",
+  "private": true,
+  "description": "Noah Proctor's portfolio: a static site served by GitHub Pages.",
+  "scripts": {
+    "serve": "python3 scripts/serve.py",
+    "test": "node tests/links.cjs && node tests/stickers-text.cjs",
+    "test:links": "node tests/links.cjs",
+    "test:stickers": "node tests/stickers-text.cjs",
+    "test:coaster": "node tests/collisions.cjs",
+    "icons": "python3 scripts/make-favicon.py",
+    "reel": "python3 scripts/make-reel-thumbs.py",
+    "stickers": "python3 scripts/make-sticker-manifest.py"
+  },
+  "devDependencies": {
+    "playwright": "1.61.1"
+  }
+}
