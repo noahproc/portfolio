@@ -256,6 +256,8 @@
     :root { --m: .7; }
     body { font-size: 16px; }
     .collage { --k: .74; }
+    .collage .sticker { left: calc(var(--ml, var(--l)) * 1px * var(--k)); top: calc(var(--mt, var(--t)) * 1px * var(--k)); }
+    .collage .roam { display: none; }   /* phones keep the original six around the photo */
     .opt, .work .free:not(.m-keep) { display: none; }
   }
   @media (max-width: 720px) {
@@ -326,20 +328,20 @@
           <figcaption class="cap">hey, i&rsquo;m noah</figcaption>
         </figure>
 
-        <div class="sticker" style="--l:-86; --t:-18; --w:98; --r:-8deg; --i:3" role="img" aria-label="disco ball sticker"><img src="/assets/images/stickers/disco-ball.webp" alt="" width="392" height="392" decoding="async"></div>
-        <div class="sticker" style="--l:288; --t:-40; --w:92; --r:10deg; --i:4" role="img" aria-label="vinyl record sticker"><img src="/assets/images/stickers/vinyl-heart.webp" alt="" width="392" height="386" decoding="async"></div>
-        <div class="sticker" style="--l:300; --t:210; --w:74; --r:14deg; --i:5" role="img" aria-label="chrome star sticker"><img src="/assets/images/stickers/star-chrome.webp" alt="" width="392" height="369" decoding="async"></div>
-        <div class="sticker" style="--l:-70; --t:272; --w:124; --r:-5deg; --i:6" role="img" aria-label="New York sticker"><img src="/assets/images/stickers/new-york.webp" alt="" width="391" height="348" decoding="async"></div>
-        <div class="sticker" style="--l:300; --t:318; --w:50; --r:-9deg; --i:7" role="img" aria-label="rocket sticker"><img src="/assets/images/stickers/rocket.webp" alt="" width="216" height="460" decoding="async"></div>
-        <div class="sticker" style="--l:-34; --t:452; --w:116; --r:-6deg; --i:8" role="img" aria-label="camera sticker"><img src="/assets/images/stickers/camera.webp" alt="" width="390" height="330" decoding="async"></div>
+        <div class="sticker" style="--l:-79; --t:-8; --ml:-86; --mt:-18; --w:98; --r:-8deg; --i:3" role="img" aria-label="disco ball sticker"><img src="/assets/images/stickers/disco-ball.webp" alt="" width="392" height="392" decoding="async"></div>
+        <div class="sticker" style="--l:282; --t:-29; --ml:288; --mt:-40; --w:92; --r:10deg; --i:4" role="img" aria-label="vinyl record sticker"><img src="/assets/images/stickers/vinyl-heart.webp" alt="" width="392" height="386" decoding="async"></div>
+        <div class="sticker" style="--l:289; --t:212; --ml:300; --mt:210; --w:74; --r:14deg; --i:5" role="img" aria-label="chrome star sticker"><img src="/assets/images/stickers/star-chrome.webp" alt="" width="392" height="369" decoding="async"></div>
+        <div class="sticker" style="--l:-73; --t:283; --ml:-70; --mt:272; --w:124; --r:-5deg; --i:6" role="img" aria-label="New York sticker"><img src="/assets/images/stickers/new-york.webp" alt="" width="391" height="348" decoding="async"></div>
+        <div class="sticker" style="--l:298; --t:297; --ml:300; --mt:318; --w:50; --r:-9deg; --i:7" role="img" aria-label="rocket sticker"><img src="/assets/images/stickers/rocket.webp" alt="" width="216" height="460" decoding="async"></div>
+        <div class="sticker" style="--l:332; --t:453; --ml:-34; --mt:452; --w:116; --r:-6deg; --i:8" role="img" aria-label="camera sticker"><img src="/assets/images/stickers/camera.webp" alt="" width="390" height="330" decoding="async"></div>
+        <div class="sticker roam" style="--l:-244; --t:24; --w:74; --r:8deg; --i:5" role="img" aria-label="sparkles sticker"><img src="/assets/images/stickers/sparkles.webp" alt="" width="311" height="392" decoding="async"></div>
+        <div class="sticker roam" style="--l:401; --t:134; --w:64; --r:-12deg; --i:6" role="img" aria-label="heart sticker"><img src="/assets/images/stickers/heart.webp" alt="" width="303" height="414" decoding="async"></div>
+        <div class="sticker roam" style="--l:-59; --t:483; --w:96; --r:-6deg; --i:7" role="img" aria-label="film clapper sticker"><img src="/assets/images/stickers/clapper.webp" alt="" width="392" height="341" decoding="async"></div>
+        <div class="sticker roam" style="--l:-153; --t:182; --w:64; --r:9deg; --i:8" role="img" aria-label="coffee sticker"><img src="/assets/images/stickers/coffee.webp" alt="" width="162" height="114" decoding="async"></div>
     </div>
   </div>
 
   <!-- extra stickers around the hero -->
-  <div class="sticker free" style="--x:44%; --y:5%; --w:74; --r:8deg; --i:5" role="img" aria-label="sparkles sticker"><img src="/assets/images/stickers/sparkles.webp" alt="" width="311" height="392" decoding="async"></div>
-  <div class="sticker free" style="--x:1.5%; --y:7%; --w:64; --r:-12deg; --i:6" role="img" aria-label="heart sticker"><img src="/assets/images/stickers/heart.webp" alt="" width="303" height="414" decoding="async"></div>
-  <div class="sticker free opt" style="--x:52%; --y:80%; --w:96; --r:-6deg; --i:7" role="img" aria-label="film clapper sticker"><img src="/assets/images/stickers/clapper.webp" alt="" width="392" height="341" decoding="async"></div>
-  <div class="sticker free opt" style="--x:33%; --y:90%; --w:64; --r:9deg; --i:8" role="img" aria-label="coffee sticker"><img src="/assets/images/stickers/coffee.webp" alt="" width="162" height="114" decoding="async"></div>
 </section>
 
 <!-- WORK -->
