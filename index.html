@@ -13,7 +13,8 @@
   ------------------------------------------------------------------
   One self-contained file, no build step. Type: Fraunces (display) + DM Sans (everything else). Nothing else.
   Top to bottom:
-    #intro        typed name -> shake -> green paint splatter -> brush wipes it away   (script: INTRO)
+    #intro        typed name (half size) -> grows while it shakes -> explodes into paint (letters burst into
+                  particles, and a ring of green paint pops out to the edges, revealing the page)   (script: INTRO)
     header        sticky nav
     #home         hero: name, bio, polaroid collage
     #product / #data-science   one tile grid (the first product tile and first data tile carry the ids)
@@ -69,7 +70,8 @@
   html.intro #intro { display: block; }
   #intro canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; z-index: 1; }
   #typed {
-    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 2; user-select: none;
+    /* typed at half size; it grows to full size while it shakes (script: INTRO) */
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) scale(.5); z-index: 2; user-select: none;
     font-family: var(--serif); font-weight: 500; font-variation-settings: "SOFT" 100, "WONK" 0;
     letter-spacing: -.03em; line-height: 1; white-space: nowrap; font-size: min(11.5vw, 168px); color: var(--ink);
   }
@@ -79,7 +81,7 @@
   #typed .caret.blink { animation: blink 1s steps(1) infinite; }
   @keyframes blink { 50% { opacity: 0; } }
   .skip-hint { position: absolute; left: 50%; bottom: 26px; transform: translateX(-50%); z-index: 3; font-size: 12px; letter-spacing: .06em; color: #a2a2a2; transition: opacity .3s; }
-  #brush { position: absolute; left: 0; top: 0; z-index: 4; display: none; pointer-events: none; will-change: transform; }
+  #intro #shards { z-index: 3; pointer-events: none; }
 
   /* ---------- NAV ---------- */
   header.nav { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,.9); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
@@ -287,7 +289,7 @@
 <div id="intro" aria-hidden="true">
   <canvas id="paint"></canvas>
   <div id="typed"></div>
-  <div id="brush"></div>
+  <canvas id="shards"></canvas>
   <div class="skip-hint">click to skip</div>
 </div>
 <canvas id="splat" aria-hidden="true"></canvas>
@@ -566,7 +568,6 @@
   function pick(a) { return a[(Math.random() * a.length) | 0]; }
   function easeOutCubic(x) { return 1 - Math.pow(1 - x, 3); }
   function easeInOutCubic(x) { return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; }
-  function easeInOutSine(x) { return -(Math.cos(Math.PI * x) - 1) / 2; }
 
   /* ================= HERO NAME: split into hoverable letters ================= */
   (function () {
@@ -699,17 +700,17 @@
   var el = document.getElementById('intro');
   var typed = document.getElementById('typed');
   var paint = document.getElementById('paint');
-  var brushEl = document.getElementById('brush');
   var pctx = paint.getContext('2d');
+  var shardsEl = document.getElementById('shards'), sh = shardsEl.getContext('2d');
   var W = 0, H = 0, dpr = 1;
 
   function sizeCanvas() {
     dpr = Math.min(window.devicePixelRatio || 1, 1.5);
     W = window.innerWidth; H = window.innerHeight;
-    paint.width = Math.round(W * dpr); paint.height = Math.round(H * dpr);
-    pctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    paint.width = shardsEl.width = Math.round(W * dpr); paint.height = shardsEl.height = Math.round(H * dpr);
+    pctx.setTransform(dpr, 0, 0, dpr, 0, 0); sh.setTransform(dpr, 0, 0, dpr, 0, 0);
     pctx.globalCompositeOperation = 'source-over'; pctx.globalAlpha = 1;
-    pctx.clearRect(0, 0, W, H);
+    pctx.clearRect(0, 0, W, H); sh.clearRect(0, 0, W, H);
   }
 
   function endIntro() {
@@ -722,30 +723,11 @@
       setTimeout(function () { root.classList.remove('reveal'); }, 2600);
     }
     root.classList.remove('intro');
-    el.style.background = ''; brushEl.style.display = 'none'; brushEl.innerHTML = '';
-    pctx.clearRect(0, 0, W, H);
+    el.style.background = '';
+    pctx.clearRect(0, 0, W, H); sh.clearRect(0, 0, W, H);
     window.scrollTo(0, 0);
   }
   function onKey(e) { if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') { e.preventDefault(); endIntro(); } }
-
-  /* A flat paintbrush (bristle edge faces the direction of travel, handle trails behind). Local x=0 is the leading edge. */
-  function brushSVG(h) {
-    var front = [], y, i;
-    for (y = h * .015; y < h * .985; y += 7) front.push([rnd(-4, 1), y]);
-    var bristle = front.map(function (p) { return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' ') + ' -34,' + (h * .985) + ' -34,' + (h * .015);
-    var tip = front.map(function (p) { return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' ');
-    for (i = front.length - 1; i >= 0; i--) tip += ' ' + (-20 + rnd(-3, 3)).toFixed(1) + ',' + front[i][1].toFixed(1);
-    var streaks = '';
-    for (y = h * .04; y < h * .96; y += 9) streaks += '<path d="M-34 ' + y.toFixed(1) + 'H-20" stroke="#bfae85" stroke-width="1.6"/>';
-    return '<svg width="560" height="' + h + '" viewBox="-540 0 560 ' + h + '" xmlns="http://www.w3.org/2000/svg">' +
-      '<defs><linearGradient id="bf" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#f4f4f4"/><stop offset=".5" stop-color="#a5a5a5"/><stop offset="1" stop-color="#e6e6e6"/></linearGradient></defs>' +
-      '<path d="M-96 ' + (h * .5 - h * .04) + 'L-520 ' + (h * .5 - h * .024) + 'Q-538 ' + (h * .5) + ' -520 ' + (h * .5 + h * .024) + 'L-96 ' + (h * .5 + h * .04) + 'Z" fill="#111"/>' +
-      '<rect x="-102" y="' + (h * .045) + '" width="70" height="' + (h * .91) + '" rx="8" fill="url(#bf)" stroke="#111" stroke-width="3.5"/>' +
-      '<path d="M-84 ' + (h * .07) + 'V' + (h * .93) + 'M-70 ' + (h * .07) + 'V' + (h * .93) + '" stroke="#111" stroke-width="2" opacity=".3"/>' +
-      '<polygon points="' + bristle + '" fill="#efe3c8" stroke="#111" stroke-width="3" stroke-linejoin="round"/>' + streaks +
-      '<polygon points="' + tip + '" fill="#0f9d6b" stroke="#0a6e4a" stroke-width="1.5" stroke-linejoin="round"/>' +
-      '</svg>';
-  }
 
   function runIntro() {
     if (running) return;
@@ -773,60 +755,116 @@
     var times = [], acc = 650;
     NAME.split('').forEach(function (ch) { times.push(acc); acc += 90 + Math.random() * 70 + (ch === ' ' ? 170 : 0); });
     var TYPE_END = acc, HOLD_END = TYPE_END + 550, SHAKE_DUR = 1400, SHAKE_END = HOLD_END + SHAKE_DUR;
-    var FLOOD_AT = 800, COVER_AT = 1380, WIPE_AT = 1480;
+    var START_SCALE = .5;              /* the name types at half size and grows to full size while it shakes */
     var phases = chars.map(function () { return Math.random() * 6.283; });
     var freq = chars.map(function () { return rnd(.8, 1.4); });
-    var revealed = 0, holdStarted = false, shakeStarted = false, burstStarted = false, covered = false, revealStarted = false;
+    var crot = chars.map(function () { return 0; });
+    var revealed = 0, holdStarted = false, shakeStarted = false, burstStarted = false;
     var fs = 120, cx = W / 2, cy = H / 2, maxR = 0;
-    var splats = [], floodNoise = makeNoise();
+    var shards = [], jets = [], blastNoise = makeNoise();
 
-    function addSplat(x, y, R, delay, dur, pal) { splats.push({ x: x, y: y, R: R, s: makeSplat(R), pal: pal, t0: delay, dur: dur, drops: false, done: false }); }
+    /* EXPLOSION (after omkar-tenkale/ExplodingComposable): the name is rasterised, sampled on a grid into
+       particles, and every particle flies off on its own arc: a hard outward kick that drag slows, gravity
+       pulling it down, a random start delay, a size that drifts, and a fade over the last 30% of its life.
+       Each is drawn as a short streak along its velocity, so fast particles motion-blur like flung paint. */
+    function buildShards(tr) {
+      var pad = Math.ceil(fs * .4), ow = Math.ceil(tr.width + pad * 2), oh = Math.ceil(tr.height + pad * 2);
+      var off = document.createElement('canvas'); off.width = ow; off.height = oh;
+      var g = off.getContext('2d', { willReadFrequently: true }), cs = getComputedStyle(typed);
+      g.font = cs.fontWeight + ' ' + fs + 'px ' + cs.fontFamily; g.textAlign = 'center'; g.textBaseline = 'middle';
+      chars.forEach(function (s, i) {
+        var r = s.getBoundingClientRect(); if (r.width < 4) return;
+        g.save(); g.translate(r.left + r.width / 2 - tr.left + pad, r.top + r.height / 2 - tr.top + pad); g.rotate(crot[i] * Math.PI / 180);
+        g.fillStyle = 'rgb(' + (i + 1) + ',0,0)';   /* red channel = which letter, so each particle keeps its letter's color */
+        g.fillText(s.textContent, 0, 0); g.restore();
+      });
+      var data = g.getImageData(0, 0, ow, oh).data, pts = [], step = Math.max(3, Math.round(fs / 28)), x, y;
+      for (;;) {
+        pts.length = 0;
+        for (y = step >> 1; y < oh; y += step) for (x = step >> 1; x < ow; x += step) { var o = (y * ow + x) * 4; if (data[o + 3] > 120) pts.push(x, y, data[o]); }
+        if (pts.length / 3 <= 2600) break; step++;
+      }
+      var V = Math.max(W, H) * 2.7, halfW = tr.width / 2 || 1, halfH = tr.height / 2 || 1;
+      for (var n = 0; n < pts.length; n += 3) {
+        var x0 = tr.left - pad + pts[n], y0 = tr.top - pad + pts[n + 1], ci = pts[n + 2] - 1;
+        var ux = (x0 - cx) / halfW, uy = (y0 - cy) / halfH;
+        var ang = Math.atan2(uy * .9 + rnd(-.6, .6), ux * .7 + rnd(-.5, .5)), sp = V * (.18 + .82 * Math.pow(Math.random(), 1.6));
+        var col = chars[ci] && chars[ci].style.color ? POP.m : '#0b0b0b', roll = Math.random();
+        if (roll < .22) col = pick([POP.l, POP.m, '#b4ffdc']); else if (roll < .3) col = '#fff';
+        var r0 = step * rnd(.5, .8);
+        shards.push({
+          x0: x0, y0: y0, vx: Math.cos(ang) * sp, vy: Math.sin(ang) * sp - rnd(0, .25) * V * .4,
+          k: rnd(2.6, 4.2), g: rnd(1400, 2400), d: rnd(0, 70), life: rnd(500, 950),
+          r0: r0, r1: Math.random() < .2 ? r0 * rnd(1, 2.2) : r0 * rnd(.25, .9), col: col
+        });
+      }
+    }
+    function drawShards(tb) {
+      sh.clearRect(0, 0, W, H); sh.lineCap = 'round';
+      var live = false;
+      for (var i = 0; i < shards.length; i++) {
+        var p = shards[i], ta = tb - p.d;
+        if (ta < 0) { sh.globalAlpha = 1; sh.fillStyle = p.col; sh.fillRect(p.x0 - p.r0, p.y0 - p.r0, p.r0 * 2, p.r0 * 2); live = true; continue; }
+        var u = ta / p.life; if (u >= 1) continue; live = true;
+        var t = ta / 1000, e = Math.exp(-p.k * t), f = (1 - e) / p.k;
+        var x = p.x0 + p.vx * f, y = p.y0 + p.vy * f + .5 * p.g * t * t;
+        var vx = p.vx * e, vy = p.vy * e + p.g * t, bl = .014;   /* streak: where it was ~14ms ago */
+        var r = p.r0 + (p.r1 - p.r0) * u;
+        sh.globalAlpha = u < .7 ? 1 : 1 - (u - .7) / .3;
+        sh.strokeStyle = p.col; sh.lineWidth = r * 2;
+        sh.beginPath(); sh.moveTo(x - vx * bl, y - vy * bl); sh.lineTo(x, y); sh.stroke();
+      }
+      sh.globalAlpha = 1;
+      return live;
+    }
 
+    /* THE POP: a ring of vivid paint bursts out of the name and races to the edges of the screen. The
+       homepage shows through the hole it leaves behind, so the pop itself is the reveal. Jets of paint shoot
+       ahead of the ring, and the letters fly apart as particles on top. */
+    var POP = { l: '#7dffc0', m: '#00d26e', d: '#00894a' };   /* saturated greens, used only by the pop */
+    var OUT_DUR = 760, IN_DELAY = 140, IN_DUR = 900, POP_MAX = 1400;
+    var holeNoise = makeNoise();
     function startBurst() {
       burstStarted = true;
       var tr = typed.getBoundingClientRect();
       cx = tr.left + tr.width / 2; cy = tr.top + tr.height / 2;
       maxR = Math.hypot(Math.max(cx, W - cx), Math.max(cy, H - cy));
-      /* the letters themselves turn into splats, with one big one at the center */
-      addSplat(cx, cy, Math.min(W, H) * .24, 0, 300, PALS[0]);
-      chars.forEach(function (s) {
-        var r = s.getBoundingClientRect(); if (r.width < 4) return;
-        addSplat(r.left + r.width / 2, r.top + r.height / 2, r.height * rnd(.4, .62), rnd(20, 140), 260, pick(PAL3));
-      });
-      /* big splats ripple outward from the center and cover the screen */
-      var cols = W > H ? 5 : 3, rows = W > H ? 3 : 5, cells = [], i, j;
-      for (i = 0; i < cols; i++) for (j = 0; j < rows; j++) {
-        var px = (i + .5) / cols * W + rnd(-.18, .18) * W / cols, py = (j + .5) / rows * H + rnd(-.18, .18) * H / rows;
-        cells.push({ x: px, y: py, d: Math.hypot(px - cx, py - cy) });
-      }
-      cells.sort(function (a, b) { return a.d - b.d; });
-      cells.forEach(function (c, n) { addSplat(c.x, c.y, Math.max(W / cols, H / rows) * rnd(.58, .85), 160 + n * (560 / cells.length) + rnd(0, 40), 300, pick(PAL3)); });
-      /* a few lighter, smaller splats on top for depth */
-      for (i = 0; i < 9; i++) addSplat(rnd(0, W), rnd(0, H), Math.min(W, H) * rnd(.05, .1), 700 + i * 55, 240, PALS[3]);
+      buildShards(tr);
+      var J = 52, base = Math.min(W, H);
+      for (var i = 0; i < J; i++) jets.push({ a: i / J * 6.283 + rnd(-.08, .08), reach: rnd(1.08, 1.7), w: base * rnd(.01, .04), col: pick([POP.m, POP.m, POP.l, POP.d]) });
+      /* a jagged front: the low-frequency lumps of makeNoise plus sharper spikes */
+      var lumps = makeNoise(), spikes = makeNoise();
+      blastNoise = function (th, time) { return lumps(th, time) * .6 + spikes(th * 2, time) * .45; };
       typed.style.visibility = 'hidden';
+      /* the page underneath takes over: white now comes from the canvas, so the hole can show the homepage */
+      el.style.background = 'transparent';
+      root.classList.add('reveal'); root.classList.remove('pre');
+      setTimeout(function () { root.classList.remove('reveal'); }, 2600);
     }
-
-    /* --- brush wipe state --- */
-    var P = H > W * 1.2 ? 4 : 3, PASS = 480, MARGIN = 170;
-    var bandH = (H / P) * 1.5, passes = null;
-    function buildPass(k) { return { k: k, dir: k % 2 === 0 ? 1 : -1, yc: H * (k + .5) / P }; }
-    function bx(pass, p) { var a = -MARGIN, z = W + MARGIN; return pass.dir > 0 ? a + (z - a) * p : z - (z - a) * p; }
-
-    /* Long soft brush drags plus fine grain over the solid green so it reads as paint, not a flat fill. */
-    function paintTexture() {
-      var i, a = -.18 + rnd(-.06, .06);
-      pctx.globalCompositeOperation = 'source-atop'; pctx.lineCap = 'round';
-      for (i = 0; i < 46; i++) {
-        pctx.globalAlpha = rnd(.05, .11); pctx.strokeStyle = Math.random() < .5 ? PALS[0].l : PALS[0].d; pctx.lineWidth = rnd(14, 64);
-        var sx = rnd(-W * .2, W), sy = rnd(0, H), len = W * rnd(.35, 1.1);
-        pctx.beginPath(); pctx.moveTo(sx, sy); pctx.lineTo(sx + Math.cos(a) * len, sy + Math.sin(a) * len); pctx.stroke();
+    /* Redrawn from scratch each frame: white, then the ring (outer front + jets), a darker lip inside it,
+       then the hole cut out. Returns true once the hole has passed every edge. */
+    function drawPop(tb) {
+      var qo = clamp(tb / OUT_DUR, 0, 1), qi = clamp((tb - IN_DELAY) / IN_DUR, 0, 1), i;
+      var Ro = maxR * 1.6 * (1 - Math.pow(1 - qo, 4)), Ri = maxR * 1.3 * easeOutCubic(qi);
+      pctx.globalCompositeOperation = 'source-over';
+      pctx.clearRect(0, 0, W, H); pctx.fillStyle = '#fff'; pctx.fillRect(0, 0, W, H);
+      /* each jet is a wedge that thins toward a rounded tip */
+      for (i = 0; i < jets.length; i++) {
+        var j = jets[i], ux = Math.cos(j.a), uy = Math.sin(j.a), L = Ro * j.reach, w = j.w, tw = w * .3;
+        var bx0 = cx + ux * Ro * .5, by0 = cy + uy * Ro * .5, tx = cx + ux * L, ty = cy + uy * L;
+        pctx.fillStyle = j.col; pctx.beginPath();
+        pctx.moveTo(bx0 - uy * w, by0 + ux * w); pctx.lineTo(tx - uy * tw, ty + ux * tw);
+        pctx.arc(tx, ty, tw, j.a + 1.5708, j.a - 1.5708, true);
+        pctx.lineTo(bx0 + uy * w, by0 - ux * w); pctx.closePath(); pctx.fill();
       }
-      var c = document.createElement('canvas'); c.width = c.height = 160;
-      var g = c.getContext('2d'), id = g.createImageData(160, 160), d = id.data, v;
-      for (i = 0; i < d.length; i += 4) { v = (Math.random() * 255) | 0; d[i] = d[i + 1] = d[i + 2] = v; d[i + 3] = 255; }
-      g.putImageData(id, 0, 0);
-      pctx.globalCompositeOperation = 'overlay'; pctx.globalAlpha = .22; pctx.fillStyle = pctx.createPattern(c, 'repeat'); pctx.fillRect(0, 0, W, H);
-      pctx.globalAlpha = 1; pctx.globalCompositeOperation = 'source-over';
+      pctx.fillStyle = POP.m; tracePoly(pctx, cx, cy, Ro, .22 * (1 - .4 * qo), blastNoise, tb / 400); pctx.fill();
+      if (Ri > 1) {
+        pctx.fillStyle = POP.d; tracePoly(pctx, cx, cy, Ri * 1.06 + 8, .1, holeNoise, tb / 500); pctx.fill();
+        pctx.globalCompositeOperation = 'destination-out';
+        tracePoly(pctx, cx, cy, Ri, .1, holeNoise, tb / 500); pctx.fill();
+        pctx.globalCompositeOperation = 'source-over';
+      }
+      return qi >= 1;
     }
 
     var t0 = 0, last = 0;
@@ -848,62 +886,23 @@
           var jx = (Math.sin(t * .09 * freq[i] + phases[i]) * .5 + (Math.random() - .5)) * fs * .07 * j;
           var jy = (Math.cos(t * .08 * freq[i] + phases[i]) * .5 + (Math.random() - .5)) * fs * .07 * j;
           var rot = (Math.sin(t * .05 * freq[i] + phases[i] * 2) * 5 + (Math.random() - .5) * 7) * j;
+          crot[i] = rot;
           chars[i].style.transform = 'translate(' + jx.toFixed(1) + 'px,' + (bob + jy).toFixed(1) + 'px) rotate(' + rot.toFixed(1) + 'deg)';
           if (p > .5 && Math.random() < (p - .5) * .1) chars[i].style.color = BASE;
         }
-        typed.style.transform = 'translate(-50%,-50%) scale(' + (1 + .12 * p * p + .012 * Math.sin(t * .04)).toFixed(3) + ')';
+        /* grows from half size to full size as it shakes, with a slight throb */
+        var grow = START_SCALE + (1 - START_SCALE) * easeInOutCubic(p);
+        typed.style.transform = 'translate(-50%,-50%) scale(' + (grow + .012 * p * Math.sin(t * .04)).toFixed(3) + ')';
       }
 
-      /* ---- splatter ---- */
+      /* ---- the pop ---- */
       if (t >= SHAKE_END) {
         if (!burstStarted) startBurst();
         var tb = t - SHAKE_END;
-        pctx.globalCompositeOperation = 'source-over'; pctx.globalAlpha = 1;
-
-        for (var n = 0; n < splats.length; n++) {
-          var sp = splats[n];
-          if (sp.done || tb < sp.t0) continue;
-          var pp = clamp((tb - sp.t0) / sp.dur, 0, 1);
-          if (pp < 1) paintSplat(pctx, sp.x, sp.y, pp, sp.s, sp.pal, false, false);
-          if (pp >= .7 && !sp.drops) { sp.drops = true; pctx.fillStyle = sp.pal.m; pctx.fill(dropsPath(sp.x, sp.y, sp.s)); }
-          if (pp >= 1) { paintSplat(pctx, sp.x, sp.y, 1, sp.s, sp.pal, true, true); sp.done = true; }
-        }
-
-        /* a flood fills whatever white is left (drawn behind the splats so their shapes still show) */
-        if (tb >= FLOOD_AT && !covered) {
-          var fp = clamp((tb - FLOOD_AT) / (COVER_AT - FLOOD_AT), 0, 1);
-          pctx.globalCompositeOperation = 'destination-over'; pctx.fillStyle = BASE;
-          tracePoly(pctx, cx, cy, maxR * 1.5 * easeOutCubic(fp), .13, floodNoise, tb / 1000); pctx.fill();
-          pctx.globalCompositeOperation = 'source-over';
-        }
-        if (tb >= COVER_AT && !covered) {
-          covered = true;
-          pctx.globalCompositeOperation = 'destination-over'; pctx.fillStyle = BASE; pctx.fillRect(0, 0, W, H);
-          pctx.globalCompositeOperation = 'source-over';
-          el.style.background = 'transparent';
-          paintTexture();
-        }
-
-        /* ---- brush wipe ---- */
-        var tw = tb - WIPE_AT;
-        if (tw > 0) {
-          var k = Math.min(P - 1, Math.floor(tw / PASS));
-          if (!passes) { passes = []; brushEl.innerHTML = brushSVG(bandH); brushEl.style.display = 'block'; }
-          if (!passes[k]) passes[k] = buildPass(k);
-          if (k >= 1 && !revealStarted) { revealStarted = true; root.classList.add('reveal'); root.classList.remove('pre'); setTimeout(function () { root.classList.remove('reveal'); }, 2600); }
-          var pass = passes[k], local = tw - k * PASS, span = 1;
-          var prog = clamp(local / PASS, 0, 1) * span;
-          /* a clean wipe: each pass clears its whole band, straight-edged, up to the brush */
-          var ex = bx(pass, easeInOutSine(clamp(prog, 0, 1))), top = Math.floor(H * k / P) - 1, bh = Math.ceil(H / P) + 2;
-          if (top > 0) pctx.clearRect(0, 0, W, top + 1);   /* bands already passed stay fully clear */
-          if (pass.dir > 0) pctx.clearRect(-1, top, ex + 1, bh); else pctx.clearRect(ex, top, W - ex + 1, bh);
-          pctx.globalCompositeOperation = 'source-over';
-          /* brush follows the leading edge, handle tilted back */
-          var fx = bx(pass, easeInOutSine(clamp(prog, 0, 1))), fy = pass.yc + Math.sin(tw * .02) * 3;
-          brushEl.style.transform = 'translate(' + (fx - (pass.dir > 0 ? 540 : 580)).toFixed(1) + 'px,' + (fy - bandH / 2).toFixed(1) + 'px) rotate(' + (pass.dir > 0 ? 9 : -9) + 'deg) scaleX(' + pass.dir + ')';
-          brushEl.style.transformOrigin = '100% 50%';
-          if (tw >= PASS * P + 120) { endIntro(); return; }
-        }
+        pctx.globalAlpha = 1;
+        var opened = drawPop(tb);
+        if (shards.length && !drawShards(tb)) { shards.length = 0; sh.clearRect(0, 0, W, H); }
+        if ((opened && !shards.length) || tb >= POP_MAX) { endIntro(); return; }
       }
       raf = requestAnimationFrame(frame);
     }
