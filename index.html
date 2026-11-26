@@ -13,8 +13,8 @@
   ------------------------------------------------------------------
   One self-contained file, no build step. Type: Fraunces (display) + DM Sans (everything else). Nothing else.
   Top to bottom:
-    #intro        typed name (half size) -> grows while it shakes -> explodes into paint (letters burst into
-                  particles, and a ring of green paint pops out to the edges, revealing the page)   (script: INTRO)
+    #intro        typed name (half size) -> shake -> pops into a burst of green powder (the page's #0f9d6b); the page shows
+                  inside its leading edge and stays white outside it until they reach the edges   (script: INTRO)
     header        sticky nav
     #home         hero: name, bio, polaroid collage
     #product / #data-science   one tile grid (the first product tile and first data tile carry the ids)
@@ -70,7 +70,7 @@
   html.intro #intro { display: block; }
   #intro canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; z-index: 1; }
   #typed {
-    /* typed at half size; it grows to full size while it shakes (script: INTRO) */
+    /* the intro name stays at half size (script: INTRO) */
     position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) scale(.5); z-index: 2; user-select: none;
     font-family: var(--serif); font-weight: 500; font-variation-settings: "SOFT" 100, "WONK" 0;
     letter-spacing: -.03em; line-height: 1; white-space: nowrap; font-size: min(11.5vw, 168px); color: var(--ink);
@@ -546,7 +546,7 @@
   'use strict';
   /* ================= FLAGS ================= */
   var INTRO_ENABLED = true;            // false: skip the intro entirely
-  var PLAY_ONCE_PER_SESSION = true;    // true: only play on the first visit of each browser session
+  var PLAY_ONCE_PER_SESSION = true;    // true: only play on the first visit of each browser session (add ?intro to the URL to replay)
   var SPLAT_LIFETIME = 6000;           // ms a click splat stays on the page before fading
 
   var NAME = 'Noah Proctor';
@@ -732,7 +732,7 @@
   function runIntro() {
     if (running) return;
     if (!INTRO_ENABLED || reduce) { root.classList.remove('intro', 'pre'); return; }
-    try { if (PLAY_ONCE_PER_SESSION && sessionStorage.getItem('np-intro')) { root.classList.remove('intro', 'pre'); return; } sessionStorage.setItem('np-intro', '1'); } catch (e) {}
+    try { if (PLAY_ONCE_PER_SESSION && !/[?&]intro\b/.test(location.search) && sessionStorage.getItem('np-intro')) { root.classList.remove('intro', 'pre'); return; } sessionStorage.setItem('np-intro', '1'); } catch (e) {}
 
     running = true;
     root.classList.add('intro', 'pre'); root.classList.remove('reveal');
@@ -755,116 +755,144 @@
     var times = [], acc = 650;
     NAME.split('').forEach(function (ch) { times.push(acc); acc += 90 + Math.random() * 70 + (ch === ' ' ? 170 : 0); });
     var TYPE_END = acc, HOLD_END = TYPE_END + 550, SHAKE_DUR = 1400, SHAKE_END = HOLD_END + SHAKE_DUR;
-    var START_SCALE = .5;              /* the name types at half size and grows to full size while it shakes */
+    var NAME_SCALE = .5;               /* the name stays at half its CSS size the whole time (no growth) */
     var phases = chars.map(function () { return Math.random() * 6.283; });
     var freq = chars.map(function () { return rnd(.8, 1.4); });
     var crot = chars.map(function () { return 0; });
     var revealed = 0, holdStarted = false, shakeStarted = false, burstStarted = false;
     var fs = 120, cx = W / 2, cy = H / 2, maxR = 0;
-    var shards = [], jets = [], blastNoise = makeNoise();
+    var shards = [], dust = [], holeNoise = makeNoise();
+    /* every particle is the page's own green (--green, #0f9d6b) */
+    var VIVID = [BASE];
+    function vivid() { return BASE; }
 
-    /* EXPLOSION (after omkar-tenkale/ExplodingComposable): the name is rasterised, sampled on a grid into
-       particles, and every particle flies off on its own arc: a hard outward kick that drag slows, gravity
-       pulling it down, a random start delay, a size that drifts, and a fade over the last 30% of its life.
-       Each is drawn as a short streak along its velocity, so fast particles motion-blur like flung paint. */
+    /* LETTERS -> PARTICLES (after omkar-tenkale/ExplodingComposable): the name is rasterised, sampled on a
+       grid into particles, and every particle flies off on its own arc: a hard outward kick that drag slows,
+       gravity pulling it down, a random start delay, a size that drifts, and a fade over the last 30% of its
+       life. Each is drawn as a short streak along its velocity, so fast particles motion-blur. */
     function buildShards(tr) {
-      var pad = Math.ceil(fs * .4), ow = Math.ceil(tr.width + pad * 2), oh = Math.ceil(tr.height + pad * 2);
+      var size = fs * NAME_SCALE, pad = Math.ceil(size * .4), ow = Math.ceil(tr.width + pad * 2), oh = Math.ceil(tr.height + pad * 2);
       var off = document.createElement('canvas'); off.width = ow; off.height = oh;
       var g = off.getContext('2d', { willReadFrequently: true }), cs = getComputedStyle(typed);
-      g.font = cs.fontWeight + ' ' + fs + 'px ' + cs.fontFamily; g.textAlign = 'center'; g.textBaseline = 'middle';
+      g.font = cs.fontWeight + ' ' + size + 'px ' + cs.fontFamily; g.textAlign = 'center'; g.textBaseline = 'middle';
       chars.forEach(function (s, i) {
-        var r = s.getBoundingClientRect(); if (r.width < 4) return;
+        var r = s.getBoundingClientRect(); if (r.width < 2) return;
         g.save(); g.translate(r.left + r.width / 2 - tr.left + pad, r.top + r.height / 2 - tr.top + pad); g.rotate(crot[i] * Math.PI / 180);
-        g.fillStyle = 'rgb(' + (i + 1) + ',0,0)';   /* red channel = which letter, so each particle keeps its letter's color */
-        g.fillText(s.textContent, 0, 0); g.restore();
+        g.fillStyle = '#000'; g.fillText(s.textContent, 0, 0); g.restore();
       });
-      var data = g.getImageData(0, 0, ow, oh).data, pts = [], step = Math.max(3, Math.round(fs / 28)), x, y;
+      var data = g.getImageData(0, 0, ow, oh).data, pts = [], step = 3, x, y;
       for (;;) {
         pts.length = 0;
-        for (y = step >> 1; y < oh; y += step) for (x = step >> 1; x < ow; x += step) { var o = (y * ow + x) * 4; if (data[o + 3] > 120) pts.push(x, y, data[o]); }
-        if (pts.length / 3 <= 2600) break; step++;
+        for (y = 1; y < oh; y += step) for (x = 1; x < ow; x += step) if (data[(y * ow + x) * 4 + 3] > 120) pts.push(x, y);
+        if (pts.length / 2 <= 1800) break; step++;
       }
-      var V = Math.max(W, H) * 2.7, halfW = tr.width / 2 || 1, halfH = tr.height / 2 || 1;
-      for (var n = 0; n < pts.length; n += 3) {
-        var x0 = tr.left - pad + pts[n], y0 = tr.top - pad + pts[n + 1], ci = pts[n + 2] - 1;
+      var V = Math.max(W, H) * 2.4, halfW = tr.width / 2 || 1, halfH = tr.height / 2 || 1;
+      for (var n = 0; n < pts.length; n += 2) {
+        var x0 = tr.left - pad + pts[n], y0 = tr.top - pad + pts[n + 1];
         var ux = (x0 - cx) / halfW, uy = (y0 - cy) / halfH;
-        var ang = Math.atan2(uy * .9 + rnd(-.6, .6), ux * .7 + rnd(-.5, .5)), sp = V * (.18 + .82 * Math.pow(Math.random(), 1.6));
-        var col = chars[ci] && chars[ci].style.color ? POP.m : '#0b0b0b', roll = Math.random();
-        if (roll < .22) col = pick([POP.l, POP.m, '#b4ffdc']); else if (roll < .3) col = '#fff';
-        var r0 = step * rnd(.5, .8);
+        var ang = Math.atan2(uy * .9 + rnd(-.7, .7), ux * .7 + rnd(-.6, .6)), sp = V * (.2 + .8 * Math.pow(Math.random(), 1.4));
+        var r0 = rnd(1.6, 3);
         shards.push({
           x0: x0, y0: y0, vx: Math.cos(ang) * sp, vy: Math.sin(ang) * sp - rnd(0, .25) * V * .4,
-          k: rnd(2.6, 4.2), g: rnd(1400, 2400), d: rnd(0, 70), life: rnd(500, 950),
-          r0: r0, r1: Math.random() < .2 ? r0 * rnd(1, 2.2) : r0 * rnd(.25, .9), col: col
+          k: rnd(2.6, 4.2), g: rnd(1400, 2400), d: rnd(0, 50), life: rnd(450, 850),
+          r0: r0, r1: Math.random() < .2 ? r0 * rnd(1, 1.8) : r0 * rnd(.4, .9), col: vivid()
         });
       }
     }
+    /* Powder: every particle is a soft dot stamped from a small pre-rendered sprite (dense core, feathered
+       edge), so thousands of them read as fine coloured dust rather than hard shapes. */
+    var sprites = {};
+    function sprite(col) {
+      if (sprites[col]) return sprites[col];
+      var c = document.createElement('canvas'), g = c.getContext('2d'), n = parseInt(col.slice(1), 16);
+      var rgb = (n >> 16 & 255) + ',' + (n >> 8 & 255) + ',' + (n & 255);
+      c.width = c.height = 48;
+      var gr = g.createRadialGradient(24, 24, 0, 24, 24, 24);
+      gr.addColorStop(0, 'rgba(' + rgb + ',1)'); gr.addColorStop(.3, 'rgba(' + rgb + ',.8)');
+      gr.addColorStop(.65, 'rgba(' + rgb + ',.25)'); gr.addColorStop(1, 'rgba(' + rgb + ',0)');
+      g.fillStyle = gr; g.fillRect(0, 0, 48, 48);
+      return (sprites[col] = c);
+    }
     function drawShards(tb) {
-      sh.clearRect(0, 0, W, H); sh.lineCap = 'round';
       var live = false;
       for (var i = 0; i < shards.length; i++) {
-        var p = shards[i], ta = tb - p.d;
-        if (ta < 0) { sh.globalAlpha = 1; sh.fillStyle = p.col; sh.fillRect(p.x0 - p.r0, p.y0 - p.r0, p.r0 * 2, p.r0 * 2); live = true; continue; }
-        var u = ta / p.life; if (u >= 1) continue; live = true;
-        var t = ta / 1000, e = Math.exp(-p.k * t), f = (1 - e) / p.k;
-        var x = p.x0 + p.vx * f, y = p.y0 + p.vy * f + .5 * p.g * t * t;
-        var vx = p.vx * e, vy = p.vy * e + p.g * t, bl = .014;   /* streak: where it was ~14ms ago */
-        var r = p.r0 + (p.r1 - p.r0) * u;
-        sh.globalAlpha = u < .7 ? 1 : 1 - (u - .7) / .3;
-        sh.strokeStyle = p.col; sh.lineWidth = r * 2;
-        sh.beginPath(); sh.moveTo(x - vx * bl, y - vy * bl); sh.lineTo(x, y); sh.stroke();
+        var p = shards[i], ta = tb - p.d, x = p.x0, y = p.y0, r = p.r0, a = 1;
+        if (ta >= 0) {
+          var u = ta / p.life; if (u >= 1) continue;
+          var t = ta / 1000, e = Math.exp(-p.k * t), f = (1 - e) / p.k;
+          x = p.x0 + p.vx * f; y = p.y0 + p.vy * f + .5 * p.g * t * t;
+          r = p.r0 + (p.r1 - p.r0) * u; a = u < .7 ? 1 : 1 - (u - .7) / .3;
+        }
+        live = true; r *= 2.4;
+        sh.globalAlpha = a; sh.drawImage(sprite(p.col), x - r, y - r, r * 2, r * 2);
       }
       sh.globalAlpha = 1;
       return live;
     }
 
-    /* THE POP: a ring of vivid paint bursts out of the name and races to the edges of the screen. The
-       homepage shows through the hole it leaves behind, so the pop itself is the reveal. Jets of paint shoot
-       ahead of the ring, and the letters fly apart as particles on top. */
-    var POP = { l: '#7dffc0', m: '#00d26e', d: '#00894a' };   /* saturated greens, used only by the pop */
-    var OUT_DUR = 760, IN_DELAY = 140, IN_DUR = 900, POP_MAX = 1400;
-    var holeNoise = makeNoise();
+    /* THE POP: a burst of saturated powder blows out of the name and races to the edges. There is no solid
+       paint: the powder's leading edge is the reveal line. Inside it the homepage shows; outside it the
+       screen stays white until the powder reaches the edges. Most of the dust and all the hazy puffs ride
+       that edge (so the line always reads as a cloud of powder); the rest trails behind, drifts and fades. */
+    var POP_DUR = 1300, POP_END = POP_DUR * 1.12;
+    function front(q) { return maxR * 1.25 * (1 - Math.pow(1 - q, 3)); }   /* hole radius: fast out of the name, easing at the edges */
+    function buildSprinkles(tr) {
+      var n = Math.round(clamp(W * H / 90, 4500, 14000)), puffs = Math.round(clamp(W * H / 7000, 70, 200));
+      var sz = clamp(Math.min(W, H) / 900, .65, 1.3), i;
+      for (i = 0; i < n + puffs; i++) {
+        var a = rnd(0, 6.283), puff = i >= n, lead = puff || Math.random() < .75, fine = Math.random();
+        dust.push({
+          ux: Math.cos(a), uy: Math.sin(a),
+          r0: Math.sqrt(Math.random()) * Math.hypot(Math.cos(a) * tr.width / 2, Math.sin(a) * tr.height / 2),   /* starts inside the name */
+          k: puff ? rnd(.86, 1.08) : lead ? .92 + Math.pow(Math.random(), 1.6) * .24 : rnd(.2, .92), lead: lead,
+          d: rnd(0, 80),
+          s: (puff ? rnd(22, 70) : fine < .7 ? rnd(1.2, 2.6) : fine < .95 ? rnd(2.6, 4.5) : rnd(4.5, 8)) * sz,   /* radius: mostly fine grains */
+          al: puff ? rnd(.14, .28) : lead ? rnd(.55, 1) : rnd(.3, .7),
+          drift: rnd(3, 22) * sz, ph: rnd(0, 6.283), sp: rnd(.002, .006),
+          img: sprite(puff ? pick(VIVID) : vivid())
+        });
+      }
+    }
     function startBurst() {
       burstStarted = true;
       var tr = typed.getBoundingClientRect();
       cx = tr.left + tr.width / 2; cy = tr.top + tr.height / 2;
       maxR = Math.hypot(Math.max(cx, W - cx), Math.max(cy, H - cy));
-      buildShards(tr);
-      var J = 52, base = Math.min(W, H);
-      for (var i = 0; i < J; i++) jets.push({ a: i / J * 6.283 + rnd(-.08, .08), reach: rnd(1.08, 1.7), w: base * rnd(.01, .04), col: pick([POP.m, POP.m, POP.l, POP.d]) });
-      /* a jagged front: the low-frequency lumps of makeNoise plus sharper spikes */
-      var lumps = makeNoise(), spikes = makeNoise();
-      blastNoise = function (th, time) { return lumps(th, time) * .6 + spikes(th * 2, time) * .45; };
+      buildShards(tr); buildSprinkles(tr);
       typed.style.visibility = 'hidden';
       /* the page underneath takes over: white now comes from the canvas, so the hole can show the homepage */
       el.style.background = 'transparent';
       root.classList.add('reveal'); root.classList.remove('pre');
       setTimeout(function () { root.classList.remove('reveal'); }, 2600);
     }
-    /* Redrawn from scratch each frame: white, then the ring (outer front + jets), a darker lip inside it,
-       then the hole cut out. Returns true once the hole has passed every edge. */
-    function drawPop(tb) {
-      var qo = clamp(tb / OUT_DUR, 0, 1), qi = clamp((tb - IN_DELAY) / IN_DUR, 0, 1), i;
-      var Ro = maxR * 1.6 * (1 - Math.pow(1 - qo, 4)), Ri = maxR * 1.3 * easeOutCubic(qi);
-      pctx.globalCompositeOperation = 'source-over';
-      pctx.clearRect(0, 0, W, H); pctx.fillStyle = '#fff'; pctx.fillRect(0, 0, W, H);
-      /* each jet is a wedge that thins toward a rounded tip */
-      for (i = 0; i < jets.length; i++) {
-        var j = jets[i], ux = Math.cos(j.a), uy = Math.sin(j.a), L = Ro * j.reach, w = j.w, tw = w * .3;
-        var bx0 = cx + ux * Ro * .5, by0 = cy + uy * Ro * .5, tx = cx + ux * L, ty = cy + uy * L;
-        pctx.fillStyle = j.col; pctx.beginPath();
-        pctx.moveTo(bx0 - uy * w, by0 + ux * w); pctx.lineTo(tx - uy * tw, ty + ux * tw);
-        pctx.arc(tx, ty, tw, j.a + 1.5708, j.a - 1.5708, true);
-        pctx.lineTo(bx0 + uy * w, by0 - ux * w); pctx.closePath(); pctx.fill();
-      }
-      pctx.fillStyle = POP.m; tracePoly(pctx, cx, cy, Ro, .22 * (1 - .4 * qo), blastNoise, tb / 400); pctx.fill();
-      if (Ri > 1) {
-        pctx.fillStyle = POP.d; tracePoly(pctx, cx, cy, Ri * 1.06 + 8, .1, holeNoise, tb / 500); pctx.fill();
+    /* White with a ragged hole the size of the sprinkle front. Returns true once the hole is past every edge. */
+    function drawHole(tb) {
+      var q = clamp(tb / POP_DUR, 0, 1), R = front(q) * .96;
+      pctx.globalCompositeOperation = 'source-over'; pctx.clearRect(0, 0, W, H);
+      if (R * .9 > maxR) return true;
+      pctx.fillStyle = '#fff'; pctx.fillRect(0, 0, W, H);
+      if (R > 1) {
         pctx.globalCompositeOperation = 'destination-out';
-        tracePoly(pctx, cx, cy, Ri, .1, holeNoise, tb / 500); pctx.fill();
+        tracePoly(pctx, cx, cy, R, .07, holeNoise, tb / 600); pctx.fill();
         pctx.globalCompositeOperation = 'source-over';
       }
-      return qi >= 1;
+      return false;
+    }
+    function drawSprinkles(tb) {
+      var live = false;
+      for (var i = 0; i < dust.length; i++) {
+        var p = dust[i], ta = tb - p.d; if (ta < 0) continue;
+        var q = ta / POP_DUR; if (q >= 1.12) continue;
+        var qc = q < 1 ? q : 1, r = p.r0 + front(qc) * p.k;
+        var a = p.lead ? (q < .75 ? 1 : 1 - (q - .75) / .37) : (q < .35 ? 1 : 1 - (q - .35) / .5);
+        if (a <= 0) continue; live = true;
+        /* powder drifts sideways a little as it slows */
+        var off = Math.sin(ta * p.sp + p.ph) * p.drift * qc, s = p.s * (1 + .5 * qc);
+        var x = cx + p.ux * r - p.uy * off, y = cy + p.uy * r + p.ux * off;
+        sh.globalAlpha = a * p.al; sh.drawImage(p.img, x - s, y - s, s * 2, s * 2);
+      }
+      sh.globalAlpha = 1;
+      return live;
     }
 
     var t0 = 0, last = 0;
@@ -890,9 +918,6 @@
           chars[i].style.transform = 'translate(' + jx.toFixed(1) + 'px,' + (bob + jy).toFixed(1) + 'px) rotate(' + rot.toFixed(1) + 'deg)';
           if (p > .5 && Math.random() < (p - .5) * .1) chars[i].style.color = BASE;
         }
-        /* grows from half size to full size as it shakes, with a slight throb */
-        var grow = START_SCALE + (1 - START_SCALE) * easeInOutCubic(p);
-        typed.style.transform = 'translate(-50%,-50%) scale(' + (grow + .012 * p * Math.sin(t * .04)).toFixed(3) + ')';
       }
 
       /* ---- the pop ---- */
@@ -900,9 +925,11 @@
         if (!burstStarted) startBurst();
         var tb = t - SHAKE_END;
         pctx.globalAlpha = 1;
-        var opened = drawPop(tb);
-        if (shards.length && !drawShards(tb)) { shards.length = 0; sh.clearRect(0, 0, W, H); }
-        if ((opened && !shards.length) || tb >= POP_MAX) { endIntro(); return; }
+        var opened = drawHole(tb);
+        sh.clearRect(0, 0, W, H);
+        var flying = drawSprinkles(tb);
+        if (shards.length && !drawShards(tb)) shards.length = 0;
+        if ((opened && !flying && !shards.length) || tb >= POP_END + 200) { endIntro(); return; }
       }
       raf = requestAnimationFrame(frame);
     }
